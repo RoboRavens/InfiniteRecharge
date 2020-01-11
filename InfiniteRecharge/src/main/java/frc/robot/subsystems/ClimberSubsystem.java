@@ -25,7 +25,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		_climberMotor = new TalonSRX(RobotMap.climberMotor);
 	}
 
-	public void initDefaultCommand() {
+	public void initialize() {
 		// setDefaultCommand(new ClimberHoldPositionCommand());
 	}
 

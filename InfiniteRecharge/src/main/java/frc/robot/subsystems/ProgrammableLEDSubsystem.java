@@ -16,6 +16,9 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 
 	public ProgrammableLEDSubsystem() {
 		_canifier = new CANifier(0);
+	}
+
+	public void initialize() {
 		setDefaultCommand(new LEDDuringMatchCommand());
 	}
 	

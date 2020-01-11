@@ -51,7 +51,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
 	}
 
-	public void initDefaultCommand() {}
+	public void initialize() {}
 
 	public void periodic() {
 

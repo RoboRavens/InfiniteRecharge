@@ -24,7 +24,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		NetworkTableDiagnostics.SubsystemBoolean("DriveTrain", "CutPower", () -> ravenTank.getCutPower());
 	}
 
-	public void initDefaultCommand() {
+	public void initialize() {
 		setDefaultCommand(new DriveTrainDriveFPSCommand());
 	}
 

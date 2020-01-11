@@ -15,13 +15,13 @@ public class LEDBlinkCommand extends CommandBase {
     private boolean _lastColorChangeIsOff;
 
     public LEDBlinkCommand(Color color, float duration) {
-        addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
         _color = color;
         _duration = duration;
     }
     
     // Called just before this Command runs the first time
     public void initialize() {
+        addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
         System.out.println("LEDBlinkFor2SecondsCommand init");
         _timer.start();
         _timeOfLastColorChange = 0;

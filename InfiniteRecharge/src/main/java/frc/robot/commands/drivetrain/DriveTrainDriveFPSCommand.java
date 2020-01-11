@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveTrainDriveFPSCommand extends CommandBase {
 
     public DriveTrainDriveFPSCommand() {
-        addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
     }
 
     // Called just before this Command runs the first time
     public void initialize() {
+        addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
     }
 
     // Called repeatedly when this Command is scheduled to run
