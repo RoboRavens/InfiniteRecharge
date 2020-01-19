@@ -3,21 +3,21 @@ package frc.robot;
 public class RobotMap {
 	// MOTORS
 	public static final int leftDriveChannel = 0;
-	public static final int leftFollower1 = 10;
-	public static final int leftFollower2 = 11;
+	public static final int leftDriveChannel2 = 2;
 	public static final int rightDriveChannel = 1;
-	public static final int rightFollower1 = 12;
-	public static final int rightFollower2 = 13;
+	public static final int rightDriveChannel2 = 3;
 
-	public static final int elevatorMotor = 2;
-	public static final int elevatorMotorFollower = 3;
+	public static final int conveyanceMotor = 4;
+	public static final int conveyanceMotor2 = 5;
 
-	public static final int armMotor = 4;
+	public static final int shooterMotor = 6;
+	public static final int shooterMotor2 = 7;
 
-	public static final int topCargoMotor = 5;
-	public static final int bottomCargoMotor = 6;
+	public static final int intakeMotor = 8;
 
-	public static final int climberMotor = 7;
+	public static final int climberMotor = 9;
+	public static final int climberMotor2 = 10;
+	public static final int climberMotorBrake = 11;
 
 	// PCM
 	public static final int beakCaptureSolenoid = 0;
