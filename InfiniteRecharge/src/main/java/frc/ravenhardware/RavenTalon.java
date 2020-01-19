@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj.Talon;
 public class RavenTalon {
 
 	private Talon _talon;
-	private TalonSRX _falcon500;
-	private TalonSRX _falcon500_2;
+	private TalonSRX _talonSRX;
+	private TalonSRX _talonSRX2;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -25,10 +25,10 @@ public class RavenTalon {
 
 	public RavenTalon(int channel, int channel2, String name, double slewRate) {
 		if (Calibrations.UseTalonSRXForDriveController) {
-			_falcon500 = new TalonSRX(channel);
-			_falcon500_2 = new TalonSRX(channel);
-			_falcon500.setSensorPhase(false);
-			_falcon500_2.setSensorPhase(false);
+			_talonSRX = new TalonSRX(channel);
+			_talonSRX2 = new TalonSRX(channel);
+			_talonSRX.setSensorPhase(false);
+			_talonSRX2.setSensorPhase(false);
 		} else {
 			_talon = new Talon(channel);
 		}
@@ -88,13 +88,11 @@ public class RavenTalon {
 		// Update and set the output speed.
 		outputSpeed = newOutputSpeed;
 
-	
-
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
 		try {
-			_falcon500.set(ControlMode.PercentOutput, outputSpeed);
-			_falcon500_2.set(ControlMode.PercentOutput, outputSpeed);
+			_talonSRX.set(ControlMode.PercentOutput, outputSpeed);
+			_talonSRX2.set(ControlMode.PercentOutput, outputSpeed);
 		} 
 		catch (NullPointerException exception) {
 			_talon.set(outputSpeed);
@@ -103,7 +101,7 @@ public class RavenTalon {
 
 	public int getEncoderPosition() {
 		try {
-			return _falcon500.getSelectedSensorPosition();
+			return _talonSRX.getSelectedSensorPosition();
 		} catch (NullPointerException exception) {
 			return 0;
 		}
@@ -111,7 +109,7 @@ public class RavenTalon {
 
 	public void resetEncoderPosition() {
 		try {
-			_falcon500.setSelectedSensorPosition(0);
+			_talonSRX.setSelectedSensorPosition(0);
 		} catch (NullPointerException exception) {}
 	}
 }

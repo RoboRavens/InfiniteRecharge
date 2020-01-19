@@ -43,8 +43,8 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-	RavenTalon driveLeft = new RavenTalon(RobotMap.leftDriveChannel, "MotorLeft", _slewRate, RobotMap.leftFollower1, RobotMap.leftFollower2);
-	RavenTalon driveRight = new RavenTalon(RobotMap.rightDriveChannel, "MotorRight", _slewRate, RobotMap.rightFollower1, RobotMap.rightFollower2);
+	RavenTalon driveLeft = new RavenTalon(RobotMap.leftDriveChannel, RobotMap.leftDriveChannel2, "MotorLeft", _slewRate);
+	RavenTalon driveRight = new RavenTalon(RobotMap.rightDriveChannel, RobotMap.rightDriveChannel2, "MotorRight", _slewRate);
 
 	public RavenTank() {
 		initializeRavenTank();
@@ -53,9 +53,6 @@ public class RavenTank {
 	private void initializeRavenTank() {
 		_slewRate = Calibrations.slewRateMaximum;
 
-		//_leftRavenEncoder = new RavenEncoder(driveLeft, Calibrations.encoderCyclesPerRevolution, Calibrations.wheelDiameterInches, false);
-		//_rightRavenEncoder = new RavenEncoder(driveRight, Calibrations.encoderCyclesPerRevolution, Calibrations.wheelDiameterInches, true);
-
 		_gyroCooldownTimer = new Timer();
 
 		setDriveMode(Calibrations.defaultDriveMode);
@@ -63,34 +60,6 @@ public class RavenTank {
 
 		setGyroMode(Calibrations.defaultGyroMode);
 		gyroTargetHeading = setGyroTargetHeadingToCurrentHeading();
-	}
-
-	public void setDriveMode(int driveMode) {
-		this.driveMode = driveMode;
-	}
-
-	public void setCutPower(boolean cutPower) {
-		_cutPower = cutPower;
-	}
-
-	public boolean getCutPower() {
-		return _cutPower;
-	}
-
-	public void setGyroMode(int gyroMode) {
-		this.gyroMode = gyroMode;
-	}
-
-	public double getGyroAdjustmentScaleFactor() {
-		return _gyroAdjustmentScaleFactor;
-	}
-
-	public void setGyroAdjustmentScaleFactor(double gyroAdjustmentScaleFactor) {
-		_gyroAdjustmentScaleFactor = gyroAdjustmentScaleFactor;
-	}
-
-	public void resetGyroAdjustmentScaleFactor() {
-		setGyroAdjustmentScaleFactor(Calibrations.gyroAdjustmentDefaultScaleFactor);
 	}
 
 	public double deadband(double input) {
@@ -115,8 +84,8 @@ public class RavenTank {
 	}
 
 	public void resetDriveEncoders() {
-		// _leftRavenEncoder.resetEncoder();
-		// _rightRavenEncoder.resetEncoder();
+		driveLeft.resetEncoderPosition();
+		driveRight.resetEncoderPosition();
 	}
 
 	public void drive(double left, double rightY, double rightX) {
@@ -125,6 +94,14 @@ public class RavenTank {
 		rightX = deadband(rightX);
 		
 		fpsTank(left, rightX);
+	}
+
+	public void driveLeftSide(double magnitude) {
+		driveLeft.set(magnitude);
+	}
+
+	public void driveRightSide(double magnitude) {
+		driveRight.set(magnitude);
 	}
 
 	public void fpsTank(double translation, double turn) {
@@ -187,6 +164,116 @@ public class RavenTank {
 		this.driveLeftSide(leftFinal);
 		this.driveRightSide(rightFinal);
 	}
+
+	public boolean detectCollisions() {
+		boolean collisionDetected = false;
+
+		double currentAccelerationX = orientationGyro.getWorldLinearAccelX();
+		double currentAccelerationY = orientationGyro.getWorldLinearAccelY();
+
+		double currentJerkX = currentAccelerationX - _lastAccelerationX;
+		double currentJerkY = currentAccelerationY - _lastAccelerationY;
+
+		_lastAccelerationX = currentAccelerationX;
+		_lastAccelerationY = currentAccelerationY;
+
+		if (currentJerkX > _highestJerkX) {
+			_highestJerkX = currentJerkX;
+		}
+
+		if (currentJerkY > _highestJerkY) {
+			_highestJerkY = currentJerkY;
+		}
+
+		if (Math.abs(currentJerkX) > Calibrations.DriveTrainCollisionJerkThreshold) {
+			collisionDetected = true;
+		}
+
+		if (Math.abs(currentJerkY) > Calibrations.DriveTrainCollisionJerkThreshold) {
+			collisionDetected = true;
+		}
+
+		return collisionDetected;
+	}
+
+	public void outputJerk() {
+		double currentAccelerationX = orientationGyro.getWorldLinearAccelX();
+		double currentAccelerationY = orientationGyro.getWorldLinearAccelY();
+
+		double currentJerkX = currentAccelerationX - _lastAccelerationX;
+		double currentJerkY = currentAccelerationY - _lastAccelerationY;
+
+		System.out.println("X Jerk: " + currentJerkX + " Y Jerk: " + currentJerkY);
+	}
+
+	public void outputHighestJerk() {
+		System.out.println("Highest X Jerk: " + _highestJerkX + " Highest Y Jerk: " + _highestJerkY);
+	}
+
+	public void stopAndWait() {
+		enableAutomatedDriving(0);
+	}
+
+	public void turnRelativeDegrees(double degrees) {
+		this.setGyroTargetHeading(this.gyroTargetHeading + degrees);
+	}
+
+	public void enableAutomatedDriving(int direction, double speed) {
+		automatedDrivingDirection = direction;
+		enableAutomatedDriving(speed);
+	}
+
+	public void enableAutomatedDriving(double speed) {
+		automatedDrivingEnabled = true;
+		automatedDrivingSpeed = speed;
+	}
+
+	public void overrideAutomatedDriving() {
+		// Just disable all the automated driving variables, and
+		// the normal drive function will immediately resume.
+		automatedDrivingEnabled = false;
+		drivingThroughObstacle = false;
+		hasHitObstacle = false;
+		turning = false;
+		waiting = false;
+	}
+
+	public void stop() {
+		this.fpsTankManual(0, 0);
+	}
+
+	public void gyroStop() {
+		this.setGyroTargetHeadingToCurrentHeading();
+		this.resetGyroAdjustmentScaleFactor();
+	}
+
+	public boolean automatedActionHasCompleted() {
+		// Just return the opposite of automatedDrivingEnabled.
+		return automatedDrivingEnabled == false;
+	}
+
+	public void maintainStateWaiting() {
+		this.stop();
+	}
+
+	public void wake() {
+		this.waiting = false;
+		this.automatedDrivingEnabled = false;
+	}
+
+	public void maintainStateTurning() {
+		if (Math.abs(gyroTargetHeading - getCurrentHeading()) < 3) {
+			automatedDrivingEnabled = false;
+			turning = false;
+		}
+	}
+
+	// GETTERS AND SETTER/RESET METHODS
+
+
+
+
+
 
 	// Adjust the turn value by performing the following operations:
 	// 1. Adjust the input value such that it is a percentage of the non-deadband input range, not the total input range.
@@ -270,59 +357,6 @@ public class RavenTank {
 		return ffAdjustedInput;
 	}
 
-	public boolean detectCollisions() {
-		boolean collisionDetected = false;
-
-		double currentAccelerationX = orientationGyro.getWorldLinearAccelX();
-		double currentAccelerationY = orientationGyro.getWorldLinearAccelY();
-
-		double currentJerkX = currentAccelerationX - _lastAccelerationX;
-		double currentJerkY = currentAccelerationY - _lastAccelerationY;
-
-		_lastAccelerationX = currentAccelerationX;
-		_lastAccelerationY = currentAccelerationY;
-
-		if (currentJerkX > _highestJerkX) {
-			_highestJerkX = currentJerkX;
-		}
-
-		if (currentJerkY > _highestJerkY) {
-			_highestJerkY = currentJerkY;
-		}
-
-		if (Math.abs(currentJerkX) > Calibrations.DriveTrainCollisionJerkThreshold) {
-			collisionDetected = true;
-		}
-
-		if (Math.abs(currentJerkY) > Calibrations.DriveTrainCollisionJerkThreshold) {
-			collisionDetected = true;
-		}
-
-		return collisionDetected;
-	}
-
-	public void outputJerk() {
-		double currentAccelerationX = orientationGyro.getWorldLinearAccelX();
-		double currentAccelerationY = orientationGyro.getWorldLinearAccelY();
-
-		double currentJerkX = currentAccelerationX - _lastAccelerationX;
-		double currentJerkY = currentAccelerationY - _lastAccelerationY;
-
-		System.out.println("X Jerk: " + currentJerkX + " Y Jerk: " + currentJerkY);
-	}
-
-	public void outputHighestJerk() {
-		System.out.println("Highest X Jerk: " + _highestJerkX + " Highest Y Jerk: " + _highestJerkY);
-	}
-
-	public void driveLeftSide(double magnitude) {
-		driveLeft.set(magnitude);
-	}
-
-	public void driveRightSide(double magnitude) {
-		driveRight.set(magnitude);
-	}
-
 	public double getScaledTurnFromTranslation(double translation, double turn) {
 		double turnScaleReduction = Calibrations.translationMaxTurnScaling * Math.abs(translation);
 		double turnCoefficient = 1 - turnScaleReduction;
@@ -330,8 +364,6 @@ public class RavenTank {
 
 		return netTurn;
 	}
-
-	public void driveOutput() {}
 
 	public double getDriveGyro() {
 		return orientationGyro.getAngle();
@@ -418,72 +450,6 @@ public class RavenTank {
 		return gyroAdjust;
 	}
 
-	public void stopAndWait() {
-		enableAutomatedDriving(0);
-	}
-
-	public void turnRelativeDegrees(double degrees) {
-		this.setGyroTargetHeading(this.gyroTargetHeading + degrees);
-	}
-
-	public void enableAutomatedDriving(int direction, double speed) {
-		automatedDrivingDirection = direction;
-		enableAutomatedDriving(speed);
-	}
-
-	public void enableAutomatedDriving(double speed) {
-		automatedDrivingEnabled = true;
-		automatedDrivingSpeed = speed;
-	}
-
-	public void overrideAutomatedDriving() {
-		// Just disable all the automated driving variables, and
-		// the normal drive function will immediately resume.
-		automatedDrivingEnabled = false;
-		drivingThroughObstacle = false;
-		hasHitObstacle = false;
-		turning = false;
-		waiting = false;
-	}
-
-	public void stop() {
-		this.fpsTankManual(0, 0);
-	}
-
-	public void gyroStop() {
-		this.setGyroTargetHeadingToCurrentHeading();
-		this.resetGyroAdjustmentScaleFactor();
-	}
-
-	public double getPitchAngle() {
-		return orientationGyro.getPitch();
-	}
-
-	public double getRollAngle() {
-		return orientationGyro.getRoll();
-	}
-
-	public boolean automatedActionHasCompleted() {
-		// Just return the opposite of automatedDrivingEnabled.
-		return automatedDrivingEnabled == false;
-	}
-
-	public void maintainStateWaiting() {
-		this.stop();
-	}
-
-	public void wake() {
-		this.waiting = false;
-		this.automatedDrivingEnabled = false;
-	}
-
-	public void maintainStateTurning() {
-		if (Math.abs(gyroTargetHeading - getCurrentHeading()) < 3) {
-			automatedDrivingEnabled = false;
-			turning = false;
-		}
-	}
-
 	public double getCurrentHeading() {
 		double heading = orientationGyro.getAngle();
 
@@ -494,6 +460,14 @@ public class RavenTank {
 		}
 
 		return heading;
+	}
+
+	public double getPitchAngle() {
+		return orientationGyro.getPitch();
+	}
+
+	public double getRollAngle() {
+		return orientationGyro.getRoll();
 	}
 
 	public double getNetInchesTraveled() {
@@ -510,17 +484,6 @@ public class RavenTank {
 	*/
 	}
 
-	public double getSlewRate() {
-		return _slewRate;
-	}
-	public void resetOrientationGyro() {
-		orientationGyro.reset();
-	}
-
-	public double getGyroAngle() {
-		return orientationGyro.getAngle();
-	}
-	
 	public double getRightNetInchesTraveled() {
 		return 0;
 		//		return _rightRavenEncoder.getNetInchesTraveled();
@@ -529,5 +492,45 @@ public class RavenTank {
 	public double getLeftNetInchesTraveled() {
 		return 0;
 		// return _leftRavenEncoder.getNetInchesTraveled();
+	}
+
+	public void setDriveMode(int driveMode) {
+		this.driveMode = driveMode;
+	}
+
+	public void setCutPower(boolean cutPower) {
+		_cutPower = cutPower;
+	}
+
+	public boolean getCutPower() {
+		return _cutPower;
+	}
+
+	public void setGyroMode(int gyroMode) {
+		this.gyroMode = gyroMode;
+	}
+
+	public double getGyroAdjustmentScaleFactor() {
+		return _gyroAdjustmentScaleFactor;
+	}
+
+	public void setGyroAdjustmentScaleFactor(double gyroAdjustmentScaleFactor) {
+		_gyroAdjustmentScaleFactor = gyroAdjustmentScaleFactor;
+	}
+
+	public void resetGyroAdjustmentScaleFactor() {
+		setGyroAdjustmentScaleFactor(Calibrations.gyroAdjustmentDefaultScaleFactor);
+	}
+
+	public double getSlewRate() {
+		return _slewRate;
+	}
+
+	public void resetOrientationGyro() {
+		orientationGyro.reset();
+	}
+
+	public double getGyroAngle() {
+		return orientationGyro.getAngle();
 	}
 }

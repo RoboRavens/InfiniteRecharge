@@ -14,6 +14,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 	public DriveTrainSubsystem() {
 		ravenTank = new RavenTank();
+		this.initialize();
 
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PowerMax", () -> _maxPower);
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderLeftInchesTraveled", () -> ravenTank.getLeftNetInchesTraveled());
