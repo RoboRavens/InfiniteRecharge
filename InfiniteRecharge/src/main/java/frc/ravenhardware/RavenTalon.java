@@ -110,6 +110,7 @@ public class RavenTalon {
 	public void resetEncoderPosition() {
 		try {
 			_talonSRX.setSelectedSensorPosition(0);
+			_talonSRX2.setSelectedSensorPosition(0);
 		} catch (NullPointerException exception) {}
 	}
 }

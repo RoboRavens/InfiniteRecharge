@@ -38,6 +38,10 @@ public class LimelightSubsystem extends SubsystemBase {
 	private BufferedValue bufferedAngleOffHorizontal = new BufferedValue(9);
 
 	public LimelightSubsystem() {
+		this.initialize();
+	}
+
+	public void initialize() {
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "TargetArea", () -> this.getTargetArea());
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "angleOffHorizontal", () -> this.angleOffHorizontal());
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "angleOffVertical", () -> this.angleOffVertical());
@@ -48,10 +52,7 @@ public class LimelightSubsystem extends SubsystemBase {
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "TargetAngle", () -> _targetAngle);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "TargetAngleOffset", () -> _offsetFromTargetAngle);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "LED State", () -> _ledState);
-
 	}
-
-	public void initialize() {}
 
 	public void periodic() {
 

@@ -36,8 +36,8 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
     // Called just before this Command runs the first time
     public void initialize() {
 		System.out.println("DriveTrainDriveInchesCommand init");
-    	System.out.println("RT NIT:" + Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled());
-    	_driveTrainNetInchesTraveledAtStart = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled();
+    	System.out.println("RT NIT:" + (double) 0);
+    	_driveTrainNetInchesTraveledAtStart = (double) 0;
     	_timeoutTimer.start();
     }
 
@@ -46,9 +46,9 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
     	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.fpsTankManual(_powerMagnitude, 0);
     	
     	if (_direction == Calibrations.drivingBackward) {
-    		_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled();
+    		_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - (double) 0;
     	} else {
-    		_netInchesTraveledSoFar = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled() - _driveTrainNetInchesTraveledAtStart;
+    		_netInchesTraveledSoFar = (double) 0 - _driveTrainNetInchesTraveledAtStart;
     	}
     }
 

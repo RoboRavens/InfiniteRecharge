@@ -15,18 +15,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	public DriveTrainSubsystem() {
 		ravenTank = new RavenTank();
 		this.initialize();
-
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PowerMax", () -> _maxPower);
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderLeftInchesTraveled", () -> ravenTank.getLeftNetInchesTraveled());
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderRightInchesTraveled", () -> ravenTank.getRightNetInchesTraveled());
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderAvgInchesTraveled", () -> ravenTank.getNetInchesTraveled());
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "SlewRate", () -> _slewRateFinal);
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PitchAngle", () -> ravenTank.getPitchAngle());
-		NetworkTableDiagnostics.SubsystemBoolean("DriveTrain", "CutPower", () -> ravenTank.getCutPower());
 	}
 
 	public void initialize() {
 		setDefaultCommand(new DriveTrainDriveFPSCommand());
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PowerMax", () -> _maxPower);
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderLeftInchesTraveled", () -> ravenTank.getLeftNetInchesTraveled());
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderRightInchesTraveled", () -> ravenTank.getRightNetInchesTraveled());
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderAvgInchesTraveled", () -> ((double) 0));
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "SlewRate", () -> _slewRateFinal);
+		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PitchAngle", () -> ravenTank.getPitchAngle());
+		NetworkTableDiagnostics.SubsystemBoolean("DriveTrain", "CutPower", () -> ravenTank.getCutPower());
 	}
 
 	public void periodic() {

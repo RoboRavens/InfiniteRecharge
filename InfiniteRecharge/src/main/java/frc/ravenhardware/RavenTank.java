@@ -10,9 +10,6 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class RavenTank {
 
-	//private RavenEncoder _leftRavenEncoder;
-	//private RavenEncoder _rightRavenEncoder;
-
 	private Timer _gyroCooldownTimer;
 
 	AHRS orientationGyro = new AHRS(SPI.Port.kMXP);
@@ -70,22 +67,6 @@ public class RavenTank {
 		}
 
 		return output;
-	}
-
-	public void setSlewRate(double slewRate) {
-		_slewRate = slewRate;
-		driveRight.setSlewRate(_slewRate);
-		driveLeft.setSlewRate(_slewRate);
-	}
-
-	public void setMaxPower(double maxPower) {
-		driveRight.setMaxPower(maxPower);
-		driveLeft.setMaxPower(maxPower);
-	}
-
-	public void resetDriveEncoders() {
-		driveLeft.resetEncoderPosition();
-		driveRight.resetEncoderPosition();
 	}
 
 	public void drive(double left, double rightY, double rightX) {
@@ -470,28 +451,36 @@ public class RavenTank {
 		return orientationGyro.getRoll();
 	}
 
-	public double getNetInchesTraveled() {
-		return 0;
-		/*
-		// Ignore warnings, code will be used when calibrations value changes
-		if (Calibrations.useWhichEncoders == Calibrations.useLeftEncoderOnly) {
-			return _leftRavenEncoder.getNetInchesTraveled();
-		}
-		if (Calibrations.useWhichEncoders == Calibrations.useRightEncoderOnly) {
-			return _rightRavenEncoder.getNetInchesTraveled();
-		}
-		return (_leftRavenEncoder.getNetInchesTraveled() + _rightRavenEncoder.getNetInchesTraveled())/2;
-	*/
+	public double getAvgNetInchesTraveled() {
+		return (getRightNetInchesTraveled() + getLeftNetInchesTraveled()) / 2;
 	}
 
 	public double getRightNetInchesTraveled() {
-		return 0;
-		//		return _rightRavenEncoder.getNetInchesTraveled();
+		double rightNetRevolutions = driveRight.getEncoderPosition() / Calibrations.talonSRXMotorTicksPerRevolution;
+		
+		return rightNetRevolutions * Calibrations.wheelCircumferenceInches;
 	}
 	
 	public double getLeftNetInchesTraveled() {
-		return 0;
-		// return _leftRavenEncoder.getNetInchesTraveled();
+		double leftNetRevolutions = driveLeft.getEncoderPosition() / Calibrations.talonSRXMotorTicksPerRevolution;
+
+		return -leftNetRevolutions * Calibrations.wheelCircumferenceInches;
+	}
+
+	public void setSlewRate(double slewRate) {
+		_slewRate = slewRate;
+		driveRight.setSlewRate(_slewRate);
+		driveLeft.setSlewRate(_slewRate);
+	}
+
+	public void setMaxPower(double maxPower) {
+		driveRight.setMaxPower(maxPower);
+		driveLeft.setMaxPower(maxPower);
+	}
+
+	public void resetDriveEncoders() {
+		driveLeft.resetEncoderPosition();
+		driveRight.resetEncoderPosition();
 	}
 
 	public void setDriveMode(int driveMode) {

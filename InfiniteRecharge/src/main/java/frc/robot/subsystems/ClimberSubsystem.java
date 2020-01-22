@@ -21,12 +21,18 @@ public class ClimberSubsystem extends SubsystemBase {
 	private double _expectedPower;
 
 	public ClimberSubsystem() {
-		registerDiagnostics();
+		initialize();
 		_climberMotor = new TalonSRX(RobotMap.climberMotor);
 	}
 
 	public void initialize() {
 		// setDefaultCommand(new ClimberHoldPositionCommand());
+		NetworkTableDiagnostics.SubsystemNumber("Climber", "Encoder", () -> getEncoderPosition());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderExtended", () -> isEncoderAtExtensionLimit());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted", () -> isEncoderAtRetractionLimit());
+
+		// Measure power sent to climber
+		NetworkTableDiagnostics.SubsystemNumber("Climber", "EncoderExpectedPower", () -> _expectedPower);
 	}
 
 	public void extend(double magnitude) {
@@ -60,15 +66,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		this.isAtRetractionLimit();
 
 		checkExpectedSpeedVersusPower();
-	}
-
-	public void registerDiagnostics() {
-		NetworkTableDiagnostics.SubsystemNumber("Climber", "Encoder", () -> getEncoderPosition());
-		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderExtended", () -> isEncoderAtExtensionLimit());
-		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted", () -> isEncoderAtRetractionLimit());
-
-		// Measure power sent to climber
-		NetworkTableDiagnostics.SubsystemNumber("Climber", "EncoderExpectedPower", () -> _expectedPower);
 	}
 
 	public void checkExpectedSpeedVersusPower() {

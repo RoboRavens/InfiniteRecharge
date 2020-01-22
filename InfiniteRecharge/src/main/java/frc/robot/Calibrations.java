@@ -62,12 +62,13 @@ public class Calibrations {
 	
 	
 	// DRIVE ENCODERS
-	public static final int encoderCUI103CyclesPerRevolution = 4096; 
+	public static final double encoderCUI103CyclesPerRevolution = 4096;
+	public static final double talonSRXMotorTicksPerRevolution = 8186;
 	public static final double wheelDiameterInches = 4;
 	public static final double wheelCircumferenceInches = Calibrations.wheelDiameterInches * Math.PI;
 	
 	// We're using CUI 103 encoders on both sides of the drivetrain.
-	public static final int encoderCyclesPerRevolution = Calibrations.encoderCUI103CyclesPerRevolution;
+	public static final double encoderCyclesPerRevolution = talonSRXMotorTicksPerRevolution;
 
 	// Encoder usage choice in case of one side breaking
 	public static final int useLeftEncoderOnly = 0;
