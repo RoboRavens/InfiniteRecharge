@@ -7,12 +7,13 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Timer;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private Timer _safetyTimer = new Timer();
+  private TalonSRX _shooterMotor;
+  private TalonSRX _shooterMotor2;
 
   public ShooterSubsystem() {
 

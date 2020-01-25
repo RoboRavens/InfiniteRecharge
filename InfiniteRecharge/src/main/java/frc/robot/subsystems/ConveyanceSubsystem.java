@@ -7,12 +7,21 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.ravenhardware.BufferedDigitalInput;
+import frc.robot.RobotMap;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
-  public ConveyanceSubsystem() {
+  private TalonSRX _conveyanceMotor;
+  private TalonSRX _conveyanceMotor2;
+  private BufferedDigitalInput _conveyanceSensor;
 
+  public ConveyanceSubsystem() {
+    _conveyanceMotor = new TalonSRX(RobotMap.conveyanceMotor);
+    _conveyanceMotor2 = new TalonSRX(RobotMap.conveyanceMotor2);
+    _conveyanceSensor = new BufferedDigitalInput(RobotMap.conveyanceSensor);
   }
 
   public void initialize() {

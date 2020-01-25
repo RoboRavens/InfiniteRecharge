@@ -8,14 +8,11 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HopperSubsystem extends SubsystemBase {
 
   private TalonSRX _hopperMotor;
-  private Timer _safetyTimer = new Timer();
   
   public HopperSubsystem() {
 

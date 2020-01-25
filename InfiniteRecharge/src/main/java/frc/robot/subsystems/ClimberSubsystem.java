@@ -13,11 +13,9 @@ import frc.robot.RobotMap;
 import frc.util.NetworkTableDiagnostics;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import edu.wpi.first.wpilibj.Timer;
 
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonSRX _climberMotor;
-	private Timer _safetyTimer = new Timer();
 	private double _expectedPower;
 
 	public ClimberSubsystem() {
@@ -191,17 +189,4 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		return false;
 	}
-
-	public void resetSafetyTimer() {
-		_safetyTimer.reset();
-	}
-
-	public void startSafetyTimer() {
-		_safetyTimer.start();
-	}
-
-	public double getSafetyTimer() {
-		return _safetyTimer.get();
-	}
-
 }
