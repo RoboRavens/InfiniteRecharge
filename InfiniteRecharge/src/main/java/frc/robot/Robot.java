@@ -16,9 +16,13 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ProgrammableLEDSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.util.LoggerOverlord;
 
 public class Robot extends TimedRobot {
@@ -35,10 +39,14 @@ public class Robot extends TimedRobot {
 	public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
 	public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
 
-	public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-	public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
+  public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
+  public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
+  public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
+  public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
+  public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
 	public static final LimelightSubsystem LIMELIGHT_SUBSYSTEM = new LimelightSubsystem();
-	public static final ProgrammableLEDSubsystem PROGRAMMABLE_LED_SUBSYSTEM = new ProgrammableLEDSubsystem();
+  public static final ProgrammableLEDSubsystem PROGRAMMABLE_LED_SUBSYSTEM = new ProgrammableLEDSubsystem();
+  public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
 
 	public static boolean isRedAlliance;
 

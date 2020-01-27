@@ -21,21 +21,16 @@ public class DriveTrainStopCommand extends CommandBase {
         Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.gyroStop();
     }
 
-    // Make this return true when this Command no longer needs to run execute()
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.stop();
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.gyroStop();
+    }
+
+    // Returns true when the command should end.
+    @Override
     public boolean isFinished() {
         return true;
-    }
-
-    // Called once after isFinished returns true
-    public void end() {
-        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.stop();
-        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.gyroStop();
-    }
-
-    // Called when another command which addRequirements one or more of the same
-    // subsystems is scheduled to run
-    public void interrupted() {
-        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.stop();
-        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.gyroStop();
     }
 }

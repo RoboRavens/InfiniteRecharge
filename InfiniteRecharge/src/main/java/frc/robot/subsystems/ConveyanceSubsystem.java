@@ -15,12 +15,10 @@ import frc.robot.RobotMap;
 public class ConveyanceSubsystem extends SubsystemBase {
 
   private TalonSRX _conveyanceMotor;
-  private TalonSRX _conveyanceMotor2;
   private BufferedDigitalInput _conveyanceSensor;
 
   public ConveyanceSubsystem() {
     _conveyanceMotor = new TalonSRX(RobotMap.conveyanceMotor);
-    _conveyanceMotor2 = new TalonSRX(RobotMap.conveyanceMotor2);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.conveyanceSensor);
   }
 

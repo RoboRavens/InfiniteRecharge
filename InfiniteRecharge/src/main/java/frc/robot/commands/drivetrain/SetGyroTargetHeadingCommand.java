@@ -23,17 +23,14 @@ public class SetGyroTargetHeadingCommand extends CommandBase {
     	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeading(_heading);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
-    public boolean isFinished() {
-        return true;
-    }
-
-    // Called once after isFinished returns true
-    public void end() {
-    }
-
-    // Called when another command which addRequirements one or more of the same
-    // subsystems is scheduled to run
-    public void interrupted() {
-    }
+     // Called once the command ends or is interrupted.
+     @Override
+     public void end(boolean interrupted) {
+     }
+ 
+     // Returns true when the command should end.
+     @Override
+     public boolean isFinished() {
+         return true;
+     }
 }
