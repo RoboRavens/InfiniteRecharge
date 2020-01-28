@@ -14,11 +14,11 @@ public class RobotMap {
 	public static final int hopperMotor = 6;
 	public static final int hopperMotor2 = 7;
 
-	public static final int shooterMotor = 8;
-	public static final int shooterMotor2 = 9;
+	public static final int climberMotor = 8;
+	public static final int climberMotor2 = 9;
 
-	public static final int climberMotor = 10;
-	public static final int climberMotor2 = 11;
+	public static final int shooterMotor = 10;
+	public static final int shooterMotor2 = 11;
 
 	// PCM
 	public static final int intakeExtendSolenoid = 0;

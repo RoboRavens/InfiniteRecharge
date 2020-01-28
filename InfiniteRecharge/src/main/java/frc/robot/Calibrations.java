@@ -115,18 +115,10 @@ public class Calibrations {
 	public static final int climberInchesToEncoderTicksOffsetValue = 10;
 	
 	public static final int maximumTiltAngleWhileClimbing = 4;
-	
 
-	// CARGO WHEEL
-	public static final double cargoWheelSuckPowerMagnitude = 1;
-	public static final double cargoSpitPowerMagnitude = 1;
-	public static final double cargoDropPowerMagnitude = .5;
-	public static final double cargoHoldPowerMagnitude = 0.15;
-	
+	// HARVESTER
+	public static final double harvesterPowerMagnitude = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
-
-	public static final double cargoSpitTimer = 1;
-	public static final double cargoBottomMotorSpinTimout = 15;
 
 	
 	// LIMELIGHT
