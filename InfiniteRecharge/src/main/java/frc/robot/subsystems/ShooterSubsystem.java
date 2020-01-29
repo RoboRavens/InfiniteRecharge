@@ -53,6 +53,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    //make sure to do a test print to confirm connection to dashboard
     double targetVelocity = 0;
     try {
       targetVelocity = Double.parseDouble(SmartDashboard.getString("DB/String 0", "0"));
@@ -61,13 +62,13 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     double currentVelocity = _shooterMotor.getSelectedSensorVelocity();
-    this.set(targetVelocity);
+    this.setVelocity(targetVelocity);
     PCDashboardDiagnostics.SubsystemNumber("ShooterSubsystem", "TargetVelocity", targetVelocity);
     PCDashboardDiagnostics.SubsystemNumber("ShooterSubsystem", "CurrentVelocity", currentVelocity);
 
   }
 
-  public void set(double velocity) {
+  public void setVelocity(double velocity) {
 
     int encoderVelocityInt = _shooterMotor.getSelectedSensorVelocity();
 

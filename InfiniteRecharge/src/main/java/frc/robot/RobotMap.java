@@ -9,7 +9,7 @@ public class RobotMap {
 
 	public static final int intakeMotor = 4;
 
-	public static final int conveyanceMotor = 5;
+	public static final int towerMotor = 5;
 
 	public static final int hopperMotor = 6;
 	public static final int hopperMotor2 = 7;
@@ -25,7 +25,7 @@ public class RobotMap {
 	public static final int intakeRetractSolenoid = 1;
 
 	// DIO PORTS
-	public static final int conveyanceSensor = 0;
+	public static final int towerSensor = 0;
 
 	// CAMERA
 	public static final String cameraName = "cam0";
