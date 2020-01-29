@@ -29,8 +29,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
+  public void periodic() {
+
+  }
+
   public void harvest(double magnitude) {
     this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
+  }
+
+  public void stopMotor() {
+    this._intakeMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void intakeExtend() {
@@ -41,9 +49,5 @@ public class IntakeSubsystem extends SubsystemBase {
   public void intakeRetract() {
     this._intakeRetract.set(true);
     this._intakeExtend.set(false);
-  }
-
-  public void periodic() {
-
   }
 }

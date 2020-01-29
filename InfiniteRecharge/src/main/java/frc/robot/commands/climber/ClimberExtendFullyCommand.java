@@ -18,30 +18,26 @@ public class ClimberExtendFullyCommand extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	public void execute() {
 		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit() == false) {
-    		Robot.CLIMBER_SUBSYSTEM.extend(Calibrations.climberExtendPowerMagnitude);
-    	}
-    	else {
-    		Robot.CLIMBER_SUBSYSTEM.stop();
-    	}
+			Robot.CLIMBER_SUBSYSTEM.extend(Calibrations.climberExtendPowerMagnitude);
+		} else {
+			Robot.CLIMBER_SUBSYSTEM.stop();
+		}
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		Robot.CLIMBER_SUBSYSTEM.resetEncodersToExtendedLimit();
+		Robot.CLIMBER_SUBSYSTEM.stop();
+	}
+
+	// Returns true when the command should end.
+	@Override
 	public boolean isFinished() {
 		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit()) {
 			return true;
 		}
 
 		return false;
-	}
-
-	// Called once after isFinished returns true
-	public void end() {
-		Robot.CLIMBER_SUBSYSTEM.resetEncodersToExtendedLimit();
-		Robot.CLIMBER_SUBSYSTEM.stop();
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	public void interrupted() {
 	}
 }

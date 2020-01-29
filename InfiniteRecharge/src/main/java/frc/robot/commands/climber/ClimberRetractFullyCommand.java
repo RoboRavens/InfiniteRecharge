@@ -2,55 +2,44 @@ package frc.robot.commands.climber;
 
 import frc.robot.Calibrations;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import edu.wpi.first.wpilibj.command.Command;
-
-public class ClimberRetractFullyCommand extends Command {
+public class ClimberRetractFullyCommand extends CommandBase {
 
 	public ClimberRetractFullyCommand() {
-		requires(Robot.CLIMBER_SUBSYSTEM);
+		addRequirements(Robot.CLIMBER_SUBSYSTEM);
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
+	public void initialize() {
 		System.out.println("ClimberRetractFullyCommand init");
-		Robot.CLIMBER_SUBSYSTEM.resetSafetyTimer();
-		Robot.CLIMBER_SUBSYSTEM.startSafetyTimer();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	public void execute() {
 		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit() == false) {
-    		Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.climberRetractPowerMagnitude);
-    	}
-    	else {
-    		Robot.CLIMBER_SUBSYSTEM.stop();
-    	}
+			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.climberRetractPowerMagnitude);
+		} else {
+			Robot.CLIMBER_SUBSYSTEM.stop();
+		}
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		boolean isFinished = false;
+	// Called once the command ends or is interrupted.
+	@Override
+	public void end(boolean interrupted) {
+		Robot.CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
+		;
+		Robot.CLIMBER_SUBSYSTEM.stop();
+	}
 
-		if (Robot.CLIMBER_SUBSYSTEM.getSafetyTimer() > Calibrations.CLIMBER_SAFETY_TIMER_TIMEOUT) {
-			System.out.println("TIMEOUT TIMEOUT TIMEOUT TIMEOUT");
-			isFinished = true;
-		}
+	// Returns true when the command should end.
+	@Override
+	public boolean isFinished() {
+		boolean isFinished = false;
 
 		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit()) {
 			isFinished = true;
 		}
 		return isFinished;
-	}
-
-	// Called once after isFinished returns true
-	protected void end() {
-		Robot.CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();;
-		Robot.CLIMBER_SUBSYSTEM.stop();
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
 	}
 }

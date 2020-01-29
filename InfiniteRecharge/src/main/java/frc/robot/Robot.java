@@ -24,6 +24,7 @@ import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ProgrammableLEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.util.LoggerOverlord;
+import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
@@ -48,6 +49,9 @@ public class Robot extends TimedRobot {
   public static final ProgrammableLEDSubsystem PROGRAMMABLE_LED_SUBSYSTEM = new ProgrammableLEDSubsystem();
   public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
 
+  public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
+  public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
+
 	public static boolean isRedAlliance;
 
 	public String autoFromDashboard;
@@ -58,6 +62,13 @@ public class Robot extends TimedRobot {
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
+
+    CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
+    INTAKE_SUBSYSTEM.intakeRetract();
+    LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    this.setupDriveController();
+    this.setupOperationPanel();
   }
 
   @Override
@@ -87,6 +98,14 @@ public class Robot extends TimedRobot {
 
   public void teleopPeriodic() {
   }
+
+  public void setupDriveController() {
+    System.out.println("Drive CONTROLLER CONFIGURED!!! Drive CONTROLLER CONFIGURED!!!");
+	}
+
+	public void setupOperationPanel() {
+		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
+	}
 
   public void testPeriodic() {
   }

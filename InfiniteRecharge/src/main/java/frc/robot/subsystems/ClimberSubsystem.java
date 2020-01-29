@@ -9,25 +9,33 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Calibrations;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.climber.ClimberHoldPositionCommand;
 import frc.util.NetworkTableDiagnostics;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonSRX _climberMotor;
+	private TalonSRX _climberMotor2;
 	private double _expectedPower;
 
 	public ClimberSubsystem() {
 		initialize();
 		_climberMotor = new TalonSRX(RobotMap.climberMotor);
+		_climberMotor2 = new TalonSRX(RobotMap.climberMotor2);
 	}
 
 	public void initialize() {
-		// setDefaultCommand(new ClimberHoldPositionCommand());
+		setDefaultCommand(new ClimberHoldPositionCommand());
 		NetworkTableDiagnostics.SubsystemNumber("Climber", "Encoder", () -> getEncoderPosition());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderExtended", () -> isEncoderAtExtensionLimit());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted", () -> isEncoderAtRetractionLimit());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchExtended", () -> getClimberExtensionLimitSwitchValue());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchRetracted", () -> getClimberRetractionLimitSwitchValue());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitFinalExtension", () -> isAtExtensionLimit());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitFinalRetraction", () -> isAtRetractionLimit());
 
 		// Measure power sent to climber
 		NetworkTableDiagnostics.SubsystemNumber("Climber", "EncoderExpectedPower", () -> _expectedPower);
@@ -49,9 +57,10 @@ public class ClimberSubsystem extends SubsystemBase {
 		_expectedPower = magnitude;
 
 		_climberMotor.set(ControlMode.PercentOutput, magnitude);
+		_climberMotor2.set(ControlMode.PercentOutput, magnitude);
 	}
 
-	public void getPosition() {
+	public void printPosition() {
 		System.out.print("Climber Position: " + getEncoderPosition());
 	}
 
@@ -89,14 +98,18 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public void resetEncodersToRetractedLimit() {
 		_climberMotor.setSelectedSensorPosition(Calibrations.climberEncoderMinimumValue, 0, 0);
+		_climberMotor2.setSelectedSensorPosition(Calibrations.climberEncoderMinimumValue, 0, 0);
 	}
 
 	public void resetEncodersToExtendedLimit() {
 		_climberMotor.setSelectedSensorPosition(Calibrations.climberEncoderMaximumValue, 0, 0);
+		_climberMotor2.setSelectedSensorPosition(Calibrations.climberEncoderMaximumValue, 0, 0);
+
 	}
 
 	public void stop() {
 		_climberMotor.set(ControlMode.PercentOutput, 0);
+		_climberMotor2.set(ControlMode.PercentOutput, 0);
 	}
 
 	// Right now this method just looks at the right limit switch; some combination of both should be used.
@@ -120,18 +133,38 @@ public class ClimberSubsystem extends SubsystemBase {
     	
     	return encoderLimit;
     }
-
-	// Right now this method just looks at the right limit switch; some combination of both should be used.
+	
 	public boolean isAtExtensionLimit() {
-		return this.isEncoderAtExtensionLimit();
-	}
+    	boolean encoderLimit = false;
+    	boolean switchLimit = false;
+    	
+    	encoderLimit = this.isEncoderAtExtensionLimit();
+    
+    	if (this.getClimberExtensionLimitSwitchValue() == true) {
+    		switchLimit = true;
+    		this.resetEncodersToExtendedLimit();
+    	}
+    	
+    	return Robot.OVERRIDE_SYSTEM_CLIMBER_EXTEND.getIsAtLimit(encoderLimit, switchLimit);
+    }
 
 	public boolean isAtRetractionLimit() {
-    	return this.isEncoderAtRetractionLimit();
+    	boolean encoderLimit = false;
+    	boolean switchLimit = false;
+    	
+		encoderLimit = this.isEncoderAtRetractionLimit();
+    	
+    	if (this.getClimberRetractionLimitSwitchValue() == true) {
+    		switchLimit = true;
+    		this.resetEncodersToRetractedLimit();
+    	}
+    	
+    	return Robot.OVERRIDE_SYSTEM_CLIMBER_RETRACT.getIsAtLimit(encoderLimit, switchLimit);
     }
 
 	public void holdPosition() {
 		_climberMotor.set(ControlMode.PercentOutput, Calibrations.climberHoldPositionPowerMagnitude);
+		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.climberHoldPositionPowerMagnitude);
 	}
 
 	public double getClimberHeightPercentage() {
@@ -160,6 +193,14 @@ public class ClimberSubsystem extends SubsystemBase {
 		inches += Calibrations.climberInchesToEncoderTicksOffsetValue;
 
 		return inches;
+	}
+
+	public boolean getClimberExtensionLimitSwitchValue() {
+		return _climberMotor.getSensorCollection().isRevLimitSwitchClosed();
+	}
+
+	public boolean getClimberRetractionLimitSwitchValue() {
+		return _climberMotor.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	public boolean getIsExtendedPastEncoderPosition(int encoderPosition) {

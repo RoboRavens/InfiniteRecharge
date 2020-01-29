@@ -89,11 +89,6 @@ public class Calibrations {
 	public static final double climberHoldPositionPowerMagnitude = .13;
 	public static final double climberExtendPowerMagnitude = .66;
 	public static final double climberRetractPowerMagnitude = .4;
-
-	public static final double climberkF = Calibrations.climberHoldPositionPowerMagnitude;
-    public static final double climberkP = 12.0;
-    public static final double climberkI = 0.0;
-    public static final double climberkD = 230.0;
 	
 	public static final int climberEncoderMinimumValue = 0;
     public static final int climberEncoderMaximumValue = 53000;
@@ -120,6 +115,11 @@ public class Calibrations {
 	public static final double harvesterPowerMagnitude = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
+	// SHOOTER 0.7, 0.0005, .0075
+	public static final double shooterkF = 0.0;
+    public static final double shooterkP = 0.7;
+    public static final double shooterkI = 0.0005;
+    public static final double shooterkD = 0.0075;
 	
 	// LIMELIGHT
 	public static final double FLOOR_TO_LIMELIGHT_LENS_HEIGHT = 19.5;

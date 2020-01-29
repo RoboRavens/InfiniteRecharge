@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
@@ -14,7 +15,7 @@ import frc.robot.RobotMap;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
-  private TalonSRX _conveyanceMotor;
+  private TalonSRX _conveyanceMotor; // 1 talon SRX will run two bag motors on robot
   private BufferedDigitalInput _conveyanceSensor;
 
   public ConveyanceSubsystem() {
@@ -28,5 +29,21 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void periodic() {
 
+  }
+
+  public void liftPowerCells(double magnitude) {
+    this.setConveyanceMotor(magnitude);
+  }
+
+  public void stopPowerCells() {
+    this.setConveyanceMotor(0);
+  }
+
+  public void setConveyanceMotor(double magnitude) {
+    _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+  }
+
+  public boolean getConveyanceSensor() {
+    return _conveyanceSensor.get();
   }
 }
