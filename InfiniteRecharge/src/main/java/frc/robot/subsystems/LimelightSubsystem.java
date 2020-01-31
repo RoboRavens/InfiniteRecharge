@@ -56,7 +56,6 @@ public class LimelightSubsystem extends SubsystemBase {
 
 	public void periodic() {
 
-
 		_angleToTargetFromHorizontal = Math.tan(Math.toRadians(Calibrations.CAMERA_ANGLE_OFFSET_FROM_HORIZONTAL + ty.getDouble(0.0)));
 		_inchesToTarget = _heightDifference/_angleToTargetFromHorizontal;
 		_angleComplimenting90 = Calibrations.LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES/_inchesToTarget;

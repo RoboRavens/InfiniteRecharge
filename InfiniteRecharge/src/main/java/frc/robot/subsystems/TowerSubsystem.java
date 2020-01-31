@@ -19,6 +19,7 @@ public class TowerSubsystem extends SubsystemBase {
   private BufferedDigitalInput _towerSensor;
 
   public TowerSubsystem() {
+    this.initialize();
     _towerMotor = new TalonSRX(RobotMap.towerMotor);
     _towerSensor = new BufferedDigitalInput(RobotMap.towerSensor);
   }
@@ -31,19 +32,15 @@ public class TowerSubsystem extends SubsystemBase {
 
   }
 
-  public void liftPowerCells(double magnitude) {
-    this.settowerMotor(magnitude);
-  }
-
   public void stopPowerCells() {
-    this.settowerMotor(0);
+    this.setTowerMotor(0);
   }
 
-  public void settowerMotor(double magnitude) {
+  public void setTowerMotor(double magnitude) {
     _towerMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
-  public boolean gettowerSensor() {
+  public boolean getTowerSensor() {
     return _towerSensor.get();
   }
 }

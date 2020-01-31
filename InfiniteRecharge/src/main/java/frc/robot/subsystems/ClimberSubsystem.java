@@ -22,7 +22,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	private double _expectedPower;
 
 	public ClimberSubsystem() {
-		initialize();
+		this.initialize();
 		_climberMotor = new TalonSRX(RobotMap.climberMotor);
 		_climberMotor2 = new TalonSRX(RobotMap.climberMotor2);
 	}

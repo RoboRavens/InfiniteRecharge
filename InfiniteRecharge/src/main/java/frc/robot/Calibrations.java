@@ -115,11 +115,32 @@ public class Calibrations {
 	public static final double harvesterPowerMagnitude = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
-	// SHOOTER 0.7, 0.0005, .0075
+	// SHOOTER 
 	public static final double shooterkF = 0.0;
     public static final double shooterkP = 0.7;
     public static final double shooterkI = 0.0005;
-    public static final double shooterkD = 0.0075;
+	public static final double shooterkD = 0.0075;
+	
+	// Velocity 600 = about 45 RPM (measured empirically)
+    // 25 revolutions = 204661 encoder ticks (measured empirically)
+    // 1 rev = ~8186 ticks
+
+    // Velocity: measured in "change in native units per 100 ms"
+
+    // 45 rpm = ~368,370 ticks
+    // 60 seconds = 600 100ms segments
+    // 600 * 600 = 360,000 ticks, so this checks out within range of measurement
+    // error
+    // 1 rpm = 8186 ticks in 600 time units
+    // 1 rpm = 8192 / 600 = 13.64 velocity
+
+    public static final double velToRpm = 8192 / 600;
+
+    /**
+     * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
+     * either direction: velocity setpoint is in units/100ms
+     */
+
 	
 	// LIMELIGHT
 	public static final double FLOOR_TO_LIMELIGHT_LENS_HEIGHT = 19.5;
