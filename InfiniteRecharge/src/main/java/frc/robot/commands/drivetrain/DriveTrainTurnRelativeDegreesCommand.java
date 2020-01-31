@@ -51,8 +51,17 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         ravenTank.fpsTankManual(0, 0);
     }
 
-    // Make this return true when this Command no longer needs to run execute()
-    public boolean isFinished() {
+     // Called once the command ends or is interrupted.
+     @Override
+     public void end(boolean interrupted) {
+        ravenTank.setGyroTargetHeadingToCurrentHeading();
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroAdjustmentScaleFactor(previousGyroScaleFactor);
+        ravenTank.stop();
+     }
+ 
+     // Returns true when the command should end.
+     @Override
+     public boolean isFinished() {
         double currentHeading = ravenTank.getCurrentHeading();
         double degreesTurned = currentHeading - driveTrainOriginalHeading;
 
@@ -65,17 +74,5 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         }
 
         return turnComplete;
-    }
-
-    // Called once after isFinished returns true
-    public void end() {
-        ravenTank.setGyroTargetHeadingToCurrentHeading();
-        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroAdjustmentScaleFactor(previousGyroScaleFactor);
-        ravenTank.stop();
-    }
-
-    // Called when another command which addRequirements one or more of the same
-    // subsystems is scheduled to run
-    public void interrupted() {
-    }
+     }
 }

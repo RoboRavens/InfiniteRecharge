@@ -5,7 +5,6 @@ import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Talon;
 
@@ -13,8 +12,7 @@ public class RavenTalon {
 
 	private Talon _talon;
 	private TalonSRX _talonSRX;
-	private VictorSPX _victorSPX1;
-	private VictorSPX _victorSPX2;
+	private TalonSRX _talonSRX2;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -25,14 +23,12 @@ public class RavenTalon {
 
 	protected double deadband = .0;
 
-	public RavenTalon(int channel, String name, double slewRate, int follower1, int follower2) {
+	public RavenTalon(int channel, int channel2, String name, double slewRate) {
 		if (Calibrations.UseTalonSRXForDriveController) {
 			_talonSRX = new TalonSRX(channel);
-			_victorSPX1 = new VictorSPX(follower1);
-			_victorSPX2 = new VictorSPX(follower2);
-			_victorSPX1.follow(_talonSRX);
-			_victorSPX2.follow(_talonSRX);
+			_talonSRX2 = new TalonSRX(channel);
 			_talonSRX.setSensorPhase(false);
+			_talonSRX2.setSensorPhase(false);
 		} else {
 			_talon = new Talon(channel);
 		}
@@ -92,12 +88,11 @@ public class RavenTalon {
 		// Update and set the output speed.
 		outputSpeed = newOutputSpeed;
 
-	
-
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
 		try {
 			_talonSRX.set(ControlMode.PercentOutput, outputSpeed);
+			_talonSRX2.set(ControlMode.PercentOutput, outputSpeed);
 		} 
 		catch (NullPointerException exception) {
 			_talon.set(outputSpeed);
@@ -115,6 +110,7 @@ public class RavenTalon {
 	public void resetEncoderPosition() {
 		try {
 			_talonSRX.setSelectedSensorPosition(0);
+			_talonSRX2.setSelectedSensorPosition(0);
 		} catch (NullPointerException exception) {}
 	}
 }

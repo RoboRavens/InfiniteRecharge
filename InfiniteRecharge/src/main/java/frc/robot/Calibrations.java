@@ -62,12 +62,13 @@ public class Calibrations {
 	
 	
 	// DRIVE ENCODERS
-	public static final int encoderCUI103CyclesPerRevolution = 4096; 
+	public static final double encoderCUI103CyclesPerRevolution = 4096;
+	public static final double talonSRXMotorTicksPerRevolution = 8186;
 	public static final double wheelDiameterInches = 4;
 	public static final double wheelCircumferenceInches = Calibrations.wheelDiameterInches * Math.PI;
 	
 	// We're using CUI 103 encoders on both sides of the drivetrain.
-	public static final int encoderCyclesPerRevolution = Calibrations.encoderCUI103CyclesPerRevolution;
+	public static final double encoderCyclesPerRevolution = talonSRXMotorTicksPerRevolution;
 
 	// Encoder usage choice in case of one side breaking
 	public static final int useLeftEncoderOnly = 0;
@@ -88,11 +89,6 @@ public class Calibrations {
 	public static final double climberHoldPositionPowerMagnitude = .13;
 	public static final double climberExtendPowerMagnitude = .66;
 	public static final double climberRetractPowerMagnitude = .4;
-
-	public static final double climberkF = Calibrations.climberHoldPositionPowerMagnitude;
-    public static final double climberkP = 12.0;
-    public static final double climberkI = 0.0;
-    public static final double climberkD = 230.0;
 	
 	public static final int climberEncoderMinimumValue = 0;
     public static final int climberEncoderMaximumValue = 53000;
@@ -114,18 +110,36 @@ public class Calibrations {
 	public static final int climberInchesToEncoderTicksOffsetValue = 10;
 	
 	public static final int maximumTiltAngleWhileClimbing = 4;
-	
 
-	// CARGO WHEEL
-	public static final double cargoWheelSuckPowerMagnitude = 1;
-	public static final double cargoSpitPowerMagnitude = 1;
-	public static final double cargoDropPowerMagnitude = .5;
-	public static final double cargoHoldPowerMagnitude = 0.15;
-	
+	// HARVESTER
+	public static final double harvesterPowerMagnitude = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
-	public static final double cargoSpitTimer = 1;
-	public static final double cargoBottomMotorSpinTimout = 15;
+	// SHOOTER 
+	public static final double shooterkF = 0.0;
+    public static final double shooterkP = 0.7;
+    public static final double shooterkI = 0.0005;
+	public static final double shooterkD = 0.0075;
+	
+	// Velocity 600 = about 45 RPM (measured empirically)
+    // 25 revolutions = 204661 encoder ticks (measured empirically)
+    // 1 rev = ~8186 ticks
+
+    // Velocity: measured in "change in native units per 100 ms"
+
+    // 45 rpm = ~368,370 ticks
+    // 60 seconds = 600 100ms segments
+    // 600 * 600 = 360,000 ticks, so this checks out within range of measurement
+    // error
+    // 1 rpm = 8186 ticks in 600 time units
+    // 1 rpm = 8192 / 600 = 13.64 velocity
+
+    public static final double velToRpm = 8192 / 600;
+
+    /**
+     * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
+     * either direction: velocity setpoint is in units/100ms
+     */
 
 	
 	// LIMELIGHT

@@ -15,6 +15,7 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 	private boolean _teleop = false;
 
 	public ProgrammableLEDSubsystem() {
+		this.initialize();
 		_canifier = new CANifier(0);
 	}
 
