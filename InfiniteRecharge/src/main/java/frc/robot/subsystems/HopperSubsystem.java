@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
@@ -28,5 +29,14 @@ public class HopperSubsystem extends SubsystemBase {
 
   public void periodic() {
     
+  }
+
+  public void stopHopperMotors() {
+    this.setHopperMotors(0, 0);
+  }
+
+  public void setHopperMotors(double magnitude1, double magnitude2) {
+    _hopperMotor.set(ControlMode.PercentOutput, magnitude1);
+    _hopperMotor2.set(ControlMode.PercentOutput, magnitude2);
   }
 }

@@ -41,7 +41,7 @@ public class Robot extends TimedRobot {
 	public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
 
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-  public static final TowerSubsystem CONVEYANCE_SUBSYSTEM = new TowerSubsystem();
+  public static final TowerSubsystem TOWER_SUBSYSTEM = new TowerSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
   public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();

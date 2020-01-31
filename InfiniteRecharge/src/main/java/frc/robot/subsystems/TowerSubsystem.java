@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import frc.robot.RobotMap;
+import frc.robot.commands.tower.TowerStopCommand;
 
 public class TowerSubsystem extends SubsystemBase {
 
@@ -25,14 +26,14 @@ public class TowerSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-
+    setDefaultCommand(new TowerStopCommand());
   }
 
   public void periodic() {
 
   }
 
-  public void stopPowerCells() {
+  public void stopTower() {
     this.setTowerMotor(0);
   }
 

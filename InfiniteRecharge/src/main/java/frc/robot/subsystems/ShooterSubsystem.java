@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Calibrations;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
+import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.util.NetworkTableDiagnostics;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -48,6 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
+    setDefaultCommand(new ShooterStopCommand());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
   }
@@ -61,6 +63,10 @@ public class ShooterSubsystem extends SubsystemBase {
     double targetVelocity_UnitsPer100ms = 7600 * velocity;
 
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+  }
+
+  public void stopShooter() {
+    this.setVelocity(0);
   }
 
   public int getVelocity() {
