@@ -122,6 +122,10 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
+  public void setRPM(double rpm) {
+    setVelocity(rpm * Calibrations.RPMToVel);
+  }
+
   public void stopShooter() {
     this.setVelocity(0);
   }

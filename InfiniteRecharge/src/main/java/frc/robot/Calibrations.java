@@ -137,7 +137,8 @@ public class Calibrations {
     // 1 rpm = 8186 ticks in 600 time units
     // 1 rpm = 8192 / 600 = 13.64 velocity
 
-    public static final double velToRpm = 8192 / 600;
+	public static final double velToRpm = 8192 / 600;
+	public static final double RPMToVel = 600 / 8192;
 
     /**
      * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
