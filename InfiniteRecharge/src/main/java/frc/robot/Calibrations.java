@@ -120,6 +120,7 @@ public class Calibrations {
     public static final double shooterkP = 0.7;
     public static final double shooterkI = 0.0005;
 	public static final double shooterkD = 0.0075;
+	public static final double targetRange = 100;
 	
 	// Velocity 600 = about 45 RPM (measured empirically)
     // 25 revolutions = 204661 encoder ticks (measured empirically)

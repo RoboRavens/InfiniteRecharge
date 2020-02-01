@@ -106,6 +106,21 @@ public class Gamepad {
         _joystick.setRumble(RumbleType.kRightRumble, 1);
 	}
 
+	public void setRumbleLeft() {
+        _joystick.setRumble(RumbleType.kLeftRumble, 1);
+        _joystick.setRumble(RumbleType.kRightRumble, 0);
+	}
+
+	public void setRumbleRight() {
+        _joystick.setRumble(RumbleType.kLeftRumble, 1);
+        _joystick.setRumble(RumbleType.kRightRumble, 1);
+	}
+
+	public void setRumbleCustom(double left, double right) {
+        _joystick.setRumble(RumbleType.kLeftRumble, left);
+        _joystick.setRumble(RumbleType.kRightRumble, right);
+	}
+
 	public void setRumbleOff() {
 		_joystick.setRumble(RumbleType.kLeftRumble, 0);
         _joystick.setRumble(RumbleType.kRightRumble, 0);
