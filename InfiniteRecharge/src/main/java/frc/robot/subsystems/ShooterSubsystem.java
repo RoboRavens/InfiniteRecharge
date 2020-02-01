@@ -49,7 +49,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-    setDefaultCommand(new ShooterStopCommand());
+    // setDefaultCommand(new ShooterStopCommand());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
   }

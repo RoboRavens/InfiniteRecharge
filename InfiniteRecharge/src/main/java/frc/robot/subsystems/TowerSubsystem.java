@@ -21,12 +21,12 @@ public class TowerSubsystem extends SubsystemBase {
 
   public TowerSubsystem() {
     this.initialize();
-    _towerMotor = new TalonSRX(RobotMap.towerMotor);
+    _towerMotor = new TalonSRX(RobotMap.conveyanceMotor);
     _towerSensor = new BufferedDigitalInput(RobotMap.towerSensor);
   }
 
   public void initialize() {
-    setDefaultCommand(new TowerStopCommand());
+    // setDefaultCommand(new TowerStopCommand());
   }
 
   public void periodic() {

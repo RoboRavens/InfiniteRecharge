@@ -20,7 +20,7 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 	}
 
 	public void initialize() {
-		setDefaultCommand(new LEDDuringMatchCommand());
+		// setDefaultCommand(new LEDDuringMatchCommand());
 	}
 	
 	public void setColorToTeleop(){

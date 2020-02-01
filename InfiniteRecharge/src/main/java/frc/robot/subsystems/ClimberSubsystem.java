@@ -28,7 +28,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void initialize() {
-		setDefaultCommand(new ClimberHoldPositionCommand());
+		// setDefaultCommand(new ClimberHoldPositionCommand());
 		NetworkTableDiagnostics.SubsystemNumber("Climber", "Encoder", () -> getEncoderPosition());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderExtended", () -> isEncoderAtExtensionLimit());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted", () -> isEncoderAtRetractionLimit());

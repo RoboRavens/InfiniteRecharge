@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.controls.AxisCode;
 import frc.ravenhardware.RavenTank;
 import frc.robot.Calibrations;
+import frc.robot.Robot;
 import frc.robot.commands.drivetrain.DriveTrainDriveFPSCommand;
 import frc.util.NetworkTableDiagnostics;
 
@@ -17,8 +19,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		this.initialize();
 	}
 
+	public void defaultCommand() {
+		double leftYAxisValue = Robot.DRIVE_CONTROLLER.getAxis(AxisCode.LEFTSTICKY);
+        double rightYAxisValue = Robot.DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTSTICKY);
+        double rightXAxisValue = Robot.DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTSTICKX);
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.drive(leftYAxisValue, rightYAxisValue, rightXAxisValue);
+	}
+
 	public void initialize() {
-		setDefaultCommand(new DriveTrainDriveFPSCommand());
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PowerMax", () -> _maxPower);
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderLeftInchesTraveled", () -> ravenTank.getLeftNetInchesTraveled());
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderRightInchesTraveled", () -> ravenTank.getRightNetInchesTraveled());
