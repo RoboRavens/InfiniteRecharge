@@ -4,15 +4,15 @@ import frc.robot.Calibrations;
 import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Talon;
 
 public class RavenTalon {
 
 	private Talon _talon;
-	private TalonSRX _talonSRX;
-	private TalonSRX _talonSRX2;
+	private TalonFX _talonFX;
+	private TalonFX _talonFX2;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -25,10 +25,10 @@ public class RavenTalon {
 
 	public RavenTalon(int channel, int channel2, String name, double slewRate) {
 		if (Calibrations.UseTalonSRXForDriveController) {
-			_talonSRX = new TalonSRX(channel);
-			_talonSRX2 = new TalonSRX(channel);
-			_talonSRX.setSensorPhase(false);
-			_talonSRX2.setSensorPhase(false);
+			_talonFX = new TalonFX(channel);
+			_talonFX2 = new TalonFX(channel);
+			_talonFX.setSensorPhase(false);
+			_talonFX2.setSensorPhase(false);
 		} else {
 			_talon = new Talon(channel);
 		}
@@ -91,8 +91,8 @@ public class RavenTalon {
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
 		try {
-			_talonSRX.set(ControlMode.PercentOutput, outputSpeed);
-			_talonSRX2.set(ControlMode.PercentOutput, outputSpeed);
+			_talonFX.set(ControlMode.PercentOutput, outputSpeed);
+			_talonFX2.set(ControlMode.PercentOutput, outputSpeed);
 		} 
 		catch (NullPointerException exception) {
 			_talon.set(outputSpeed);
@@ -101,7 +101,7 @@ public class RavenTalon {
 
 	public int getEncoderPosition() {
 		try {
-			return _talonSRX.getSelectedSensorPosition();
+			return _talonFX.getSelectedSensorPosition();
 		} catch (NullPointerException exception) {
 			return 0;
 		}
@@ -109,8 +109,8 @@ public class RavenTalon {
 
 	public void resetEncoderPosition() {
 		try {
-			_talonSRX.setSelectedSensorPosition(0);
-			_talonSRX2.setSelectedSensorPosition(0);
+			_talonFX.setSelectedSensorPosition(0);
+			_talonFX2.setSelectedSensorPosition(0);
 		} catch (NullPointerException exception) {}
 	}
 }

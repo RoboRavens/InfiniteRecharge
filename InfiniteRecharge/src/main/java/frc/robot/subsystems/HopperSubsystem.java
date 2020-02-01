@@ -15,12 +15,10 @@ import frc.robot.RobotMap;
 public class HopperSubsystem extends SubsystemBase {
 
   private TalonSRX _hopperMotor;
-  private TalonSRX _hopperMotor2;
   
   public HopperSubsystem() {
     this.initialize();
     _hopperMotor = new TalonSRX(RobotMap.hopperMotor);
-    _hopperMotor2 = new TalonSRX(RobotMap.hopperMotor2);
   }
 
   public void initialize() {
@@ -37,6 +35,5 @@ public class HopperSubsystem extends SubsystemBase {
 
   public void setHopperMotors(double magnitude1, double magnitude2) {
     _hopperMotor.set(ControlMode.PercentOutput, magnitude1);
-    _hopperMotor2.set(ControlMode.PercentOutput, magnitude2);
   }
 }

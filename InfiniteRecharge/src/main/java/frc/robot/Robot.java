@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -67,8 +68,14 @@ public class Robot extends TimedRobot {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
     INTAKE_SUBSYSTEM.intakeRetract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    this.setupDefaultCommands();
     this.setupDriveController();
     this.setupOperationPanel();
+  }
+
+  private void setupDefaultCommands() {
+    DRIVE_TRAIN_SUBSYSTEM
+      .setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
   }
 
   @Override
