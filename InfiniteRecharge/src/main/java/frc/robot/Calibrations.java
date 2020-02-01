@@ -66,6 +66,8 @@ public class Calibrations {
 	public static final double talonSRXMotorTicksPerRevolution = 8186;
 	public static final double wheelDiameterInches = 4;
 	public static final double wheelCircumferenceInches = Calibrations.wheelDiameterInches * Math.PI;
+	public static final double wheelDiameterFeet = 1/3;
+	public static final double wheelCircumferenceFeet = Calibrations.wheelDiameterFeet * Math.PI;
 	
 	// We're using CUI 103 encoders on both sides of the drivetrain.
 	public static final double encoderCyclesPerRevolution = talonSRXMotorTicksPerRevolution;

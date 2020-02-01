@@ -15,7 +15,6 @@ import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
-import frc.controls.Gamepad;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.robot.commands.shooter.ShooterStopCommand;
@@ -102,6 +101,15 @@ public class ShooterSubsystem extends SubsystemBase {
       setVelocity(0.0);
 
     }
+  }
+
+  //RPS to FPS
+  public double RevolutionsToFeet() {
+    return getRPS() * Calibrations.wheelCircumferenceFeet;
+  }
+
+  public int getRPS() {
+    return getRPM() * 60;
   }
 
   public void setVelocityBySlider () {
