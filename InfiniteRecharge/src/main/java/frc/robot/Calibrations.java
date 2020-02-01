@@ -66,6 +66,8 @@ public class Calibrations {
 	public static final double talonSRXMotorTicksPerRevolution = 8186;
 	public static final double wheelDiameterInches = 4;
 	public static final double wheelCircumferenceInches = Calibrations.wheelDiameterInches * Math.PI;
+	public static final double wheelDiameterFeet = 1/3;
+	public static final double wheelCircumferenceFeet = Calibrations.wheelDiameterFeet * Math.PI;
 	
 	// We're using CUI 103 encoders on both sides of the drivetrain.
 	public static final double encoderCyclesPerRevolution = talonSRXMotorTicksPerRevolution;
@@ -120,6 +122,7 @@ public class Calibrations {
     public static final double shooterkP = 0.7;
     public static final double shooterkI = 0.0005;
 	public static final double shooterkD = 0.0075;
+	public static final double targetRange = 100;
 	
 	// Velocity 600 = about 45 RPM (measured empirically)
     // 25 revolutions = 204661 encoder ticks (measured empirically)
@@ -134,7 +137,8 @@ public class Calibrations {
     // 1 rpm = 8186 ticks in 600 time units
     // 1 rpm = 8192 / 600 = 13.64 velocity
 
-    public static final double velToRpm = 8192 / 600;
+	public static final double velToRpm = 8192 / 600;
+	public static final double RPMToVel = 600 / 8192;
 
     /**
      * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
