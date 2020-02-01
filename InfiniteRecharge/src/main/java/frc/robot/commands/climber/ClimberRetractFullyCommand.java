@@ -28,7 +28,6 @@ public class ClimberRetractFullyCommand extends CommandBase {
 	@Override
 	public void end(boolean interrupted) {
 		Robot.CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
-		;
 		Robot.CLIMBER_SUBSYSTEM.stop();
 	}
 
