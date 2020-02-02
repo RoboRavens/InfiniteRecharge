@@ -11,19 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShooterRevCommand extends CommandBase {
+public class ShooterTuneCommand extends CommandBase {
   /**
-   * Creates a new ShooterRevCommand.
+   * Creates a new ShooterTuneCommand.
    */
   ShooterSubsystem shooter = new ShooterSubsystem();
-  public ShooterRevCommand() {
+  public ShooterTuneCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterRevCommand Initialized!!");
+    System.out.println("ShooterTuneCommand Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

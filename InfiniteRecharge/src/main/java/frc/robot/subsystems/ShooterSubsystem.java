@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
@@ -24,8 +26,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
   private TalonSRX _shooterMotor2;
+  private Joystick _joystick;
 
   private double targetVelocity_UnitsPer100ms = 0;
+  double velocity = _joystick.getThrottle();
 
   public ShooterSubsystem() {
     this.initialize();
@@ -35,6 +39,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     _shooterMotor.configFactoryDefault();
     _shooterMotor2.configFactoryDefault();
+
+    _joystick = new Joystick(0);
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkF, TalonSRXConstants.kTimeoutMs);
@@ -113,7 +119,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setVelocityBySlider () {
-    setVelocity(Robot.DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER));
+    setVelocity(velocity);
 
   }
 
