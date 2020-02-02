@@ -120,7 +120,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocityBySlider () {
     setVelocity(velocity);
-
   }
 
   public void setVelocity(double velocity) {
