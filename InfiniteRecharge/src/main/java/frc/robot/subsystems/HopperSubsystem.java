@@ -33,6 +33,18 @@ public class HopperSubsystem extends SubsystemBase {
     this.setHopperMotors(0, 0);
   }
 
+  public void reverseHopperMotors() {
+    this.setHopperMotors(-0.5, 0.5);
+  }
+
+  public void shootHopperMotors() {
+    this.setHopperMotors(-1, 1);
+  }
+
+  public void agitateHopperMotors() {
+    //Does nothing yet
+  }
+
   public void setHopperMotors(double magnitude1, double magnitude2) {
     _hopperMotor.set(ControlMode.PercentOutput, magnitude1);
   }

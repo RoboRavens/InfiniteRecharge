@@ -5,34 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.conveyance;
+package frc.robot.commands.hopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class ConveyanceReadyToShootCommand extends CommandBase {
-  public ConveyanceReadyToShootCommand() {
-    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
+public class HopperReverseCommand extends CommandBase {
+  /**
+   * Creates a new HopperReverseCommand.
+   */
+  public HopperReverseCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ConveyanceReadyToShootCommand initialized");;
+    System.out.println("HopperReverseCommand initialzed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
-      System.out.println("Triggered by ball");
-      Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
-      Robot.HOPPER_SUBSYSTEM.setHopperMotors(0, 0);
-    } else {
-      Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
-      Robot.CONVEYANCE_SUBSYSTEM.setConveyanceMotor(.5); //This may change
-      Robot.HOPPER_SUBSYSTEM.setHopperMotors(1, -1); //Not sure what speed we want to run motors at
-    }
+    Robot.HOPPER_SUBSYSTEM.reverseHopperMotors();
   }
 
   // Called once the command ends or is interrupted.
