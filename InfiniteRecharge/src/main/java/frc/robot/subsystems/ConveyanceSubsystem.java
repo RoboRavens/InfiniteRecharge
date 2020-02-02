@@ -57,6 +57,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public boolean getConveyanceSensor() {
+    System.out.println("Got sensor");
     return _conveyanceSensor.get();
   }
 

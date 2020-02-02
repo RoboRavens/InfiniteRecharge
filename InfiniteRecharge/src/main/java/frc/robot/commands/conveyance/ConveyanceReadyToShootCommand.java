@@ -25,7 +25,7 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   @Override
   public void execute() {
     if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
-      System.out.println("Found Ball");
+      System.out.println("Triggered by ball");
       Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
       Robot.HOPPER_SUBSYSTEM.setHopperMotors(0, 0);
     } else {
