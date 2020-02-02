@@ -129,8 +129,8 @@ public class Calibrations {
 	*/
 	public static final int falconRPMHardMax = 6380;
 	public static final int falconRPMHardMin = 0;
-	public static final int falconRPMSoftMax = (Integer) null;
-	public static final int falconRPMSoftMin = (Integer) null;
+	public static final int falconRPMSoftMax = 0;
+	public static final int falconRPMSoftMin = 0;
 
 	
 	// Velocity 600 = about 45 RPM (measured empirically)
