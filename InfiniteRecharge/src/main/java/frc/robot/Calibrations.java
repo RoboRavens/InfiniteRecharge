@@ -125,12 +125,12 @@ public class Calibrations {
 	public static final double targetRange = 100;
 	/*
 	sets soft and hard limits for Falcon Motor RPM
-	these values are placeholders and need to be set on later date
+	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
 	public static final int falconRPMHardMax = 6380;
 	public static final int falconRPMHardMin = 0;
-	public static final int falconRPMSoftMax;
-	public static final int falconRPMSoftMin;
+	public static final int falconRPMSoftMax = (Integer) null;
+	public static final int falconRPMSoftMin = (Integer) null;
 
 	
 	// Velocity 600 = about 45 RPM (measured empirically)

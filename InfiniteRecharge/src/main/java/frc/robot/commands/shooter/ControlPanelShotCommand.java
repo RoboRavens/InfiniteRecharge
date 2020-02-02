@@ -11,26 +11,24 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShooterTuneCommand extends CommandBase {
+public class ControlPanelShotCommand extends CommandBase {
   /**
-   * Creates a new ShooterTuneCommand.
+   * Creates a new ControlPanelShotCommand.
    */
   ShooterSubsystem shooter = new ShooterSubsystem();
-  public ShooterTuneCommand() {
+  public ControlPanelShotCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterTuneCommand Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setVelocityBySlider();
-    System.out.println("The current RPM is: " + shooter.getRPM());
+    shooter.setRPM(1000); //THIS IS A PLACEHOLDER and needs to be updated by tuning the shooter to shoot the correct distance
   }
 
   // Called once the command ends or is interrupted.

@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
