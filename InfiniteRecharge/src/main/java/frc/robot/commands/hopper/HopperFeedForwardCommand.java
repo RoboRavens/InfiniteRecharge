@@ -10,25 +10,26 @@ package frc.robot.commands.hopper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperAgitateCommand extends CommandBase {
+public class HopperFeedForwardCommand extends CommandBase {
   /**
-   * Creates a new HopperAgitateCommand.
+   * Creates a new HopperFeedForwardCommand.
    */
-  public HopperAgitateCommand() {
+  public HopperFeedForwardCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.HOPPER_SUBSYSTEM);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperAgitateCommand initialized");
+    System.out.println("HopperFeedForwardCommand initialzed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.agitateHopperMotors();
+    Robot.HOPPER_SUBSYSTEM.feedForward();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +40,6 @@ public class HopperAgitateCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

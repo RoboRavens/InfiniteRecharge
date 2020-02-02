@@ -10,24 +10,25 @@ package frc.robot.commands.hopper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperReverseCommand extends CommandBase {
+public class HopperFullReverseCommand extends CommandBase {
   /**
-   * Creates a new HopperReverseCommand.
+   * Creates a new HopperFullReverseCommand.
    */
-  public HopperReverseCommand() {
+  public HopperFullReverseCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.HOPPER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperReverseCommand initialzed");
+    System.out.println("HopperFullReverseCommand initialzed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.feedReverse();
+    Robot.HOPPER_SUBSYSTEM.fullReverse();
   }
 
   // Called once the command ends or is interrupted.
