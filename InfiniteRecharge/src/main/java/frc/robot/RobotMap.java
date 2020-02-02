@@ -22,9 +22,11 @@ public class RobotMap {
 	// PCM
 	public static final int intakeExtendSolenoid = 0;
 	public static final int intakeRetractSolenoid = 1;
+	public static final int pistonBlockSolenoid = 2;
+	public static final int pistonUnblockSolenoid = 3;
 
 	// DIO PORTS
-	public static final int towerSensor = 0;
+	public static final int conveyanceSensor = 0;
 
 	// CAMERA
 	public static final String cameraName = "cam0";

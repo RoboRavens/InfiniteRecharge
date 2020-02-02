@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.tower;
+package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class TowerStopCommand extends CommandBase {
-  
-  public TowerStopCommand() {
-    addRequirements(Robot.TOWER_SUBSYSTEM);
+public class ConveyanceShootCommand extends CommandBase {
+  public ConveyanceShootCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("TowerStopCommand init");
+    System.out.println("ConveyanceShootCommand initialized");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.TOWER_SUBSYSTEM.stopTower();
+    Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
+    Robot.CONVEYANCE_SUBSYSTEM.setMaxConveyance();;
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +37,6 @@ public class TowerStopCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
