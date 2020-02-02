@@ -27,7 +27,7 @@ public class HopperShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.shootHopperMotors();
+    Robot.HOPPER_SUBSYSTEM.feedForward();
   }
 
   // Called once the command ends or is interrupted.
