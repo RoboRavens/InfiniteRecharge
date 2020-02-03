@@ -124,6 +124,15 @@ public class Calibrations {
     public static final double shooterkI = 0.0005;
 	public static final double shooterkD = 0.0075;
 	public static final double targetRange = 100;
+	/*
+	sets soft and hard limits for Falcon Motor RPM
+	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
+	*/
+	public static final int falconRPMHardMax = 6380;
+	public static final int falconRPMHardMin = 0;
+	public static final int falconRPMSoftMax = 0;
+	public static final int falconRPMSoftMin = 0;
+
 	
 	// Velocity 600 = about 45 RPM (measured empirically)
     // 25 revolutions = 204661 encoder ticks (measured empirically)
