@@ -9,11 +9,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.RobotMap;
-import frc.robot.commands.Conveyance.ConveyanceStopCommand;
+import frc.robot.commands.conveyance.ConveyanceStopCommand;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
