@@ -126,10 +126,12 @@ public class Calibrations {
 	public static final double targetRange = 100;
 
 	//HOPPER
-	public static final double leftForward = 1.0;
-	public static final double rightForward = 1.0;
-	public static final double leftReverse = -1.0;
-	public static final double rightReverse = -1.0;
+	public static final double leftForward = 0.5;
+	public static final double rightForward = 0.5;
+	public static final double leftReverse = -0.5;
+	public static final double rightReverse = -0.5;
+	public static final double feedFullSpeedLeft = 1.0;
+	public static final double feedFullSpeedRight = -1.0;
 	public static final double hopperStop = 0;
 	
 	// Velocity 600 = about 45 RPM (measured empirically)

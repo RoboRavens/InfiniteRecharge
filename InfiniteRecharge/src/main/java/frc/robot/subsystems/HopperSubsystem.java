@@ -44,6 +44,10 @@ public class HopperSubsystem extends SubsystemBase {
     this.setHopperMotors(Calibrations.leftForward, Calibrations.rightReverse);
   }
 
+  public void feedFullSpeed() {
+    this.setHopperMotors(Calibrations.feedFullSpeedLeft, Calibrations.feedFullSpeedRight);
+  }
+
   public void fullReverse() {
     this.setHopperMotors(Calibrations.leftReverse, Calibrations.rightReverse);
   }
