@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
+import frc.robot.Calibrations;
 import frc.robot.RobotMap;
 import frc.robot.commands.conveyance.ConveyanceStopCommand;
 
@@ -42,15 +43,23 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void setReverseConveyance() {
-    this.setConveyanceMotor(-1.0);
+    this.setConveyanceMotor(Calibrations.fullSpeedReverse);
   }
 
   public void setMaxConveyance() {
-    this.setConveyanceMotor(1.0);
+    this.setConveyanceMotor(Calibrations.fullSpeed);
   }
 
   public void stopConveyance() {
-    this.setConveyanceMotor(0);
+    this.setConveyanceMotor(Calibrations.conveyanceStop);
+  }
+
+  public void setNormalSpeedConveyance() {
+    this.setConveyanceMotor(Calibrations.normalSpeed);
+  }
+
+  public void setNormalSpeedReverseConveyance() {
+    this.setConveyanceMotor(Calibrations.normalReverseSpeed);
   }
 
   public void setConveyanceMotor(double magnitude) {
