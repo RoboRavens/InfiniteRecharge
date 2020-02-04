@@ -29,7 +29,7 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
       Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
     } else {
       Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
-      Robot.CONVEYANCE_SUBSYSTEM.setConveyanceMotor(.5); //This may change
+      Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedConveyance();
     }
   }
 
