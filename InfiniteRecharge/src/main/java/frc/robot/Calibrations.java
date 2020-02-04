@@ -124,7 +124,23 @@ public class Calibrations {
     public static final double shooterkI = 0.0005;
 	public static final double shooterkD = 0.0075;
 	public static final double targetRange = 100;
-	
+
+	//HOPPER
+	public static final double leftForward = 0.5;
+	public static final double rightForward = 0.5;
+	public static final double leftReverse = -0.5;
+	public static final double rightReverse = -0.5;
+	public static final double feedFullSpeedLeft = 1.0;
+	public static final double feedFullSpeedRight = -1.0;
+	public static final double hopperStop = 0;
+
+	//CONVEYANCE
+	public static final double fullSpeed = 1.0;
+	public static final double fullSpeedReverse = -1.0;
+	public static final double normalSpeed = 0.5;
+	public static final double normalReverseSpeed = -0.5;
+	public static final double conveyanceStop = 0;
+
 	// Velocity 600 = about 45 RPM (measured empirically)
     // 25 revolutions = 204661 encoder ticks (measured empirically)
     // 1 rev = ~8186 ticks

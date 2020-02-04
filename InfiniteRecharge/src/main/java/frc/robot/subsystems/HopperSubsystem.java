@@ -10,15 +10,18 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Calibrations;
 import frc.robot.RobotMap;
 
 public class HopperSubsystem extends SubsystemBase {
 
-  private TalonSRX _hopperMotor;
+  private TalonSRX _hopperLeftMotor;
+  private TalonSRX _hopperRightMotor;
   
   public HopperSubsystem() {
     this.initialize();
-    _hopperMotor = new TalonSRX(RobotMap.hopperMotor);
+    _hopperLeftMotor = new TalonSRX(RobotMap.hopperLeftMotor);
+    _hopperRightMotor = new TalonSRX(RobotMap.hopperRightMotor);
   }
 
   public void initialize() {
@@ -30,10 +33,35 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void stopHopperMotors() {
-    this.setHopperMotors(0, 0);
+    this.setHopperMotors(Calibrations.hopperStop, Calibrations.hopperStop);
   }
 
-  public void setHopperMotors(double magnitude1, double magnitude2) {
-    _hopperMotor.set(ControlMode.PercentOutput, magnitude1);
+  public void feedForward() {
+    this.setHopperMotors(Calibrations.leftReverse, Calibrations.rightForward);
+  }
+
+  public void feedReverse() {
+    this.setHopperMotors(Calibrations.leftForward, Calibrations.rightReverse);
+  }
+
+  public void feedFullSpeed() {
+    this.setHopperMotors(Calibrations.feedFullSpeedLeft, Calibrations.feedFullSpeedRight);
+  }
+
+  public void fullReverse() {
+    this.setHopperMotors(Calibrations.leftReverse, Calibrations.rightReverse);
+  }
+
+  public void fullForward() {
+    this.setHopperMotors(Calibrations.leftForward, Calibrations.rightForward);
+  }
+
+  public void agitateHopperMotors() {
+    //Does nothing yet
+  }
+
+  public void setHopperMotors(double leftMagnitude, double rightMagnitude) {
+    _hopperLeftMotor.set(ControlMode.PercentOutput, leftMagnitude);
+    _hopperRightMotor.set(ControlMode.PercentOutput, rightMagnitude);
   }
 }

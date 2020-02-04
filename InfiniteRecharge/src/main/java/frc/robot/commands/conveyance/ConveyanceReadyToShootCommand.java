@@ -27,11 +27,9 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
     if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
       System.out.println("Triggered by ball");
       Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
-      Robot.HOPPER_SUBSYSTEM.setHopperMotors(0, 0);
     } else {
       Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
       Robot.CONVEYANCE_SUBSYSTEM.setConveyanceMotor(.5); //This may change
-      Robot.HOPPER_SUBSYSTEM.setHopperMotors(1, 1); //Not sure what speed we want to run motors at
     }
   }
 

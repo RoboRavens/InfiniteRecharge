@@ -9,7 +9,9 @@ public class RobotMap {
 
 	public static final int intakeMotor = 11;
 
-	public static final int hopperMotor = 21;
+	public static final int hopperLeftMotor = 21;
+	public static final int hopperRightMotor = 22; //Not sure what the correct ID is
+
 
 	public static final int conveyanceMotor = 31;
 
