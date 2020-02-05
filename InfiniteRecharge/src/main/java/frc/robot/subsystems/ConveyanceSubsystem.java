@@ -19,7 +19,8 @@ import frc.robot.commands.conveyance.ConveyanceStopCommand;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
-  private TalonSRX _conveyanceMotor; // 1 talon SRX will run two bag motors on robot
+  // 1 talon SRX will run two bag motors on robot
+  private TalonSRX _conveyanceMotor; 
   private BufferedDigitalInput _conveyanceSensor;
 
   private Solenoid _pistonBlock;

@@ -32,6 +32,8 @@ public class ConveyanceShootCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
+    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
   }
 
   // Returns true when the command should end.
