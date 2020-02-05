@@ -43,5 +43,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		slewRate = Math.max(Calibrations.slewRateMinimum, slewRate);
 		_slewRateFinal = Math.min(Calibrations.slewRateMaximum, slewRate);
 		ravenTank.setSlewRate(_slewRateFinal);
+		ravenTank.updateOdometry();
 	}
 }

@@ -7,6 +7,18 @@ import frc.robot.RobotMap;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class RavenTank {
 
@@ -43,6 +55,8 @@ public class RavenTank {
 	RavenTalon driveLeft = new RavenTalon(RobotMap.leftDriveChannel, RobotMap.leftDriveChannel2, "MotorLeft", _slewRate);
 	RavenTalon driveRight = new RavenTalon(RobotMap.rightDriveChannel, RobotMap.rightDriveChannel2, "MotorRight", _slewRate);
 
+	private DifferentialDriveOdometry _odometry;
+
 	public RavenTank() {
 		initializeRavenTank();
 	}
@@ -51,6 +65,8 @@ public class RavenTank {
 		_slewRate = Calibrations.slewRateMaximum;
 
 		_gyroCooldownTimer = new Timer();
+
+		_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(this.getHeading()));
 
 		setDriveMode(Calibrations.defaultDriveMode);
 		setCutPower(false);
@@ -522,4 +538,72 @@ public class RavenTank {
 	public double getGyroAngle() {
 		return orientationGyro.getAngle();
 	}
+
+	/**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from 180 to 180
+   */
+  private double getHeading() {
+	return Math.IEEEremainder(orientationGyro.getAngle(), 360) * -1;
+  }
+
+  public void updateOdometry() {
+	  _odometry.update(Rotation2d.fromDegrees(this.getHeading()), this.getLeftNetInchesTraveled(), this.getRightNetInchesTraveled());
+  }
+
+  public Command getCommandForTrajectory(Trajectory trajectory) {
+	
+    this.resetDriveEncoders();
+    this.resetOrientationGyro();;
+	_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
+
+	var driveKinematics = new DifferentialDriveKinematics(Calibrations.kTrackwidthMeters);
+
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    var autoVoltageConstraint =
+        new DifferentialDriveVoltageConstraint(
+            new SimpleMotorFeedforward(Calibrations.ksVolts,
+										Calibrations.kvVoltSecondsPerMeter,
+										Calibrations.kaVoltSecondsSquaredPerMeter),
+										driveKinematics,
+            10);
+
+    // Create config for trajectory
+    TrajectoryConfig config =
+        new TrajectoryConfig(Calibrations.kMaxSpeedMetersPerSecond,
+                             Calibrations.kMaxAccelerationMetersPerSecondSquared)
+            // Add kinematics to ensure max speed is actually obeyed
+            .setKinematics(driveKinematics)
+            // Apply the voltage constraint
+            .addConstraint(autoVoltageConstraint)
+            .setReversed(false);
+
+    var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
+    trajectory = trajectory.transformBy(transform);
+
+    m_robotDrive.PoseLogEnabled = true;
+    RamseteCommand ramseteCommand = new RamseteCommand(
+        trajectory,
+		_odometry::getPoseMeters,
+        new RamseteController(2, 0.7),
+        new SimpleMotorFeedforward(Calibrations.ksVolts,
+									Calibrations.kvVoltSecondsPerMeter,
+									Calibrations.kaVoltSecondsSquaredPerMeter),
+        driveKinematics,
+        m_robotDrive::getWheelSpeeds,
+        new PIDController(Calibrations.kPDriveVel, Calibrations.kIDriveVel, Calibrations.kDDriveVel),
+        new PIDController(Calibrations.kPDriveVel, Calibrations.kIDriveVel, Calibrations.kDDriveVel),
+        // RamseteCommand passes volts to the callback
+        m_robotDrive::tankDriveVolts,
+        Robot.DRIVE_TRAIN_SUBSYSTEM
+    );
+
+    // Run path following command, then stop at the end.
+    return ramseteCommand.andThen(() -> { 
+      m_robotDrive.PoseLogEnabled = false;
+      m_robotDrive.tankDriveVolts(0, 0);
+    });
+  }
+  }
 }
