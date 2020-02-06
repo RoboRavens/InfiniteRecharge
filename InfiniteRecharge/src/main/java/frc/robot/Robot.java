@@ -10,12 +10,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
+import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -34,24 +37,26 @@ public class Robot extends TimedRobot {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public DriverStation driverStation;
-	public PowerDistributionPanel PDP = new PowerDistributionPanel();
+  public PowerDistributionPanel PDP = new PowerDistributionPanel();
 
-	public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
+  public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
 
-	public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
-	public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
+  public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
+  public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
 
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
   public static final TowerSubsystem TOWER_SUBSYSTEM = new TowerSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
   public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
-	public static final LimelightSubsystem LIMELIGHT_SUBSYSTEM = new LimelightSubsystem();
+  public static final LimelightSubsystem LIMELIGHT_SUBSYSTEM = new LimelightSubsystem();
   public static final ProgrammableLEDSubsystem PROGRAMMABLE_LED_SUBSYSTEM = new ProgrammableLEDSubsystem();
   public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
 
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
+
+  public ShooterTuneCommand ShooterTune = new ShooterTuneCommand();
 
 	public static boolean isRedAlliance;
 
@@ -108,6 +113,7 @@ public class Robot extends TimedRobot {
 
   public void setupDriveController() {
     System.out.println("Drive CONTROLLER CONFIGURED!!! Drive CONTROLLER CONFIGURED!!!");
+    DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld();
 	}
 
 	public void setupOperationPanel() {

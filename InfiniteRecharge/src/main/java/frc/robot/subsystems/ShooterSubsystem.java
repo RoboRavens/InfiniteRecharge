@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
@@ -19,6 +20,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.robot.commands.shooter.ShooterStopCommand;
+import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.util.NetworkTableDiagnostics;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -70,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    CommandScheduler.getInstance().schedule(new ShooterTuneCommand());
   }
 
   //Able to tell when the robot is revving through rumble. At full rumble, the robot is close to the target vel!
