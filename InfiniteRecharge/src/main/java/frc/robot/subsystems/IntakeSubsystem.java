@@ -28,7 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-    setDefaultCommand(new HarvestStopCommand());
+    // setDefaultCommand(new HarvestStopCommand());
   }
 
   public void periodic() {

@@ -91,6 +91,7 @@ public class Calibrations {
 	public static final double climberHoldPositionPowerMagnitude = .13;
 	public static final double climberExtendPowerMagnitude = .66;
 	public static final double climberRetractPowerMagnitude = .4;
+	public static final double climberRetractToLatchPowerMagnitude = .2;
 	
 	public static final int climberEncoderMinimumValue = 0;
     public static final int climberEncoderMaximumValue = 53000;

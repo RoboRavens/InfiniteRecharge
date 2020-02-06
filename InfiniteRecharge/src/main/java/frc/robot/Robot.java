@@ -73,8 +73,14 @@ public class Robot extends TimedRobot {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
     INTAKE_SUBSYSTEM.intakeRetract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    this.setupDefaultCommands();
     this.setupDriveController();
     this.setupOperationPanel();
+  }
+
+  private void setupDefaultCommands() {
+    DRIVE_TRAIN_SUBSYSTEM
+      .setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
   }
 
   @Override
