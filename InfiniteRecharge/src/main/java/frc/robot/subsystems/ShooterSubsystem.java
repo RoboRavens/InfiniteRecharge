@@ -28,10 +28,9 @@ public class ShooterSubsystem extends SubsystemBase {
   private Joystick _joystick;
 
   private double targetVelocity_UnitsPer100ms = 0;
-  double velocity = _joystick.getThrottle();
+  double velocity;
 
   public ShooterSubsystem() {
-    this.initialize();
     _shooterMotor = new TalonSRX(RobotMap.shooterMotor);
     _shooterMotor2 = new TalonSRX(RobotMap.shooterMotor2);
     _shooterMotor2.follow(_shooterMotor);
@@ -40,6 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor2.configFactoryDefault();
 
     _joystick = new Joystick(0);
+    
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkF, TalonSRXConstants.kTimeoutMs);
@@ -56,10 +56,13 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.configPeakOutputReverse(-1, TalonSRXConstants.kTimeoutMs);
 
     _shooterMotor.setSensorPhase(true);
+
+    // Initialize must be at the bottom, with penalty of null pointer errors
+    this.initialize();
   }
 
   public void initialize() {
-    // setDefaultCommand(new ShooterStopCommand());
+    //setDefaultCommand(new ShooterStopCommand());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
     System.out.println("ShooterSubsystem Setup!");
@@ -67,8 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    setVelocityBySlider();
-    outputForVelocity();
+
   }
 
   //Able to tell when the robot is revving through rumble. At full rumble, the robot is close to the target vel!
@@ -118,6 +120,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setVelocityBySlider () {
+    velocity = _joystick.getThrottle();
     setVelocity(velocity);
   }
 
