@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
 
-  
+  public ShooterTuneCommand ShooterTune = new ShooterTuneCommand();
 
 	public static boolean isRedAlliance;
 
