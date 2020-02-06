@@ -12,9 +12,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShooterTuneCommand extends CommandBase {
-  /**
-   * Creates a new ShooterTuneCommand.
-   */
+  
   ShooterSubsystem shooter = new ShooterSubsystem();
   public ShooterTuneCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
