@@ -10,7 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -18,6 +17,9 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
+import frc.robot.commands.drivetrain.DriveTrainStopCommand;
+import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.TowerSubsystem;
@@ -55,8 +57,6 @@ public class Robot extends TimedRobot {
 
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
-
-  public ShooterTuneCommand ShooterTune = new ShooterTuneCommand();
 
 	public static boolean isRedAlliance;
 
@@ -112,10 +112,8 @@ public class Robot extends TimedRobot {
   }
 
   public void setupDriveController() {
-    System.out.println("Drive CONTROLLER CONFIGURED!!! Drive CONTROLLER CONFIGURED!!!");
-    DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld();
-	}
-
+    DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(new ShooterTuneCommand());
+  }
 	public void setupOperationPanel() {
 		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
 	}
