@@ -31,8 +31,8 @@ public class ConveyanceSubsystem extends SubsystemBase {
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
 
-    _pistonBlock = new Solenoid(RobotMap.pistonBlockSolenoid);
-    _pistonUnblock = new Solenoid(RobotMap.pistonUnblockSolenoid);
+    _pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
+    _pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
   }
 
   public void initialize() {
