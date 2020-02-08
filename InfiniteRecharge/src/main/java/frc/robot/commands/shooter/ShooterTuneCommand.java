@@ -5,34 +5,35 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class HarvestCommand extends CommandBase {
-
-  public HarvestCommand() {
-    addRequirements(Robot.INTAKE_SUBSYSTEM);
+public class ShooterTuneCommand extends CommandBase {
+  
+  ShooterSubsystem shooter = new ShooterSubsystem();
+  public ShooterTuneCommand() {
+    addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HarvestCommand init");
+    System.out.println("ShooterTuneCommand Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.harvest(Calibrations.harvesterPowerMagnitude);
+    shooter.setVelocityBySlider();
+    System.out.println("The current RPM is: " + shooter.getRPM());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.INTAKE_SUBSYSTEM.stopMotor();
   }
 
   // Returns true when the command should end.

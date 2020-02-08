@@ -5,28 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.ShooterSubsystem;
 
-public class IntakeRetractCommand extends CommandBase {
-
-  public IntakeRetractCommand() {
-    addRequirements(Robot.INTAKE_SUBSYSTEM);
+public class ShooterRevCommand extends CommandBase {
+  /**
+   * Creates a new ShooterRevCommand.
+   */
+  ShooterSubsystem shooter = new ShooterSubsystem();
+  public ShooterRevCommand() {
+    addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("IntakeRetractCommand init");
+    System.out.println("ShooterRevCommand Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.intakeRetract();
-    Robot.INTAKE_SUBSYSTEM.stop();
+    shooter.setRPM(1000);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +40,6 @@ public class IntakeRetractCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

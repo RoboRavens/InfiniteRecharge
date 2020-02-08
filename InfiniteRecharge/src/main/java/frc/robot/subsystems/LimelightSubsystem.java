@@ -107,14 +107,14 @@ public class LimelightSubsystem extends SubsystemBase {
 		if (_inchesToTarget > (_distanceDesiredFromTarget + 18)) {
 			_distanceToDrive = _inchesToTarget - _distanceDesiredFromTarget;
 			_powerMagnitude = 0.6;
-			_direction = Calibrations.drivingForward;
+			_direction = Calibrations.DRIVING_FORWARD;
 			CommandScheduler.getInstance().schedule(driveTrainDriveInchesCommand);
 			System.out.println("MOVE FORWARD " + _distanceToDrive + " INCHES");
 
 		} else if (_inchesToTarget < (_distanceDesiredFromTarget - 18)) {
 			_distanceToDrive = _distanceDesiredFromTarget - _inchesToTarget;
 			_powerMagnitude = 0.6;
-			_direction = Calibrations.drivingForward;
+			_direction = Calibrations.DRIVING_FORWARD;
 			CommandScheduler.getInstance().schedule(driveTrainDriveInchesCommand);
 			System.out.println("BACKING UP " + _distanceToDrive + " INCHES");
 

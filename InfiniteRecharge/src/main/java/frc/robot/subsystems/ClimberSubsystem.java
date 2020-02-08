@@ -23,8 +23,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public ClimberSubsystem() {
 		this.initialize();
-		_climberMotor = new TalonSRX(RobotMap.climberMotor);
-		_climberMotor2 = new TalonSRX(RobotMap.climberMotor2);
+		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
+		_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
 	}
 
 	public void initialize() {
@@ -77,10 +77,10 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public void checkExpectedSpeedVersusPower() {
 		// Check if climber is being sent power and not moving at the right speed
-		if (Math.abs(_expectedPower) > Calibrations.climberHoldPositionPowerMagnitude) {
+		if (Math.abs(_expectedPower) > Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE) {
 			// The line below only returns as true if the climber is pushing harder than it needs to not move it
 			if (Math.abs(
-					_climberMotor.getSelectedSensorVelocity()) < Calibrations.climberConsideredMovingEncoderRate) {
+					_climberMotor.getSelectedSensorVelocity()) < Calibrations.CLIMBER_CONSIDERED_MOVING_ENCODER_RATE) {
 				//burnoutProtection();
 			}
 		}
@@ -97,13 +97,13 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void resetEncodersToRetractedLimit() {
-		_climberMotor.setSelectedSensorPosition(Calibrations.climberEncoderMinimumValue, 0, 0);
-		_climberMotor2.setSelectedSensorPosition(Calibrations.climberEncoderMinimumValue, 0, 0);
+		_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
+		_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
 	}
 
 	public void resetEncodersToExtendedLimit() {
-		_climberMotor.setSelectedSensorPosition(Calibrations.climberEncoderMaximumValue, 0, 0);
-		_climberMotor2.setSelectedSensorPosition(Calibrations.climberEncoderMaximumValue, 0, 0);
+		_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
+		_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
 
 	}
 
@@ -117,7 +117,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	public boolean isEncoderAtExtensionLimit() {
     	boolean encoderLimit = false;
     	
-    	if (this.getEncoderPosition() >= Calibrations.climberEncoderMaximumValue - Calibrations.climberLiftUpwardSafetyMargin) {
+    	if (this.getEncoderPosition() >= Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE - Calibrations.CLIMBER_LIFT_UPWARD_SAFETY_MARGIN) {
     		encoderLimit = true;
     	}
     	
@@ -127,7 +127,7 @@ public class ClimberSubsystem extends SubsystemBase {
     public boolean isEncoderAtRetractionLimit() {
     	boolean encoderLimit = false;
     	
-    	if (this.getEncoderPosition() <= Calibrations.climberEncoderMinimumValue + Calibrations.climberLiftDownwardSafetyMargin) {
+    	if (this.getEncoderPosition() <= Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE + Calibrations.CLIMBER_LIFT_DOWNWARD_SAFETY_MARGIN) {
     		encoderLimit = true;
     	}
     	
@@ -163,13 +163,13 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
 	public void holdPosition() {
-		_climberMotor.set(ControlMode.PercentOutput, Calibrations.climberHoldPositionPowerMagnitude);
-		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.climberHoldPositionPowerMagnitude);
+		_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 	}
 
 	public double getClimberHeightPercentage() {
-		double encoderMax = (double) Calibrations.climberEncoderMaximumValue;
-		double encoderMin = (double) Calibrations.climberEncoderMinimumValue;
+		double encoderMax = (double) Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE;
+		double encoderMin = (double) Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE;
 		double encoderCurrent = getEncoderPosition();
 
 		double heightPercentage = (encoderCurrent - encoderMin) / (encoderMax - encoderMin);
@@ -181,16 +181,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public static double inchesToTicks(double inches) {
 		double encoderTicks = inches;
-		encoderTicks -= Calibrations.climberInchesToEncoderTicksOffsetValue;
-		encoderTicks *= Calibrations.climberInchesToEncoderTicksConversionValue;
+		encoderTicks -= Calibrations.CLIMBER_INCHES_TO_ENCODER_TICKS_OFFSET_VALUE;
+		encoderTicks *= Calibrations.CLIMBER_INCHES_TO_ENCODER_TICKS_CONVERSION_VALUE;
 
 		return encoderTicks;
 	}
 
 	public static double ticksToInches(double encoderTicks) {
 		double inches = encoderTicks;
-		inches /= Calibrations.climberInchesToEncoderTicksConversionValue;
-		inches += Calibrations.climberInchesToEncoderTicksOffsetValue;
+		inches /= Calibrations.CLIMBER_INCHES_TO_ENCODER_TICKS_CONVERSION_VALUE;
+		inches += Calibrations.CLIMBER_INCHES_TO_ENCODER_TICKS_OFFSET_VALUE;
 
 		return inches;
 	}

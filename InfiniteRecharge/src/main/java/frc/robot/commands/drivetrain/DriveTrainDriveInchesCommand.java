@@ -14,7 +14,7 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 	private double _netInchesTraveledSoFar = 0;
 	private int _direction;
 	private Timer _timeoutTimer;
-	private double _timeoutSeconds = Calibrations.DriveTrainDriveInchesSafetyTimerSeconds;
+	private double _timeoutSeconds = Calibrations.DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS;
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
@@ -46,7 +46,7 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 	public void execute() {
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.fpsTankManual(_powerMagnitude, 0);
 
-		if (_direction == Calibrations.drivingBackward) {
+		if (_direction == Calibrations.DRIVING_BACKWARD) {
 			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - (double) 0;
 		} else {
 			_netInchesTraveledSoFar = (double) 0 - _driveTrainNetInchesTraveledAtStart;
