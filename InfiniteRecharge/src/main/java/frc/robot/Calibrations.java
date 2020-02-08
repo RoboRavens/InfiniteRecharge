@@ -115,7 +115,8 @@ public class Calibrations {
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	// INTAKE
-	public static final double INTAKE_POWER_MAGNITUDE = 1;
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = 1;
+	public static final double INTAKE_SPIT_POWER_MAGNITUDE = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
 	//HOPPER

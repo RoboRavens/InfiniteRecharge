@@ -15,7 +15,6 @@ import frc.ravenhardware.BufferedDigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
 import frc.robot.RobotMap;
-import frc.robot.commands.conveyance.ConveyanceStopCommand;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 

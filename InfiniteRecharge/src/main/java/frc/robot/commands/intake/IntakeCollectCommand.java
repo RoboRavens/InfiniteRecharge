@@ -8,7 +8,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
 public class IntakeCollectCommand extends CommandBase {
@@ -26,7 +25,7 @@ public class IntakeCollectCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.collect(Calibrations.INTAKE_POWER_MAGNITUDE);
+    Robot.INTAKE_SUBSYSTEM.collect();
   }
 
   // Called once the command ends or is interrupted.

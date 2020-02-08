@@ -17,12 +17,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
-import frc.robot.commands.drivetrain.DriveTrainStopCommand;
 import frc.robot.commands.shooter.ControlPanelShotCommand;
 import frc.robot.commands.shooter.InitiationLineShotCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
-import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -81,7 +79,7 @@ public class Robot extends TimedRobot {
 
     CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
-    INTAKE_SUBSYSTEM.intakeRetract();
+    INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
     this.setupShooterController();

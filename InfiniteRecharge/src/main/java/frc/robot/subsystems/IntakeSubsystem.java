@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
+import frc.robot.Calibrations;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -33,22 +34,34 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
 
   }
+  public void collect() {
+    this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE);
+  }
 
-  public void collect(double magnitude) {
+  public void spit() {
+    this.runAtPower(Calibrations.INTAKE_SPIT_POWER_MAGNITUDE);
+  }
+
+  public void runAtPower(double magnitude) {
     this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public void stop() {
-    this._intakeMotor.set(ControlMode.PercentOutput, 0);
+    this.runAtPower(0);
   }
 
-  public void intakeExtend() {
+  public void extend() {
     this._intakeRetract.set(false);
     this._intakeExtend.set(true);
   }
 
-  public void intakeRetract() {
+  public void retract() {
     this._intakeRetract.set(true);
     this._intakeExtend.set(false);
+  }
+
+  public void stopAndRetract() {
+    this.stop();
+    this.retract();
   }
 }
