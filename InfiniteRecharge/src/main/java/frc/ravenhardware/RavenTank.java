@@ -7,6 +7,18 @@ import frc.robot.RobotMap;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
 public class RavenTank {
 
@@ -40,8 +52,10 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate);
-	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate);
+	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
+	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
+
+	private DifferentialDriveOdometry _odometry;
 
 	public RavenTank() {
 		initializeRavenTank();
@@ -51,6 +65,8 @@ public class RavenTank {
 		_slewRate = Calibrations.SLEW_RATE_MAXIMUM;
 
 		_gyroCooldownTimer = new Timer();
+
+		_odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(this.getHeading()));
 
 		setDriveMode(Calibrations.DEFAULT_DRIVE_MODE);
 		setCutPower(false);
@@ -521,5 +537,83 @@ public class RavenTank {
 
 	public double getGyroAngle() {
 		return orientationGyro.getAngle();
+	}
+
+		/**
+	 * Returns the heading of the robot.
+	 *
+	 * @return the robot's heading in degrees, from 180 to 180
+	 */
+	private double getHeading() {
+		return Math.IEEEremainder(orientationGyro.getAngle(), 360) * -1;
+	}
+
+	public void updateOdometry() {
+		_odometry.update(Rotation2d.fromDegrees(this.getHeading()), driveLeft.getDistanceMeters(), driveRight.getDistanceMeters());
+	}
+
+	private void tankDriveVolts(double left, double right) {
+		driveLeft.setVoltage(left);
+		driveRight.setVoltage(right);
+	}
+
+	/**
+	 * Returns the current wheel speeds of the robot.
+	 *
+	 * @return The current wheel speeds.
+	 */
+	public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+		return new DifferentialDriveWheelSpeeds(driveLeft.getRateMeters(), driveRight.getRateMeters());
+	}
+
+  	public Command getCommandForTrajectory(Trajectory trajectory) {
+	
+		this.resetDriveEncoders();
+		this.resetOrientationGyro();;
+		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
+
+		var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
+		trajectory = trajectory.transformBy(transform);
+
+		RamseteCommand ramseteCommand = new RamseteCommand(
+			trajectory,
+			_odometry::getPoseMeters,
+			new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
+			new SimpleMotorFeedforward(Calibrations.KS_VOLTS,
+										Calibrations.KV_VOLT_SECONDS_PER_METER,
+										Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
+			Calibrations.DRIVE_KINEMATICS,
+			this::getWheelSpeeds,
+			new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY, Calibrations.KD_DRIVE_VELOCITY),
+			new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY, Calibrations.KD_DRIVE_VELOCITY),
+			// RamseteCommand passes volts to the callback
+			this::tankDriveVolts,
+			Robot.DRIVE_TRAIN_SUBSYSTEM
+		);
+
+		// Run path following command, then stop at the end.
+		return ramseteCommand.andThen(() -> { 
+			this.tankDriveVolts(0, 0);
+		});
+	  }
+	  
+	public TrajectoryConfig GetTrajectoryConfig() {
+		  		// Create a voltage constraint to ensure we don't accelerate too fast
+		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+			new SimpleMotorFeedforward(
+				Calibrations.KS_VOLTS,
+				Calibrations.KV_VOLT_SECONDS_PER_METER,
+				Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
+				Calibrations.DRIVE_KINEMATICS,
+			10);
+
+		// Create config for trajectory
+		return new TrajectoryConfig(Calibrations.MAX_SPEED_METERS_PER_SECOND,
+								Calibrations.MAX_ACCELERATION_METERS_PER_SECOND)
+			// Add kinematics to ensure max speed is actually obeyed
+			.setKinematics(Calibrations.DRIVE_KINEMATICS)
+			// Apply the voltage constraint
+			.addConstraint(autoVoltageConstraint)
+			.setReversed(false);
 	}
 }

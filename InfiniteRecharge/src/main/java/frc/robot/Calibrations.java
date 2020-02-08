@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 public class Calibrations {
 
     // DRIVE TRAIN
@@ -64,6 +66,7 @@ public class Calibrations {
 	// DRIVE ENCODERS
 	public static final double ENCODER_CUI103_CYCLES_PER_REVOLUTION = 4096;
 	public static final double TALON_SRX_MOTOR_TICKS_PER_REVOLUTION = 8186;
+	public static final double TALON_FX_TICKS_PER_REVOLUTION = 2048;
 	public static final double WHEEL_DIAMETER_INCHES = 4;
 	public static final double WHEEL_CIRCUMFERENCE_INCHES = Calibrations.WHEEL_DIAMETER_INCHES * Math.PI;
 	public static final double WHEEL_DIAMETER_FEET = 1/3;
@@ -86,6 +89,29 @@ public class Calibrations {
 	// Adjust max power based on elevator height
 	public static final double DRIVETRAIN_MAXPOWER_AT_MAX_ELEVEATOR_HEIGHT = .4;
 
+	// Robot characterization generated values
+	public static final double KS_VOLTS = 0.12;
+    public static final double KV_VOLT_SECONDS_PER_METER = 2.27;
+	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.09;
+	public static final double KP_DRIVE_VELOCITY = 0.00005;
+    public static final double KI_DRIVE_VELOCITY = 0;
+	public static final double KD_DRIVE_VELOCITY = 0.000178;
+
+	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
+	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(Calibrations.TRACK_WIDTH_METERS);
+	public static final int ENCODER_CPR = 2048;
+    public static final double WHEEL_DIAMETER_METERS = 0.15621;
+	public static final double POST_ENCODER_GEARING = 9.77;
+    public static final double ENCODER_DISTANCE_PER_PULSE =
+        // Assumes the encoders are directly mounted on the wheel shafts
+        ((WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_CPR) / POST_ENCODER_GEARING;
+
+	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5;
+	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3;
+	
+	// Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+	public static final double RAMSETE_B = 2;
+	public static final double RAMSETE_ZETA = 0.7;
 
 	// CLIMBER 
 	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = .13;
@@ -116,7 +142,7 @@ public class Calibrations {
 
 	// INTAKE
 	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = 1;
-	public static final double INTAKE_SPIT_POWER_MAGNITUDE = 1;
+	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
 	//HOPPER
