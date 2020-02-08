@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
@@ -59,7 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.setSensorPhase(true);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
-    this.initialize();
+    //this.initialize();
   }
 
   public void initialize() {
@@ -71,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    CommandScheduler.getInstance().schedule(new ShooterTuneCommand());
+    
   }
 
   //Able to tell when the robot is revving through rumble. At full rumble, the robot is close to the target vel!
@@ -127,6 +128,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
+    SmartDashboard.putNumber("Target Velocity", velocity);
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
@@ -144,5 +146,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public int getRPM() {
     return (int) Math.round(this.getVelocity() / Calibrations.VEL_TO_RPM);
+  }
+
+  public void defaultCommand() {
+    this.setVelocity(0);
   }
 } 

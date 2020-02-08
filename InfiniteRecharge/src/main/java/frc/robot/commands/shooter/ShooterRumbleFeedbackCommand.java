@@ -13,14 +13,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class InitiationLineShotCommand extends CommandBase {
+public class ShooterRumbleFeedbackCommand extends CommandBase {
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
   public ShooterSubsystem shooter = new ShooterSubsystem();
-  public InitiationLineShotCommand(ShooterSubsystem subsystem) {
+  public ShooterRumbleFeedbackCommand(ShooterSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
     
@@ -29,13 +29,13 @@ public class InitiationLineShotCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("InitiationLineShot Command Initialized!!");
+    System.out.println("ShooterRumbleFeedbackCommand Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("INITIATION LINE SHOT COMMAND HAS BEEN CALLED");
+    System.out.println("SHOOTER REV COMMAND HAS BEEN CALLED");
     shooter.setRPM(1000.0);
   }
 

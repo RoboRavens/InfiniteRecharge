@@ -8,16 +8,23 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/**
+ * An example command that uses an example subsystem.
+ */
 public class ShooterTuneCommand extends CommandBase {
-  
-  ShooterSubsystem shooter = new ShooterSubsystem();
-  public ShooterTuneCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
-  }
-
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public ShooterSubsystem shooter = new ShooterSubsystem();
+  public ShooterTuneCommand(ShooterSubsystem subsystem) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
+    
+    }
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -27,18 +34,12 @@ public class ShooterTuneCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("SHOOTER TUNE COMMAND HAS BEEN CALLED");
     shooter.setVelocityBySlider();
     System.out.println("The current RPM is: " + shooter.getRPM());
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    public boolean isFinished() {
+      return true;
+    }
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-}
