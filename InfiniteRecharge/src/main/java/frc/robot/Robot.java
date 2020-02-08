@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
 
     CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
-    INTAKE_SUBSYSTEM.intakeRetract();
+    INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
     this.setupShooterController();
