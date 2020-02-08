@@ -47,19 +47,19 @@ public class ConveyanceSubsystem extends SubsystemBase {
     this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
   }
 
-  public void setMaxConveyance() {
+  public void setMaxForward() {
     this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED);
   }
 
-  public void stopConveyance() {
+  public void stop() {
     this.setConveyanceMotor(Calibrations.CONVEYANCE_STOP);
   }
 
-  public void setNormalSpeedConveyance() {
+  public void setNormalSpeedForward() {
     this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_SPEED);
   }
 
-  public void setNormalSpeedReverseConveyance() {
+  public void setNormalSpeedReverse() {
     this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
   }
 

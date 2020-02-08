@@ -133,6 +133,7 @@ public class Calibrations {
 	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
 	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
 	public static final double CONVEYANCE_STOP = 0;
+	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
 
 	// SHOOTER 
 	public static final double SHOOTER_KF = 0.0;
