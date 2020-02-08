@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import frc.robot.RobotMap;
-import frc.robot.commands.tower.TowerStopCommand;
 
 public class TowerSubsystem extends SubsystemBase {
 

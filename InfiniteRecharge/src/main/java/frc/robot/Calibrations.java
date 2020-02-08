@@ -118,12 +118,29 @@ public class Calibrations {
 	public static final double INTAKE_POWER_MAGNITUDE = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
+	//HOPPER
+	public static final double HOPPER_LEFT_FORWARD = 0.5;
+	public static final double HOPPER_RIGHT_FORWARD = 0.5;
+	public static final double HOPPER_LEFT_REVERSE = -0.5;
+	public static final double HOPPER_RIGHT_REVERSE = -0.5;
+	public static final double HOPPER_FEED_FULL_SPEED_LEFT = 1.0;
+	public static final double HOPPER_FEED_FULL_SPEED_RIGHT = -1.0;
+	public static final double HOPPER_STOP = 0;
+
+	//CONVEYANCE
+	public static final double CONVEYANCE_FULL_SPEED = 1.0;
+	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
+	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
+	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
+	public static final double CONVEYANCE_STOP = 0;
+
 	// SHOOTER 
 	public static final double SHOOTER_KF = 0.0;
     public static final double SHOOTER_KP = 0.7;
     public static final double SHOOTER_KI = 0.0005;
 	public static final double SHOOTER_KD = 0.0075;
 	public static final double TARGET_RANGE = 100;
+	
 	/*
 	sets soft and hard limits for Falcon Motor RPM
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate

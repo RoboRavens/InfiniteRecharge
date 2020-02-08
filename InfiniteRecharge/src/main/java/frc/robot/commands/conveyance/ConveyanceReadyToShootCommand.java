@@ -5,27 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hopper;
+package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperStopCommand extends CommandBase {
-
-  public HopperStopCommand() {
-    addRequirements(Robot.HOPPER_SUBSYSTEM);
+public class ConveyanceReadyToShootCommand extends CommandBase {
+  private boolean isFinished = false;
+  private int i;
+  public ConveyanceReadyToShootCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperStopCommand initialized");
+    System.out.println("ConveyanceReadyToShootCommand initialized");
+    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
+      System.out.println("TRIGGERD BY BALL");
+      Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
+    } else {
+      System.out.println("NOT TRIGGERED BY BALL YET");
+      Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+      Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedConveyance();
+    }
+    for(i = 1; i <= 5; i++) {
+      System.out.println(i);
+    }
+
+    if (i == 5) {
+      isFinished = true;
+    } else {
+      isFinished = false;
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +54,6 @@ public class HopperStopCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return isFinished;
   }
 }
