@@ -14,8 +14,8 @@ public class RobotMap {
 
 	public static final int CONVEYANCE_MOTOR = 31;
 
-	public static final int shooterMotor = 4;
-	public static final int shooterMotor2 = 10;
+	public static final int SHOOTER_MOTOR_1 = 4;
+	public static final int SHOOTER_MOTOR_2 = 10;
 
 	public static final int CLIMBER_MOTOR_1 = 51;
 	public static final int CLIMBER_MOTOR_2 = 52;
