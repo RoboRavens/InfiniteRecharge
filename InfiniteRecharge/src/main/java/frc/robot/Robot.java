@@ -18,6 +18,8 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.robot.commands.drivetrain.DriveTrainStopCommand;
+import frc.robot.commands.shooter.ControlPanelShotCommand;
+import frc.robot.commands.shooter.InitiationLineShotCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
@@ -61,7 +63,12 @@ public class Robot extends TimedRobot {
 	public static boolean isRedAlliance;
 
 	public String autoFromDashboard;
-	public String positionFromDashboard;
+  public String positionFromDashboard;
+  
+  public ShooterRevCommand shooterREV = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM);
+  public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand(Robot.SHOOTER_SUBSYSTEM);
+  public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand(Robot.SHOOTER_SUBSYSTEM);
+  public ShooterTuneCommand shooterTUNE = new ShooterTuneCommand(Robot.SHOOTER_SUBSYSTEM);
 
   @Override
   public void robotInit() {
@@ -112,7 +119,12 @@ public class Robot extends TimedRobot {
   }
 
   public void setupDriveController() {
-    DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(new ShooterTuneCommand());
+    System.out.println("DRIVE CONTROLLER CONFIGURED");
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterREV);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTUNE);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(shooterLineShot);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whileHeld(shooterCtrlPanelShot);
+
   }
 	public void setupOperationPanel() {
 		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");

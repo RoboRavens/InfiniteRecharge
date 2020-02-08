@@ -8,37 +8,38 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.ShooterSubsystem;
 
+/**
+ * An example command that uses an example subsystem.
+ */
 public class InitiationLineShotCommand extends CommandBase {
   /**
-   * Creates a new InitiationLineShotCommand.
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
    */
-  ShooterSubsystem shooter = new ShooterSubsystem();
-  public InitiationLineShotCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
-  }
-
+  public ShooterSubsystem shooter = new ShooterSubsystem();
+  public InitiationLineShotCommand(ShooterSubsystem subsystem) {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(subsystem);
+    
+    }
+  // Called when the command is initially scheduled.
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("InitiationLineShot Command Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setRPM(1000); //THIS IS A PLACEHOLDER and needs to be updated by tuning the shooter to shoot the correct distance
+    System.out.println("INITIATION LINE SHOT COMMAND HAS BEEN CALLED");
+    shooter.setRPM(1000);
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
+    public boolean isFinished() {
+      return true;
+    }
   }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
-}

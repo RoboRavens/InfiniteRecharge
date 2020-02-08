@@ -13,8 +13,8 @@ public class RobotMap {
 
 	public static final int conveyanceMotor = 31;
 
-	public static final int shooterMotor = 41;
-	public static final int shooterMotor2 = 42;
+	public static final int shooterMotor = 4;
+	public static final int shooterMotor2 = 10;
 
 	public static final int climberMotor = 51;
 	public static final int climberMotor2 = 52;

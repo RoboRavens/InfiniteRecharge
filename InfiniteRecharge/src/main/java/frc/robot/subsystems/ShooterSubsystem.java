@@ -60,7 +60,7 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.setSensorPhase(true);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
-    this.initialize();
+    //this.initialize();
   }
 
   public void initialize() {
@@ -72,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    CommandScheduler.getInstance().schedule(new ShooterTuneCommand());
+    
   }
 
   //Able to tell when the robot is revving through rumble. At full rumble, the robot is close to the target vel!
