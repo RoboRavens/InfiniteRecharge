@@ -43,7 +43,7 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
         isFinished = false;
       }
     
-    if (m_timer.get() == 10) {
+    if (m_timer.get() >= 10) {
       isFinished = true;
       }
 
