@@ -26,7 +26,7 @@ public class RavenTalon {
 	public RavenTalon(int channel, int channel2, String name, double slewRate) {
 		if (Calibrations.USE_TALON_SRX_FOR_DRIVE_CONTROLLER) {
 			_talonFX = new TalonFX(channel);
-			_talonFX2 = new TalonFX(channel);
+			_talonFX2 = new TalonFX(channel2);
 			_talonFX.setSensorPhase(false);
 			_talonFX2.setSensorPhase(false);
 		} else {
@@ -101,7 +101,7 @@ public class RavenTalon {
 
 	public int getEncoderPosition() {
 		try {
-			return _talonFX.getSelectedSensorPosition();
+			return (int) _talonFX.getSensorCollection().getIntegratedSensorPosition();
 		} catch (NullPointerException exception) {
 			return 0;
 		}
@@ -109,8 +109,8 @@ public class RavenTalon {
 
 	public void resetEncoderPosition() {
 		try {
-			_talonFX.setSelectedSensorPosition(0);
-			_talonFX2.setSelectedSensorPosition(0);
+			_talonFX.getSensorCollection().setIntegratedSensorPosition(0, 10);
+			_talonFX2.getSensorCollection().setIntegratedSensorPosition(0, 10);
 		} catch (NullPointerException exception) {}
 	}
 }

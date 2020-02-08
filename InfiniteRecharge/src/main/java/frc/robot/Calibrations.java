@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 public class Calibrations {
 
     // DRIVE TRAIN
@@ -86,6 +88,16 @@ public class Calibrations {
 	// Adjust max power based on elevator height
 	public static final double DRIVETRAIN_MAXPOWER_AT_MAX_ELEVEATOR_HEIGHT = .4;
 
+	// Robot characterization generated values
+	public static final double ksVolts = 0.12;
+    public static final double kvVoltSecondsPerMeter = 2.27;
+	public static final double kaVoltSecondsSquaredPerMeter = 0.09;
+	public static final double kTrackwidthMeters = 0.5761920811967401;
+	public static final double kMaxSpeedMetersPerSecond = 1.5;
+	public static final double kMaxAccelerationMetersPerSecondSquared = 3;
+	public static final double kPDriveVel = 0.00005;
+    public static final double kIDriveVel = 0;
+    public static final double kDDriveVel = 0.000178;
 
 	// CLIMBER 
 	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = .13;
