@@ -46,7 +46,7 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 	public void execute() {
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.fpsTankManual(_powerMagnitude, 0);
 
-		if (_direction == Calibrations.drivingBackward) {
+		if (_direction == Calibrations.DRIVING_BACKWARD) {
 			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - (double) 0;
 		} else {
 			_netInchesTraveledSoFar = (double) 0 - _driveTrainNetInchesTraveledAtStart;
