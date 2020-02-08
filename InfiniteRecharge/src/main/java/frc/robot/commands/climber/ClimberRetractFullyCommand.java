@@ -18,7 +18,7 @@ public class ClimberRetractFullyCommand extends CommandBase {
 	// Called repeatedly when this Command is scheduled to run
 	public void execute() {
 		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit() == false) {
-			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.climberRetractPowerMagnitude);
+			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
 		} else {
 			Robot.CLIMBER_SUBSYSTEM.stop();
 		}

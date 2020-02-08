@@ -5,7 +5,6 @@ import frc.controls.AxisCode;
 import frc.ravenhardware.RavenTank;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
-import frc.robot.commands.drivetrain.DriveTrainDriveFPSCommand;
 import frc.util.NetworkTableDiagnostics;
 
 public class DriveTrainSubsystem extends SubsystemBase {
@@ -39,9 +38,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	public void periodic() {
 		ravenTank.setMaxPower(1);
 
-		double slewRate = Calibrations.slewRateMaximum;
-		slewRate = Math.max(Calibrations.slewRateMinimum, slewRate);
-		_slewRateFinal = Math.min(Calibrations.slewRateMaximum, slewRate);
+		double slewRate = Calibrations.SLEW_RATE_MAXIMUM;
+		slewRate = Math.max(Calibrations.SLEW_RATE_MINIMUM, slewRate);
+		_slewRateFinal = Math.min(Calibrations.SLEW_RATE_MAXIMUM, slewRate);
 		ravenTank.setSlewRate(_slewRateFinal);
 	}
 }

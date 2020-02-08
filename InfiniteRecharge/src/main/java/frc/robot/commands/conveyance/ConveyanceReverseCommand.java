@@ -5,27 +5,29 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hopper;
+package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperStopCommand extends CommandBase {
-
-  public HopperStopCommand() {
-    addRequirements(Robot.HOPPER_SUBSYSTEM);
+public class ConveyanceReverseCommand extends CommandBase {
+  /**
+   * Creates a new ConveyanceReverseCommand.
+   */
+  public ConveyanceReverseCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperStopCommand initialized");
+    System.out.println("ConveyanceReverseCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+    Robot.CONVEYANCE_SUBSYSTEM.setReverseConveyance();
   }
 
   // Called once the command ends or is interrupted.

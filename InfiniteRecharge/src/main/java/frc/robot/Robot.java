@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.robot.commands.drivetrain.DriveTrainStopCommand;
@@ -25,7 +24,7 @@ import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
 import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.TowerSubsystem;
+import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -50,7 +49,7 @@ public class Robot extends TimedRobot {
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
 
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-  public static final TowerSubsystem TOWER_SUBSYSTEM = new TowerSubsystem();
+  public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
   public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
@@ -131,6 +130,7 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(shooterLineShot);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
   }
+
 	public void setupOperationPanel() {
 		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
   }

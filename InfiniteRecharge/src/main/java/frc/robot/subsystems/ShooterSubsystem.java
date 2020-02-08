@@ -20,7 +20,6 @@ import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
-import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.util.NetworkTableDiagnostics;
 
@@ -34,8 +33,8 @@ public class ShooterSubsystem extends SubsystemBase {
   double velocity;
 
   public ShooterSubsystem() {
-    _shooterMotor = new TalonSRX(RobotMap.shooterMotor);
-    _shooterMotor2 = new TalonSRX(RobotMap.shooterMotor2);
+    _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
+    _shooterMotor2 = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
     _shooterMotor2.follow(_shooterMotor);
 
     _shooterMotor.configFactoryDefault();
@@ -45,10 +44,10 @@ public class ShooterSubsystem extends SubsystemBase {
     
 
     /* Config the Velocity closed loop gains in slot0 */
-    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkF, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkP, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkI, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.shooterkD, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
 
     _shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonSRXConstants.kPIDLoopIdx,
         TalonSRXConstants.kTimeoutMs);
@@ -81,15 +80,15 @@ public class ShooterSubsystem extends SubsystemBase {
     if (targetVelocity_UnitsPer100ms == 0) {
       Robot.DRIVE_CONTROLLER.setRumbleOff();
 
-    } else if (Math.abs(targetVelocity_UnitsPer100ms - getVelocity()) < Calibrations.targetRange) {
+    } else if (Math.abs(targetVelocity_UnitsPer100ms - getVelocity()) < Calibrations.TARGET_RANGE) {
       Robot.DRIVE_CONTROLLER.setRumbleOn();
       System.out.println("<Shooter> On Target!");
 
-    } else if (getVelocity() - Calibrations.targetRange <= targetVelocity_UnitsPer100ms) {
+    } else if (getVelocity() - Calibrations.TARGET_RANGE <= targetVelocity_UnitsPer100ms) {
       Robot.DRIVE_CONTROLLER.setRumbleCustom(1/(targetVelocity_UnitsPer100ms - getVelocity()), 0);
       System.out.println("<Shooter> Below Target...");
 
-    } else if (getVelocity() + Calibrations.targetRange >= targetVelocity_UnitsPer100ms) {
+    } else if (getVelocity() + Calibrations.TARGET_RANGE >= targetVelocity_UnitsPer100ms) {
       Robot.DRIVE_CONTROLLER.setRumbleCustom(0, 1/(getVelocity() - targetVelocity_UnitsPer100ms));
       System.out.println("<Shooter> Above Target...");
 
@@ -115,7 +114,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   //RPS to FPS
   public double RevolutionsToFeet() {
-    return getRPS() * Calibrations.wheelCircumferenceFeet;
+    return getRPS() * Calibrations.WHEEL_CIRCUMFERENCE_FEET;
   }
 
   public int getRPS() {
@@ -134,7 +133,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setRPM(double rpm) {
-    setVelocity(rpm * Calibrations.RPMToVel);
+    setVelocity(rpm * Calibrations.RPM_TO_VEL);
   }
 
   public void stopShooter() {
@@ -146,7 +145,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public int getRPM() {
-    return (int) Math.round(this.getVelocity() / Calibrations.velToRpm);
+    return (int) Math.round(this.getVelocity() / Calibrations.VEL_TO_RPM);
   }
 
   public void defaultCommand() {

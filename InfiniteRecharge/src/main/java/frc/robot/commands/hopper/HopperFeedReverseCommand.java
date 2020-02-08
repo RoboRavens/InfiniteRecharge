@@ -5,39 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.hopper;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class HarvestCommand extends CommandBase {
-
-  public HarvestCommand() {
-    addRequirements(Robot.INTAKE_SUBSYSTEM);
+public class HopperFeedReverseCommand extends CommandBase {
+  /**
+   * Creates a new HopperReverseCommand.
+   */
+  public HopperFeedReverseCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.HOPPER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HarvestCommand init");
+    System.out.println("HopperFeedReverseCommand initialzed");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.harvest(Calibrations.harvesterPowerMagnitude);
+    Robot.HOPPER_SUBSYSTEM.feedReverse();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.INTAKE_SUBSYSTEM.stopMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

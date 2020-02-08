@@ -18,7 +18,7 @@ public class ClimberRetractToLatchCommand extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit() == false) {
-			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.climberRetractToLatchPowerMagnitude);
+			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE);
 		} else {
 			Robot.CLIMBER_SUBSYSTEM.stop();
 		}
