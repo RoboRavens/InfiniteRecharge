@@ -119,20 +119,20 @@ public class Calibrations {
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
 	//HOPPER
-	public static final double leftForward = 0.5;
-	public static final double rightForward = 0.5;
-	public static final double leftReverse = -0.5;
-	public static final double rightReverse = -0.5;
-	public static final double feedFullSpeedLeft = 1.0;
-	public static final double feedFullSpeedRight = -1.0;
-	public static final double hopperStop = 0;
+	public static final double HOPPER_LEFT_FORWARD = 0.5;
+	public static final double HOPPER_RIGHT_FORWARD = 0.5;
+	public static final double HOPPER_LEFT_REVERSE = -0.5;
+	public static final double HOPPER_RIGHT_REVERSE = -0.5;
+	public static final double HOPPER_FEED_FULL_SPEED_LEFT = 1.0;
+	public static final double HOPPER_FEED_FULL_SPEED_RIGHT = -1.0;
+	public static final double HOPPER_STOP = 0;
 
 	//CONVEYANCE
-	public static final double fullSpeed = 1.0;
-	public static final double fullSpeedReverse = -1.0;
-	public static final double normalSpeed = 0.5;
-	public static final double normalReverseSpeed = -0.5;
-	public static final double conveyanceStop = 0;
+	public static final double CONVEYANCE_FULL_SPEED = 1.0;
+	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
+	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
+	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
+	public static final double CONVEYANCE_STOP = 0;
 
 	// SHOOTER 
 	public static final double SHOOTER_KF = 0.0;

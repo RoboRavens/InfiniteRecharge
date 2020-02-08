@@ -10,12 +10,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.robot.commands.shooter.ShooterTuneCommand;
@@ -113,7 +111,7 @@ public class Robot extends TimedRobot {
 
   public void setupDriveController() {
     System.out.println("Drive CONTROLLER CONFIGURED!!! Drive CONTROLLER CONFIGURED!!!");
-    DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld();
+    //DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld();
 	}
 
 	public void setupOperationPanel() {

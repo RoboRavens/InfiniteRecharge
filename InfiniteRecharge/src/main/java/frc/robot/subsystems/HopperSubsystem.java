@@ -20,8 +20,8 @@ public class HopperSubsystem extends SubsystemBase {
   
   public HopperSubsystem() {
     this.initialize();
-    _hopperLeftMotor = new TalonSRX(RobotMap.hopperLeftMotor);
-    _hopperRightMotor = new TalonSRX(RobotMap.hopperRightMotor);
+    _hopperLeftMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_LEFT);
+    _hopperRightMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_RIGHT);
   }
 
   public void initialize() {
@@ -33,27 +33,27 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void stopHopperMotors() {
-    this.setHopperMotors(Calibrations.hopperStop, Calibrations.hopperStop);
+    this.setHopperMotors(Calibrations.HOPPER_STOP, Calibrations.HOPPER_STOP);
   }
 
   public void feedForward() {
-    this.setHopperMotors(Calibrations.leftReverse, Calibrations.rightForward);
+    this.setHopperMotors(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_FORWARD);
   }
 
   public void feedReverse() {
-    this.setHopperMotors(Calibrations.leftForward, Calibrations.rightReverse);
+    this.setHopperMotors(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_REVERSE);
   }
 
   public void feedFullSpeed() {
-    this.setHopperMotors(Calibrations.feedFullSpeedLeft, Calibrations.feedFullSpeedRight);
+    this.setHopperMotors(Calibrations.HOPPER_FEED_FULL_SPEED_LEFT, Calibrations.HOPPER_FEED_FULL_SPEED_RIGHT);
   }
 
   public void fullReverse() {
-    this.setHopperMotors(Calibrations.leftReverse, Calibrations.rightReverse);
+    this.setHopperMotors(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_REVERSE);
   }
 
   public void fullForward() {
-    this.setHopperMotors(Calibrations.leftForward, Calibrations.rightForward);
+    this.setHopperMotors(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_FORWARD);
   }
 
   public void agitateHopperMotors() {

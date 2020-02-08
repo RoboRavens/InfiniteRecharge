@@ -28,8 +28,8 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public ConveyanceSubsystem() {
     this.initialize();
-    _conveyanceMotor = new TalonSRX(RobotMap.conveyanceMotor);
-    _conveyanceSensor = new BufferedDigitalInput(RobotMap.conveyanceSensor);
+    _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
+    _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
 
     _pistonBlock = new Solenoid(RobotMap.pistonBlockSolenoid);
     _pistonUnblock = new Solenoid(RobotMap.pistonUnblockSolenoid);
@@ -44,23 +44,23 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void setReverseConveyance() {
-    this.setConveyanceMotor(Calibrations.fullSpeedReverse);
+    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
   }
 
   public void setMaxConveyance() {
-    this.setConveyanceMotor(Calibrations.fullSpeed);
+    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED);
   }
 
   public void stopConveyance() {
-    this.setConveyanceMotor(Calibrations.conveyanceStop);
+    this.setConveyanceMotor(Calibrations.CONVEYANCE_STOP);
   }
 
   public void setNormalSpeedConveyance() {
-    this.setConveyanceMotor(Calibrations.normalSpeed);
+    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_SPEED);
   }
 
   public void setNormalSpeedReverseConveyance() {
-    this.setConveyanceMotor(Calibrations.normalReverseSpeed);
+    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
   }
 
   public void setConveyanceMotor(double magnitude) {
