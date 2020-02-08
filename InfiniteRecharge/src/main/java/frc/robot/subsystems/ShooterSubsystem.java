@@ -13,14 +13,12 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
-import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.util.NetworkTableDiagnostics;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -75,27 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
     
   }
 
-  //Able to tell when the robot is revving through rumble. At full rumble, the robot is close to the target vel!
-  private void outputForVelocity() {
-    if (targetVelocity_UnitsPer100ms == 0) {
-      Robot.DRIVE_CONTROLLER.setRumbleOff();
-
-    } else if (Math.abs(targetVelocity_UnitsPer100ms - getVelocity()) < Calibrations.TARGET_RANGE) {
-      Robot.DRIVE_CONTROLLER.setRumbleOn();
-      System.out.println("<Shooter> On Target!");
-
-    } else if (getVelocity() - Calibrations.TARGET_RANGE <= targetVelocity_UnitsPer100ms) {
-      Robot.DRIVE_CONTROLLER.setRumbleCustom(1/(targetVelocity_UnitsPer100ms - getVelocity()), 0);
-      System.out.println("<Shooter> Below Target...");
-
-    } else if (getVelocity() + Calibrations.TARGET_RANGE >= targetVelocity_UnitsPer100ms) {
-      Robot.DRIVE_CONTROLLER.setRumbleCustom(0, 1/(getVelocity() - targetVelocity_UnitsPer100ms));
-      System.out.println("<Shooter> Above Target...");
-
-    }
-  }
-
-  public void setVelocityByButton () {
+  public void setVelocityByButton() {
     //ButtonCode.A is used!
     if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
       //If X is pressed, max speed velocity!
