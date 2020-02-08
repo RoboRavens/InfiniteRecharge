@@ -36,7 +36,7 @@ public class ControlPanelShotCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("CONTROL PANEL SHOT COMMAND HAS BEEN CALLED");
-    shooter.setRPM(1000);
+    shooter.setRPM(1000.0);
   }
 
     public boolean isFinished() {

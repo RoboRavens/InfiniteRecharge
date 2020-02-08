@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
@@ -128,6 +129,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
+    SmartDashboard.putNumber("Target Velocity", velocity);
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 

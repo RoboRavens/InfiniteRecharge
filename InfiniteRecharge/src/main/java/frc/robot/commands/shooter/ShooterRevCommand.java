@@ -36,7 +36,7 @@ public class ShooterRevCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("SHOOTER REV COMMAND HAS BEEN CALLED");
-    shooter.setRPM(1000);
+    shooter.setRPM(1000.0);
   }
 
     public boolean isFinished() {

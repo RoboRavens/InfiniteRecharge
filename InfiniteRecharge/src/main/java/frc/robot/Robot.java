@@ -21,6 +21,7 @@ import frc.robot.commands.drivetrain.DriveTrainStopCommand;
 import frc.robot.commands.shooter.ControlPanelShotCommand;
 import frc.robot.commands.shooter.InitiationLineShotCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
 import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -65,10 +66,12 @@ public class Robot extends TimedRobot {
 	public String autoFromDashboard;
   public String positionFromDashboard;
   
-  public ShooterRevCommand shooterREV = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM);
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM);
   public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand(Robot.SHOOTER_SUBSYSTEM);
   public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand(Robot.SHOOTER_SUBSYSTEM);
-  public ShooterTuneCommand shooterTUNE = new ShooterTuneCommand(Robot.SHOOTER_SUBSYSTEM);
+  public ShooterTuneCommand shooterTune = new ShooterTuneCommand(Robot.SHOOTER_SUBSYSTEM);
+
+  public ShooterRumbleFeedbackCommand shooterRumble = new ShooterRumbleFeedbackCommand(Robot.SHOOTER_SUBSYSTEM);
 
   @Override
   public void robotInit() {
@@ -81,13 +84,14 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.intakeRetract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
+    this.setupShooterController();
     this.setupDriveController();
     this.setupOperationPanel();
   }
 
+
   private void setupDefaultCommands() {
-    DRIVE_TRAIN_SUBSYSTEM
-      .setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
+    DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
   }
 
   @Override
@@ -118,17 +122,20 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
   }
 
-  public void setupDriveController() {
+  public void setupShooterController() {
     System.out.println("DRIVE CONTROLLER CONFIGURED");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterREV);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTUNE);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(shooterLineShot);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whileHeld(shooterCtrlPanelShot);
-
+    System.out.println("Remember to enable to actually make things work");
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whenPressed(shooterRev);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whenPressed(shooterTune);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(shooterLineShot);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
   }
 	public void setupOperationPanel() {
 		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
-	}
+  }
+  
+  private void setupDriveController() {
+  }
 
   public void testPeriodic() {
   }
