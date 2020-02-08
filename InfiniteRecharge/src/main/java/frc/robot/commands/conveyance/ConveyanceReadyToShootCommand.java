@@ -9,10 +9,11 @@ package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.Timer;
 
 public class ConveyanceReadyToShootCommand extends CommandBase {
   private boolean isFinished = false;
-  private int i;
+  private final Timer m_timer = new Timer();
   public ConveyanceReadyToShootCommand() {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
@@ -20,6 +21,7 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_timer.reset();
     System.out.println("ConveyanceReadyToShootCommand initialized");
     isFinished = false;
   }
@@ -35,16 +37,20 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
       Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
       Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedConveyance();
     }
-    for(i = 1; i <= 5; i++) {
-      System.out.println(i);
-    }
-
-    if (i == 5) {
+    
+    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == false) {
+        m_timer.start();
+        isFinished = false;
+      }
+    
+    if (m_timer.get() == 10) {
       isFinished = true;
-    } else {
-      isFinished = false;
-    }
-  }
+      }
+
+    }    
+
+    
+
 
   // Called once the command ends or is interrupted.
   @Override
@@ -57,3 +63,4 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
     return isFinished;
   }
 }
+

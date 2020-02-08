@@ -36,7 +36,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-    setDefaultCommand(new ConveyanceStopCommand());
+    //setDefaultCommand(new ConveyanceStopCommand());
   }
 
   public void periodic() {
