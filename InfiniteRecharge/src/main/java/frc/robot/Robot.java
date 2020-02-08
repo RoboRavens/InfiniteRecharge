@@ -92,6 +92,7 @@ public class Robot extends TimedRobot {
 
   private void setupDefaultCommands() {
     DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
+    SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
   }
 
   @Override
@@ -125,8 +126,8 @@ public class Robot extends TimedRobot {
   public void setupShooterController() {
     System.out.println("DRIVE CONTROLLER CONFIGURED");
     System.out.println("Remember to enable to actually make things work");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whenPressed(shooterRev);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whenPressed(shooterTune);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterRev);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTune);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(shooterLineShot);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
   }

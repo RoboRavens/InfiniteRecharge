@@ -148,4 +148,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public int getRPM() {
     return (int) Math.round(this.getVelocity() / Calibrations.velToRpm);
   }
+
+  public void defaultCommand() {
+    this.setVelocity(0);
+  }
 } 
