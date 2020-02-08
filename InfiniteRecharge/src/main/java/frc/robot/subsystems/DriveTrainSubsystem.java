@@ -39,9 +39,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 	public void periodic() {
 		ravenTank.setMaxPower(1);
 
-		double slewRate = Calibrations.slewRateMaximum;
-		slewRate = Math.max(Calibrations.slewRateMinimum, slewRate);
-		_slewRateFinal = Math.min(Calibrations.slewRateMaximum, slewRate);
+		double slewRate = Calibrations.SLEW_RATE_MAXIMUM;
+		slewRate = Math.max(Calibrations.SLEW_RATE_MINIMUM, slewRate);
+		_slewRateFinal = Math.min(Calibrations.SLEW_RATE_MAXIMUM, slewRate);
 		ravenTank.setSlewRate(_slewRateFinal);
 	}
 }

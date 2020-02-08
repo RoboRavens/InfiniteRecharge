@@ -8,12 +8,12 @@
 package frc.robot.commands.powercells;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.intake.HarvestCommand;
+import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.IntakeExtendCommand;
 
 public class CollectPowerCells extends ParallelCommandGroup {
  
   public CollectPowerCells() {
-    super(new IntakeExtendCommand(), new HarvestCommand());
+    super(new IntakeExtendCommand(), new IntakeCommand());
   }
 }

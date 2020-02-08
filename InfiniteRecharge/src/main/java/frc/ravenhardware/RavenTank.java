@@ -36,19 +36,19 @@ public class RavenTank {
 	protected boolean waiting = false;
 
 	public double gyroAdjust;
-	double _gyroAdjustmentScaleFactor = Calibrations.gyroAdjustmentDefaultScaleFactor;
+	double _gyroAdjustmentScaleFactor = Calibrations.GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR;
 
 	public boolean userControlOfCutPower = true;
 
-	RavenTalon driveLeft = new RavenTalon(RobotMap.leftDriveChannel, RobotMap.leftDriveChannel2, "MotorLeft", _slewRate);
-	RavenTalon driveRight = new RavenTalon(RobotMap.rightDriveChannel, RobotMap.rightDriveChannel2, "MotorRight", _slewRate);
+	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate);
+	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate);
 
 	public RavenTank() {
 		initializeRavenTank();
 	}
 
 	private void initializeRavenTank() {
-		_slewRate = Calibrations.slewRateMaximum;
+		_slewRate = Calibrations.SLEW_RATE_MAXIMUM;
 
 		_gyroCooldownTimer = new Timer();
 
@@ -86,8 +86,8 @@ public class RavenTank {
 	}
 
 	public void fpsTank(double translation, double turn) {
-		double adjustedTurn = getFedForwardDriveValue(turn, Calibrations.turnFeedForwardMagnitude, false);
-		double squaredTranslation = getFedForwardDriveValue(translation, Calibrations.translationFeedForwardMagnitude, false);
+		double adjustedTurn = getFedForwardDriveValue(turn, Calibrations.TURN_FEED_FORWARD_MAGNITUDE, false);
+		double squaredTranslation = getFedForwardDriveValue(translation, Calibrations.TRANSLATION_FEED_FORWARD_MAGNITUDE, false);
 		// double squaredTranslation = Math.copySign(Math.pow(translation, 2), translation);
 
 		if (Robot.DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
@@ -114,7 +114,7 @@ public class RavenTank {
 		Robot.LIMELIGHT_SUBSYSTEM.turnToTarget();
 	
 		if (_cutPower) {
-			translation *= Calibrations.cutPowerModeMovementRatio;
+			translation *= Calibrations.CUT_POWER_MODE_MOVEMENT_RATIO;
 		}
 	
 		double gyroAdjust = getStaticGyroAdjustment();
@@ -127,8 +127,8 @@ public class RavenTank {
 
 	public void fpsTankManual(double translation, double turn) {
 		if (_cutPower) {
-			translation *= Calibrations.cutPowerModeMovementRatio;
-			turn *= Calibrations.cutPowerModeTurnRatio;
+			translation *= Calibrations.CUT_POWER_MODE_MOVEMENT_RATIO;
+			turn *= Calibrations.CUT_POWER_MODE_TURN_RATIO;
 		}
 
 		// Apply a small reduction to turning magnitude based on the magnitude of
@@ -166,11 +166,11 @@ public class RavenTank {
 			_highestJerkY = currentJerkY;
 		}
 
-		if (Math.abs(currentJerkX) > Calibrations.DriveTrainCollisionJerkThreshold) {
+		if (Math.abs(currentJerkX) > Calibrations.DRIVE_TRAIN_COLLISION_JERK_THRESHOLD) {
 			collisionDetected = true;
 		}
 
-		if (Math.abs(currentJerkY) > Calibrations.DriveTrainCollisionJerkThreshold) {
+		if (Math.abs(currentJerkY) > Calibrations.DRIVE_TRAIN_COLLISION_JERK_THRESHOLD) {
 			collisionDetected = true;
 		}
 
@@ -275,10 +275,10 @@ public class RavenTank {
 		double percentOfInputRange = inputMinusDeadband / inputRange;
 		double squaredPercentOfInputRange = Math.copySign(Math.pow(percentOfInputRange, 2), percentOfInputRange);
 		
-		double moveableRange = 1 - Calibrations.turnFeedForwardMagnitude;
+		double moveableRange = 1 - Calibrations.TURN_FEED_FORWARD_MAGNITUDE;
 		double squaredInputPercentageOfMoveableRange = squaredPercentOfInputRange * moveableRange;
 
-		double ffDifference = Calibrations.turnFeedForwardMagnitude;
+		double ffDifference = Calibrations.TURN_FEED_FORWARD_MAGNITUDE;
 		if (turn < 0) {
 			ffDifference *= -1;
 		}
@@ -339,7 +339,7 @@ public class RavenTank {
 	}
 
 	public double getScaledTurnFromTranslation(double translation, double turn) {
-		double turnScaleReduction = Calibrations.translationMaxTurnScaling * Math.abs(translation);
+		double turnScaleReduction = Calibrations.TRANSLATION_MAX_TURN_SCALING * Math.abs(translation);
 		double turnCoefficient = 1 - turnScaleReduction;
 		double netTurn = turn * turnCoefficient;
 
@@ -369,9 +369,9 @@ public class RavenTank {
 
 		boolean adjust = false;
 
-		if (time > 0 && time < Calibrations.gyroCooldownTimerTime) {
+		if (time > 0 && time < Calibrations.GYRO_COOLDOWN_TIMER_TIME) {
 			adjust = true;
-		} else if (time > Calibrations.gyroCooldownTimerTime) {
+		} else if (time > Calibrations.GYRO_COOLDOWN_TIMER_TIME) {
 			_gyroCooldownTimer.stop();
 		}
 
@@ -380,7 +380,7 @@ public class RavenTank {
 
 	public double getTurnableGyroAdjustment(double turn) {
 		// If the gyro is in disabled mode, just return immediately.
-		if (gyroMode == Calibrations.gyroDisabled) {
+		if (gyroMode == Calibrations.GYRO_DISABLED) {
 			return 0;
 		}
 
@@ -398,7 +398,7 @@ public class RavenTank {
 
 	public double getStaticGyroAdjustment() {
 		// If the gyro is in disabled mode, just return immediately.
-		if (gyroMode == Calibrations.gyroDisabled) {
+		if (gyroMode == Calibrations.GYRO_DISABLED) {
 
 			return 0;
 		}
@@ -508,7 +508,7 @@ public class RavenTank {
 	}
 
 	public void resetGyroAdjustmentScaleFactor() {
-		setGyroAdjustmentScaleFactor(Calibrations.gyroAdjustmentDefaultScaleFactor);
+		setGyroAdjustmentScaleFactor(Calibrations.GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR);
 	}
 
 	public double getSlewRate() {

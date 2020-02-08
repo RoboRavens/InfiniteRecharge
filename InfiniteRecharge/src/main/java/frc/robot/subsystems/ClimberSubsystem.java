@@ -23,8 +23,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public ClimberSubsystem() {
 		this.initialize();
-		_climberMotor = new TalonSRX(RobotMap.climberMotor);
-		_climberMotor2 = new TalonSRX(RobotMap.climberMotor2);
+		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
+		_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
 	}
 
 	public void initialize() {

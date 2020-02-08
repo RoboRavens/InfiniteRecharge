@@ -14,7 +14,7 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 	private double _netInchesTraveledSoFar = 0;
 	private int _direction;
 	private Timer _timeoutTimer;
-	private double _timeoutSeconds = Calibrations.DriveTrainDriveInchesSafetyTimerSeconds;
+	private double _timeoutSeconds = Calibrations.DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS;
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
