@@ -4,18 +4,15 @@ import frc.robot.Calibrations;
 import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-
-import edu.wpi.first.wpilibj.Talon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalon {
-
-	private Talon _talon;
-	private TalonFX _talonFX;
-	private TalonFX _talonFX2;
+	private WPI_TalonFX _talonFX;
+	private WPI_TalonFX _talonFX2;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
+	private boolean _encoderReversed;
 
 	// The default slew rate of 2 means no acceleration cutting will occur,
 	// as this enables changing between -1 and 1 in a single tick.
@@ -23,15 +20,11 @@ public class RavenTalon {
 
 	protected double deadband = .0;
 
-	public RavenTalon(int channel, int channel2, String name, double slewRate) {
-		if (Calibrations.USE_TALON_SRX_FOR_DRIVE_CONTROLLER) {
-			_talonFX = new TalonFX(channel);
-			_talonFX2 = new TalonFX(channel2);
-			_talonFX.setSensorPhase(false);
-			_talonFX2.setSensorPhase(false);
-		} else {
-			_talon = new Talon(channel);
-		}
+	public RavenTalon(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
+		_talonFX = new WPI_TalonFX(mainChannel);
+		_talonFX2 = new WPI_TalonFX(followerChannel);
+		_talonFX2.follow(_talonFX);
+		_encoderReversed = encoderReversed;
 
 		_name = name;
 		setSlewRate(slewRate);
@@ -90,28 +83,35 @@ public class RavenTalon {
 
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
-		try {
-			_talonFX.set(ControlMode.PercentOutput, outputSpeed);
-			_talonFX2.set(ControlMode.PercentOutput, outputSpeed);
-		} 
-		catch (NullPointerException exception) {
-			_talon.set(outputSpeed);
-		}
+		_talonFX.set(ControlMode.PercentOutput, outputSpeed);
 	}
 
 	public int getEncoderPosition() {
-		try {
-			return (int) _talonFX.getSensorCollection().getIntegratedSensorPosition();
-		} catch (NullPointerException exception) {
-			return 0;
-		}
+		return (int) _talonFX.getSensorCollection().getIntegratedSensorPosition();
 	}
 
 	public void resetEncoderPosition() {
-		try {
-			_talonFX.getSensorCollection().setIntegratedSensorPosition(0, 10);
-			_talonFX2.getSensorCollection().setIntegratedSensorPosition(0, 10);
-		} catch (NullPointerException exception) {}
+		_talonFX.getSensorCollection().setIntegratedSensorPosition(0, 10);
+	}
+
+	public void setVoltage(double voltage) {
+		_talonFX.setVoltage(voltage);
+		_talonFX2.setVoltage(voltage);
+	}
+
+	  /**
+   * Get the distance the robot has driven since the last reset as scaled by the value from {@link
+   * #setDistancePerPulse(double)}.
+   *
+   * @return The distance driven since the last reset
+   */
+	public double getDistanceMeters() {
+		// return _talon.getSelectedSensorPosition(Constants.DriveConstants.pidx) * _distancePerPulse;
+		return _talonFX.getSensorCollection().getIntegratedSensorPosition() * Calibrations.ENCODER_DISTANCE_PER_PULSE * (_encoderReversed ? -1 : 1);
+	}
+
+	public double getRateMeters() {
+		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE * 10 * (_encoderReversed ? -1 : 1);
 	}
 }
 
