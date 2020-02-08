@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import frc.robot.RobotMap;
-import frc.robot.commands.tower.TowerStopCommand;
 
 public class TowerSubsystem extends SubsystemBase {
 
@@ -21,8 +20,8 @@ public class TowerSubsystem extends SubsystemBase {
 
   public TowerSubsystem() {
     this.initialize();
-    _towerMotor = new TalonSRX(RobotMap.conveyanceMotor);
-    _towerSensor = new BufferedDigitalInput(RobotMap.towerSensor);
+    _towerMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
+    _towerSensor = new BufferedDigitalInput(RobotMap.TOWER_SENSOR);
   }
 
   public void initialize() {

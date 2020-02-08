@@ -26,6 +26,7 @@ public class IntakeRetractCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.INTAKE_SUBSYSTEM.intakeRetract();
+    Robot.INTAKE_SUBSYSTEM.stop();
   }
 
   // Called once the command ends or is interrupted.

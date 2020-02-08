@@ -24,7 +24,7 @@ public class RavenTalon {
 	protected double deadband = .0;
 
 	public RavenTalon(int channel, int channel2, String name, double slewRate) {
-		if (Calibrations.UseTalonSRXForDriveController) {
+		if (Calibrations.USE_TALON_SRX_FOR_DRIVE_CONTROLLER) {
 			_talonFX = new TalonFX(channel);
 			_talonFX2 = new TalonFX(channel2);
 			_talonFX.setSensorPhase(false);

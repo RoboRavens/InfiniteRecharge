@@ -75,7 +75,7 @@ public class RavenLighting {
 
 		double timerMs = _timer.get() * 1000;
 
-		if (timerMs > Calibrations.lightingFlashTotalDurationMs) {
+		if (timerMs > Calibrations.LIGHTING_FLASH_TOTAL_DURATION_MS) {
 			cancelToggle();
 			return;
 		}
@@ -85,7 +85,7 @@ public class RavenLighting {
 		// If we haven't returned yet, we're toggling.
 		// The duration of each on/off cycle is the total flash duration,
 		// divided by the number of flashes. An individual on/off is half of that.
-		double cycleDuration = Calibrations.lightingFlashTotalDurationMs / Calibrations.lightingFlashes;
+		double cycleDuration = Calibrations.LIGHTING_FLASH_TOTAL_DURATION_MS / Calibrations.LIGHTING_FLASHES;
 
 		// Modding the timer by the cycle duration gives us the time elapsed in the
 		// current cycle.

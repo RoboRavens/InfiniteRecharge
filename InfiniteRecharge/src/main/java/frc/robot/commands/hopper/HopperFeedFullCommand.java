@@ -10,22 +10,25 @@ package frc.robot.commands.hopper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperStopCommand extends CommandBase {
-
-  public HopperStopCommand() {
+public class HopperFeedFullCommand extends CommandBase {
+  /**
+   * Creates a new HopperFeedFullCommand.
+   */
+  public HopperFeedFullCommand() {
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.HOPPER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperStopCommand initialized");
+    System.out.println("HopperFeedFullCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+    Robot.HOPPER_SUBSYSTEM.feedFullSpeed();
   }
 
   // Called once the command ends or is interrupted.

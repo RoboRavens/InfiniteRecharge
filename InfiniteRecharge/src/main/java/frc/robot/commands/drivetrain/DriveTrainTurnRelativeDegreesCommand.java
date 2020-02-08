@@ -30,11 +30,11 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
     }
 
     public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn, double gyroScaleFactor) {
-        this(driveTrain, degreesToTurn, gyroScaleFactor, Calibrations.DriveTrainTurnRelativeDegreesSafetyTimerSeconds);
+        this(driveTrain, degreesToTurn, gyroScaleFactor, Calibrations.DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS);
     }
 
     public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn) {
-        this(driveTrain, degreesToTurn, Calibrations.driveTrainTurnRelativeDegreesGyroAdjustmentScaleFactor);
+        this(driveTrain, degreesToTurn, Calibrations.DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR);
     }
 
     // Called just before this Command runs the first time
@@ -66,7 +66,7 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         double degreesTurned = currentHeading - driveTrainOriginalHeading;
 
         double degreesAwayFromTarget = Math.abs(degreesToTurn - degreesTurned);
-        boolean turnComplete = (degreesAwayFromTarget < Calibrations.gyroAutoTurnAcceptableErrorDegrees);
+        boolean turnComplete = (degreesAwayFromTarget < Calibrations.GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES);
 
         if (safetyTimer.get() > _timeoutSeconds) {
             System.out.println("TIMEOUT TIMEOUT TIMEOUT TIMEOUT");

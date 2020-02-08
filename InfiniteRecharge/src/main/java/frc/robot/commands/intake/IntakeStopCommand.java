@@ -5,27 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hopper;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class HopperStopCommand extends CommandBase {
+public class IntakeStopCommand extends CommandBase {
 
-  public HopperStopCommand() {
-    addRequirements(Robot.HOPPER_SUBSYSTEM);
+  public IntakeStopCommand() {
+    addRequirements(Robot.INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HopperStopCommand initialized");
+    System.out.println("IntakeStopCommand init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+    Robot.INTAKE_SUBSYSTEM.stop();
   }
 
   // Called once the command ends or is interrupted.
@@ -36,6 +36,6 @@ public class HopperStopCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

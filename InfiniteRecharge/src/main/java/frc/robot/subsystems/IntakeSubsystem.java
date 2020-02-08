@@ -12,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.commands.intake.HarvestStopCommand;;
 
 public class IntakeSubsystem extends SubsystemBase {
 
@@ -22,24 +21,24 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     this.initialize();
-    _intakeMotor = new TalonSRX(RobotMap.intakeMotor);
-    _intakeExtend = new Solenoid(RobotMap.intakeExtendSolenoid);
-    _intakeRetract = new Solenoid(RobotMap.intakeRetractSolenoid);
+    _intakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
+    _intakeExtend = new Solenoid(RobotMap.INTAKE_EXTEND_SOLENOID);
+    _intakeRetract = new Solenoid(RobotMap.INTAKE_RETRACT_SOLENOID);
   }
 
   public void initialize() {
-    // setDefaultCommand(new HarvestStopCommand());
+    // setDefaultCommand(new IntakeStopCommand());
   }
 
   public void periodic() {
 
   }
 
-  public void harvest(double magnitude) {
+  public void collect(double magnitude) {
     this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
-  public void stopMotor() {
+  public void stop() {
     this._intakeMotor.set(ControlMode.PercentOutput, 0);
   }
 

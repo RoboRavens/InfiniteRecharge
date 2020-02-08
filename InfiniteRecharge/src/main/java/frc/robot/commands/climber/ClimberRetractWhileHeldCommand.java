@@ -18,7 +18,7 @@ public class ClimberRetractWhileHeldCommand extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.climberRetractPowerMagnitude);
+        Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
     }
 
     // Called once the command ends or is interrupted.
