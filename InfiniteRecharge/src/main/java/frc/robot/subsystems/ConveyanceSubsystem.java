@@ -43,42 +43,45 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   }
 
-  public void setReverseConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
+  public void setReverse() {
+    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
   }
 
   public void setMaxForward() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED);
+    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED);
   }
 
   public void stop() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_STOP);
+    this.runAtPower(Calibrations.CONVEYANCE_STOP);
   }
 
   public void setNormalSpeedForward() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_SPEED);
+    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_SPEED);
   }
 
   public void setNormalSpeedReverse() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
+    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
   }
 
-  public void setConveyanceMotor(double magnitude) {
+  public void runAtPower(double magnitude) {
     _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public boolean getConveyanceSensor() {
+    //Sysouts are for testing
     System.out.println("Got sensor");
     return _conveyanceSensor.get();
   }
 
   public void pistonBlock() {
+    //Sysouts are for testing
     System.out.println("Blocking");
     _pistonUnblock.set(false);
     _pistonBlock.set(true);
   }
 
   public void pistonUnblock() {
+    //Sysouts are for testing
     System.out.println("Unblocking");
     _pistonUnblock.set(true);
     _pistonBlock.set(false);

@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ConveyanceReverseCommand extends CommandBase {
-  /**
-   * Creates a new ConveyanceReverseCommand.
-   */
+  
   public ConveyanceReverseCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +25,7 @@ public class ConveyanceReverseCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.CONVEYANCE_SUBSYSTEM.setReverseConveyance();
+    Robot.CONVEYANCE_SUBSYSTEM.setReverse();
   }
 
   // Called once the command ends or is interrupted.
@@ -38,6 +36,6 @@ public class ConveyanceReverseCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

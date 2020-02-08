@@ -12,6 +12,7 @@ import frc.robot.Robot;
 
 public class ConveyanceShootCommand extends CommandBase {
   public ConveyanceShootCommand() {
+    
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 

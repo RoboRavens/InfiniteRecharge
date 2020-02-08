@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ConveyanceStopCommand extends CommandBase {
-  /**
-   * Creates a new ConveyanceStopCommand.
-   */
+  
   public ConveyanceStopCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
