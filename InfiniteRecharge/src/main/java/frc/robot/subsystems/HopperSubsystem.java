@@ -18,7 +18,7 @@ public class HopperSubsystem extends SubsystemBase {
   
   public HopperSubsystem() {
     this.initialize();
-    _hopperMotor = new TalonSRX(RobotMap.hopperMotor);
+    _hopperMotor = new TalonSRX(RobotMap.HOPPER_MOTOR);
   }
 
   public void initialize() {

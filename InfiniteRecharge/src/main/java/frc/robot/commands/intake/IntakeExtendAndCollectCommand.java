@@ -8,25 +8,26 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class IntakeRetractCommand extends CommandBase {
+public class IntakeExtendAndCollectCommand extends CommandBase {
 
-  public IntakeRetractCommand() {
+  public IntakeExtendAndCollectCommand() {
     addRequirements(Robot.INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("IntakeRetractCommand init");
+    System.out.println("IntakeExtendAndCollectCommand init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.intakeRetract();
-    Robot.INTAKE_SUBSYSTEM.stop();
+    Robot.INTAKE_SUBSYSTEM.intakeExtend();
+    Robot.INTAKE_SUBSYSTEM.collect(Calibrations.intakePowerMagnitude);
   }
 
   // Called once the command ends or is interrupted.

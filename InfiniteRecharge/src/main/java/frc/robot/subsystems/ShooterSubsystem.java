@@ -33,8 +33,8 @@ public class ShooterSubsystem extends SubsystemBase {
   double velocity;
 
   public ShooterSubsystem() {
-    _shooterMotor = new TalonSRX(RobotMap.shooterMotor);
-    _shooterMotor2 = new TalonSRX(RobotMap.shooterMotor2);
+    _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
+    _shooterMotor2 = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
     _shooterMotor2.follow(_shooterMotor);
 
     _shooterMotor.configFactoryDefault();

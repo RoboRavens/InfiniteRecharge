@@ -8,31 +8,29 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class HarvestCommand extends CommandBase {
+public class IntakeStopCommand extends CommandBase {
 
-  public HarvestCommand() {
+  public IntakeStopCommand() {
     addRequirements(Robot.INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("HarvestCommand init");
+    System.out.println("IntakeStopCommand init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.harvest(Calibrations.harvesterPowerMagnitude);
+    Robot.INTAKE_SUBSYSTEM.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.INTAKE_SUBSYSTEM.stopMotor();
   }
 
   // Returns true when the command should end.

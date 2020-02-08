@@ -6,8 +6,8 @@ public class Calibrations {
 	// Slew rate of .2 seems to work well for when the lift is lowered, though more testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
-	public static final double slewRateMinimum = .3;
-	public static final double slewRateMaximum = .35;
+	public static final double SLEW_RATE_MINIMUM = .3;
+	public static final double SLEW_RATE_MAXIMUM = .35;
 	
 	// The safe slew rate changes based upon a few variables:
 	// 		- What gear we are in
@@ -16,18 +16,18 @@ public class Calibrations {
 	//			(backwards to forwards seems worse - but that's with no arm or cube, and a broken chassis)
 	//		- A number low enough to be safe for all scenarios will negatively impact normal operation.
 	
-	public static final double cutPowerModeMovementRatio = .3;
-	public static final double cutPowerModeTurnRatio = .5;
-	public static final double gyroAdjustmentDefaultScaleFactor = .025;
-	public static final double driveTrainTurnRelativeDegreesGyroAdjustmentScaleFactor = .03;
-	public static final double gyroCooldownTimerTime = .5;
-	public static final double translationMaxTurnScaling = .5;
-	public static final double gyroAutoTurnAcceptableErrorDegrees = 1;
-	public static final boolean driveTrainStartingIsInHighGear = false;
+	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
+	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
+	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .025;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .03;
+	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
+	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
+	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 1;
+	public static final boolean DRIVE_TRAIN_STARTING_IS_IN_HIGH_GEAR = false;
 	
 
-	public static final double turnFeedForwardMagnitude = .18;
-	public static final double translationFeedForwardMagnitude = .1;
+	public static final double TURN_FEED_FORWARD_MAGNITUDE = .18;
+	public static final double TRANSLATION_FEED_FORWARD_MAGNITUDE = .1;
 
 
 	// .35 is for minibot
@@ -37,28 +37,28 @@ public class Calibrations {
 	// public static final double translationFeedForwardMagnitude = .18;
 	
 	// Drive collision
-	public static final double DriveTrainCollisionJerkThreshold = 4;
+	public static final double DRIVE_TRAIN_COLLISION_JERK_THRESHOLD = 4;
 
 	// 2019 and newer robots use talonSRX instead talon
-	public static final Boolean UseTalonSRXForDriveController = true;
+	public static final Boolean USE_TALON_SRX_FOR_DRIVE_CONTROLLER = true;
 
 	// Drive and gyro modes
-	public static final int bulldozerTank = 0;
-	public static final int fpsTank = 1;
+	public static final int BULLDOZER_TANK = 0;
+	public static final int FPS_TANK = 1;
 	
-	public static final int gyroDisabled = 0;
-	public static final int gyroEnabled = 1;
+	public static final int GYRO_DISABLED = 0;
+	public static final int GYRO_ENABLED = 1;
 	
 	// Any turn taking too long to complete (e.g. wheel scrub has halted the turn) will abandon after this number of seconds.
-	public static final double DriveTrainTurnRelativeDegreesSafetyTimerSeconds = 1;
-	public static final double DriveTrainDriveInchesSafetyTimerSeconds = 3;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS = 1;
+	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
 	
 	// Deadband
 	public static final double deadbandMagnitude = .2;
 	
 	// Default drive and gyro modes
-	public static final int defaultDriveMode = Calibrations.fpsTank;
-	public static final int defaultGyroMode = Calibrations.gyroEnabled;
+	public static final int defaultDriveMode = Calibrations.FPS_TANK;
+	public static final int defaultGyroMode = Calibrations.GYRO_ENABLED;
 	
 	
 	// DRIVE ENCODERS
@@ -114,8 +114,8 @@ public class Calibrations {
 	
 	public static final int maximumTiltAngleWhileClimbing = 4;
 
-	// HARVESTER
-	public static final double harvesterPowerMagnitude = 1;
+	// INTAKE
+	public static final double intakePowerMagnitude = 1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
 	// SHOOTER 
