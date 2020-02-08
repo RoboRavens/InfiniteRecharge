@@ -26,7 +26,7 @@ public class IntakeCollectCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.INTAKE_SUBSYSTEM.collect(Calibrations.intakePowerMagnitude);
+    Robot.INTAKE_SUBSYSTEM.collect(Calibrations.INTAKE_POWER_MAGNITUDE);
   }
 
   // Called once the command ends or is interrupted.

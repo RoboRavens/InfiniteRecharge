@@ -27,7 +27,7 @@ public class RavenTank {
 	protected double gyroTargetHeading;
 
 	protected boolean automatedDrivingEnabled = false;
-	protected int automatedDrivingDirection = Calibrations.drivingForward;
+	protected int automatedDrivingDirection = Calibrations.DRIVING_FORWARD;
 	protected double automatedDrivingSpeed = 0;
 
 	protected boolean hasHitObstacle = false;
@@ -52,17 +52,17 @@ public class RavenTank {
 
 		_gyroCooldownTimer = new Timer();
 
-		setDriveMode(Calibrations.defaultDriveMode);
+		setDriveMode(Calibrations.DEFAULT_DRIVE_MODE);
 		setCutPower(false);
 
-		setGyroMode(Calibrations.defaultGyroMode);
+		setGyroMode(Calibrations.DEFAULT_GYRO_MODE);
 		gyroTargetHeading = setGyroTargetHeadingToCurrentHeading();
 	}
 
 	public double deadband(double input) {
 		double output = input;
 
-		if (Math.abs(output) < Calibrations.deadbandMagnitude) {
+		if (Math.abs(output) < Calibrations.DEAD_BAND_MAGNITUDE) {
 			output = 0;
 		}
 
@@ -264,9 +264,9 @@ public class RavenTank {
 	// 4. Apply the adjusted input percentage to the moveable range.
 	// 5. Add the feedforward value to the moveable range input percentage.
 	public double getAdjustedTurnValue(double turn) {
-		double inputRange = 1 - Calibrations.deadbandMagnitude;
+		double inputRange = 1 - Calibrations.DEAD_BAND_MAGNITUDE;
 
-		double deadbandDifference = Calibrations.deadbandMagnitude;
+		double deadbandDifference = Calibrations.DEAD_BAND_MAGNITUDE;
 		if (turn < 0) {
 			deadbandDifference *= -1;
 		}
@@ -301,9 +301,9 @@ public class RavenTank {
 	}
 
 	public double getFedForwardDriveValue(double input, double feedForward, boolean tuning) {
-		double inputRange = 1 - Calibrations.deadbandMagnitude;
+		double inputRange = 1 - Calibrations.DEAD_BAND_MAGNITUDE;
 
-		double deadbandDifference = Calibrations.deadbandMagnitude;
+		double deadbandDifference = Calibrations.DEAD_BAND_MAGNITUDE;
 		if (input < 0) {
 			deadbandDifference *= -1;
 		}
@@ -456,15 +456,15 @@ public class RavenTank {
 	}
 
 	public double getRightNetInchesTraveled() {
-		double rightNetRevolutions = driveRight.getEncoderPosition() / Calibrations.talonSRXMotorTicksPerRevolution;
+		double rightNetRevolutions = driveRight.getEncoderPosition() / Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
 		
-		return rightNetRevolutions * Calibrations.wheelCircumferenceInches;
+		return rightNetRevolutions * Calibrations.WHEEL_CIRCUMFERENCE_INCHES;
 	}
 	
 	public double getLeftNetInchesTraveled() {
-		double leftNetRevolutions = driveLeft.getEncoderPosition() / Calibrations.talonSRXMotorTicksPerRevolution;
+		double leftNetRevolutions = driveLeft.getEncoderPosition() / Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
 
-		return -leftNetRevolutions * Calibrations.wheelCircumferenceInches;
+		return -leftNetRevolutions * Calibrations.WHEEL_CIRCUMFERENCE_INCHES;
 	}
 
 	public void setSlewRate(double slewRate) {
