@@ -25,7 +25,7 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-
+    //Set default command here
   }
 
   public void periodic() {

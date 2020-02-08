@@ -15,7 +15,6 @@ import frc.ravenhardware.BufferedDigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
 import frc.robot.RobotMap;
-import frc.robot.commands.conveyance.ConveyanceStopCommand;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
@@ -43,42 +42,45 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   }
 
-  public void setReverseConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
+  public void setReverse() {
+    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
   }
 
-  public void setMaxConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_FULL_SPEED);
+  public void setMaxForward() {
+    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED);
   }
 
-  public void stopConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_STOP);
+  public void stop() {
+    this.runAtPower(Calibrations.CONVEYANCE_STOP);
   }
 
-  public void setNormalSpeedConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_SPEED);
+  public void setNormalSpeedForward() {
+    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_SPEED);
   }
 
-  public void setNormalSpeedReverseConveyance() {
-    this.setConveyanceMotor(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
+  public void setNormalSpeedReverse() {
+    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
   }
 
-  public void setConveyanceMotor(double magnitude) {
+  public void runAtPower(double magnitude) {
     _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public boolean getConveyanceSensor() {
+    //Sysouts are for testing
     System.out.println("Got sensor");
     return _conveyanceSensor.get();
   }
 
   public void pistonBlock() {
+    //Sysouts are for testing
     System.out.println("Blocking");
     _pistonUnblock.set(false);
     _pistonBlock.set(true);
   }
 
   public void pistonUnblock() {
+    //Sysouts are for testing
     System.out.println("Unblocking");
     _pistonUnblock.set(true);
     _pistonBlock.set(false);
