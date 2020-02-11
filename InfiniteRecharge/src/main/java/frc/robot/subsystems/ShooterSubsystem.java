@@ -54,8 +54,8 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.configNominalOutputReverse(0, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputForward(1, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputReverse(-1, TalonSRXConstants.kTimeoutMs);
-
-    _shooterMotor.setSensorPhase(true);
+    //VERY IMPORTANT, do not change "false"
+    _shooterMotor.setSensorPhase(false);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
     //this.initialize();
