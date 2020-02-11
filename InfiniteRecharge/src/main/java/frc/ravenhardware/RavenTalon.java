@@ -4,11 +4,15 @@ import frc.robot.Calibrations;
 import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalon {
 	private WPI_TalonFX _talonFX;
 	private WPI_TalonFX _talonFX2;
+	private TalonSRX _talonSRX;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -24,7 +28,9 @@ public class RavenTalon {
 		_talonFX = new WPI_TalonFX(mainChannel);
 		_talonFX2 = new WPI_TalonFX(followerChannel);
 		_talonFX2.follow(_talonFX);
+		_talonSRX = new TalonSRX(0);
 		_encoderReversed = encoderReversed;
+
 
 		_name = name;
 		setSlewRate(slewRate);
@@ -113,5 +119,36 @@ public class RavenTalon {
 	public double getRateMeters() {
 		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE * 10 * (_encoderReversed ? -1 : 1);
 	}
+
+	public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
+	}
+
+	public void configStatorCurrentLimit(StatorCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+		_talonFX.configStatorCurrentLimit(currLimitCfg, timeoutMs);
+	}
+
+	//i is the amount of amps and j is the timeout in ms
+	public void configPeakCurrentLimit(int i, int j) {
+		_talonSRX.configPeakCurrentLimit(i, j);
+   }
+
+   //i is the amount of amps and j is the timeout in ms
+   public void configPeakCurrentDuration(int i, int j) {
+	   _talonSRX.configPeakCurrentDuration(i, j);
+   }
+
+   //i is the amount of amps and j is the timeout in ms
+   public void configContinuousCurrentLimit(int i, int j) {
+	   _talonSRX.configContinuousCurrentLimit(i, j);
+   }
+
+   public void enableCurrentLimit(boolean b) {
+	   _talonSRX.enableCurrentLimit(b);
+   }
+
+   public double getOutputCurrent() {
+	   return _talonSRX.getSupplyCurrent();
+   }
 }
 

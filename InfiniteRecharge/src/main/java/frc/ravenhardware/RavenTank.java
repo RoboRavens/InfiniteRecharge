@@ -91,7 +91,9 @@ public class RavenTank {
 		rightX = deadband(rightX);
 		
 		fpsTank(left, rightX);
+
 	}
+		
 
 	public void driveLeftSide(double magnitude) {
 		driveLeft.set(magnitude);
@@ -615,5 +617,17 @@ public class RavenTank {
 			// Apply the voltage constraint
 			.addConstraint(autoVoltageConstraint)
 			.setReversed(false);
+	}
+
+	public void currentLimting() {
+	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configPeakCurrentLimit(Calibrations.AMPS, 0); 
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configContinuousCurrentLimit(Calibrations.AMPS, 0); 
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configPeakCurrentDuration(Calibrations.AMPS, 0); 
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.enableCurrentLimit(true);
+
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configPeakCurrentLimit(Calibrations.AMPS, 0);
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configContinuousCurrentLimit(Calibrations.AMPS, 0);
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configPeakCurrentDuration(Calibrations.AMPS, 0);
+    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.enableCurrentLimit(true);
 	}
 }
