@@ -126,7 +126,7 @@ public class Robot extends TimedRobot {
     System.out.println("Remember to enable to actually make things work");
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterLineShot);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTune);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(shooterLineShot);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(shooterRev);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
   }
 
