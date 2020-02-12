@@ -72,7 +72,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     
   }
-
+/*
   public void setVelocityByButton() {
     //ButtonCode.A is used!
     if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
@@ -89,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     }
   }
-
+*/
   //RPS to FPS
   public double RevolutionsToFeet() {
     return getRPS() * Calibrations.WHEEL_CIRCUMFERENCE_FEET;
@@ -102,6 +102,12 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setVelocityBySlider () {
     velocity = _joystick.getThrottle();
     setVelocity(velocity);
+  }
+
+  public void setVelocityRaw(int velocity) {
+    targetVelocity_UnitsPer100ms = 7600 * velocity;
+    SmartDashboard.putNumber("Target Velocity", velocity);
+    _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   public void setVelocity(double velocity) {

@@ -8,6 +8,7 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.subsystems.ShooterSubsystem;
 
 /**
@@ -36,7 +37,7 @@ public class InitiationLineShotCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("INITIATION LINE SHOT COMMAND HAS BEEN CALLED");
-    shooter.setRPM(1000.0);
+    shooter.setVelocityRaw(Calibrations.INIT_LINE_VELOCITY);
   }
 
     public boolean isFinished() {
