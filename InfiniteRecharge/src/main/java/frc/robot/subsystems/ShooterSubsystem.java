@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,7 +25,7 @@ import frc.util.NetworkTableDiagnostics;
 public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
-  private TalonSRX _shooterMotor2;
+  private VictorSPX _shooterMotor2;
   private Joystick _joystick;
 
   private double targetVelocity_UnitsPer100ms = 0;
@@ -32,7 +33,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    _shooterMotor2 = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
+    _shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
     _shooterMotor2.follow(_shooterMotor);
 
     _shooterMotor.configFactoryDefault();
@@ -104,9 +105,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setVelocityRaw(int velocity) {
-    targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", velocity);
-    _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
+    _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
   public void setVelocity(double velocity) {
