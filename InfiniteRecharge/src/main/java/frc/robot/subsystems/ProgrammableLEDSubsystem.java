@@ -21,21 +21,21 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 	public void initialize() {
 		// setDefaultCommand(new LEDDuringMatchCommand());
 	}
-	
-	public void setColorToTeleop(){
+
+	public void setColorToTeleop() {
 		if (Robot.isRedAlliance) {
 			this.SetLEDColor(Color.RED);
 		} else {
-			this.SetLEDColor(Color.BLUE);				
-		}	
+			this.SetLEDColor(Color.BLUE);
+		}
 	}
 
-	public boolean isTeleopMode(){
+	public boolean isTeleopMode() {
 		return _teleop;
 	}
 
 	public long getMatchSecond() {
-		return Math.round((long)driverStation.getMatchTime());
+		return Math.round((long) driverStation.getMatchTime());
 	}
 
 	public boolean getMatchIsAtTime(int desiredMatchSecond) {
@@ -72,7 +72,7 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 		this.SetLEDColor(Color.WHITE);
 	}
 
-	public void setTestMode(){
+	public void setTestMode() {
 		_teleop = false;
 		this.SetLEDColor(Color.GRAY);
 	}
@@ -86,18 +86,18 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 	}
 
 	public void SetLEDColor(Color color) {
-		float red = (((float)color.getRed() / 256));
+		float red = (((float) color.getRed() / 256));
 		System.out.println(red);
-		float green = (((float)color.getGreen() / 256));
+		float green = (((float) color.getGreen() / 256));
 		System.out.println(green);
-		float blue = (((float)color.getBlue() / 256));
+		float blue = (((float) color.getBlue() / 256));
 		System.out.println(blue);
 		this.SetLEDColor(red, green, blue);
 	}
-	
+
 	private void SetLEDColor(float red, float green, float blue) {
-		_canifier.setLEDOutput(green, CANifier.LEDChannel.LEDChannelA); 
-		_canifier.setLEDOutput(red, CANifier.LEDChannel.LEDChannelB); 
-		_canifier.setLEDOutput(blue, CANifier.LEDChannel.LEDChannelC); 
+		_canifier.setLEDOutput(green, CANifier.LEDChannel.LEDChannelA);
+		_canifier.setLEDOutput(red, CANifier.LEDChannel.LEDChannelB);
+		_canifier.setLEDOutput(blue, CANifier.LEDChannel.LEDChannelC);
 	}
 }

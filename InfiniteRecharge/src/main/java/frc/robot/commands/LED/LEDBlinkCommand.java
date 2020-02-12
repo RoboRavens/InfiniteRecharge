@@ -18,7 +18,7 @@ public class LEDBlinkCommand extends CommandBase {
         _color = color;
         _duration = duration;
     }
-    
+
     // Called just before this Command runs the first time
     public void initialize() {
         addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);

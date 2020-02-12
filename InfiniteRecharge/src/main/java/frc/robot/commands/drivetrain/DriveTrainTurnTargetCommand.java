@@ -17,13 +17,11 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   }
 
   // Called just before this Command runs the first time
-   
   public void initialize() {
     System.out.println("DriveTrainTurnTargetCommand init");
   }
 
   // Called repeatedly when this Command is scheduled to run
-   
   public void execute() {
     System.out.println("DRIVETRAINTURNTARGETCOMMANDISRUNNING");
     Robot.LIMELIGHT_SUBSYSTEM.turnToTarget();
@@ -37,6 +35,6 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return false;
+    return false;
   }
 }

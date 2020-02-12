@@ -52,8 +52,10 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
-	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
+	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft",
+			_slewRate, false);
+	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight",
+			_slewRate, false);
 
 	private DifferentialDriveOdometry _odometry;
 
@@ -89,7 +91,7 @@ public class RavenTank {
 		left = deadband(left);
 		rightY = deadband(rightY);
 		rightX = deadband(rightX);
-		
+
 		fpsTank(left, rightX);
 	}
 
@@ -103,20 +105,21 @@ public class RavenTank {
 
 	public void fpsTank(double translation, double turn) {
 		double adjustedTurn = getFedForwardDriveValue(turn, Calibrations.TURN_FEED_FORWARD_MAGNITUDE, false);
-		double squaredTranslation = getFedForwardDriveValue(translation, Calibrations.TRANSLATION_FEED_FORWARD_MAGNITUDE, false);
-		// double squaredTranslation = Math.copySign(Math.pow(translation, 2), translation);
+		double squaredTranslation = getFedForwardDriveValue(translation,
+				Calibrations.TRANSLATION_FEED_FORWARD_MAGNITUDE, false);
+		// double squaredTranslation = Math.copySign(Math.pow(translation, 2),
+		// translation);
 
 		if (Robot.DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
 			Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
 			fpsTankChooseLimelightOrManual(squaredTranslation, adjustedTurn);
-		}
-		else {
+		} else {
 			Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
 			fpsTankManual(squaredTranslation, adjustedTurn);
 		}
 	}
 
-	public void fpsTankChooseLimelightOrManual (double translation, double turn) {
+	public void fpsTankChooseLimelightOrManual(double translation, double turn) {
 		if (Robot.LIMELIGHT_SUBSYSTEM.hasTarget()) {
 			fpsTankLimelight(translation);
 		} else {
@@ -128,11 +131,11 @@ public class RavenTank {
 		// This method simply sets the gyro target, it doesn't actually turn the robot.
 		// As a result, the gyro adjust value below will effectually turn the robot.
 		Robot.LIMELIGHT_SUBSYSTEM.turnToTarget();
-	
+
 		if (_cutPower) {
 			translation *= Calibrations.CUT_POWER_MODE_MOVEMENT_RATIO;
 		}
-	
+
 		double gyroAdjust = getStaticGyroAdjustment();
 		double leftFinal = translation * -1 - gyroAdjust;
 		double rightFinal = translation - gyroAdjust;
@@ -152,8 +155,6 @@ public class RavenTank {
 		turn = getScaledTurnFromTranslation(translation, turn);
 
 		double gyroAdjust = getTurnableGyroAdjustment(turn);
-
-		
 
 		double leftFinal = (translation - turn) * -1 - gyroAdjust;
 		double rightFinal = (translation + turn) - gyroAdjust;
@@ -267,16 +268,14 @@ public class RavenTank {
 
 	// GETTERS AND SETTER/RESET METHODS
 
-
-
-
-
-
 	// Adjust the turn value by performing the following operations:
-	// 1. Adjust the input value such that it is a percentage of the non-deadband input range, not the total input range.
-	// To do this, calculate the non-deadband range, and then subtract the deadband value from the input.
+	// 1. Adjust the input value such that it is a percentage of the non-deadband
+	// input range, not the total input range.
+	// To do this, calculate the non-deadband range, and then subtract the deadband
+	// value from the input.
 	// 2. Square the adjusted input value while keeping its sign intact.
-	// 3. Calculate the "moveable range", which is the range of output that will break static friction.
+	// 3. Calculate the "moveable range", which is the range of output that will
+	// break static friction.
 	// 4. Apply the adjusted input percentage to the moveable range.
 	// 5. Add the feedforward value to the moveable range input percentage.
 	public double getAdjustedTurnValue(double turn) {
@@ -290,7 +289,7 @@ public class RavenTank {
 		double inputMinusDeadband = turn - deadbandDifference;
 		double percentOfInputRange = inputMinusDeadband / inputRange;
 		double squaredPercentOfInputRange = Math.copySign(Math.pow(percentOfInputRange, 2), percentOfInputRange);
-		
+
 		double moveableRange = 1 - Calibrations.TURN_FEED_FORWARD_MAGNITUDE;
 		double squaredInputPercentageOfMoveableRange = squaredPercentOfInputRange * moveableRange;
 
@@ -300,15 +299,18 @@ public class RavenTank {
 		}
 
 		double ffAdjustedInput = squaredInputPercentageOfMoveableRange + ffDifference;
-/*
-		System.out.print("Turn vals: turn: " + (double) Math.round(turn * 100) / 100);
-		System.out.print(" in-DB: " + (double) Math.round(inputMinusDeadband * 100) / 100);
-		System.out.print(" %ofIR: " + (double) Math.round(percentOfInputRange * 100) / 100);
-		System.out.print(" sq%ofIR: " + (double) Math.round(squaredPercentOfInputRange * 100) / 100);
-		System.out.print(" MR: " + (double) Math.round(moveableRange * 100) / 100);
-		System.out.print(" sq%ofMR: " + (double) Math.round(squaredInputPercentageOfMoveableRange * 100) / 100);
-		System.out.println(" ffAdj: " + (double) Math.round(ffAdjustedInput * 100) / 100);
-*/
+		/*
+		 * System.out.print("Turn vals: turn: " + (double) Math.round(turn * 100) /
+		 * 100); System.out.print(" in-DB: " + (double) Math.round(inputMinusDeadband *
+		 * 100) / 100); System.out.print(" %ofIR: " + (double)
+		 * Math.round(percentOfInputRange * 100) / 100); System.out.print(" sq%ofIR: " +
+		 * (double) Math.round(squaredPercentOfInputRange * 100) / 100);
+		 * System.out.print(" MR: " + (double) Math.round(moveableRange * 100) / 100);
+		 * System.out.print(" sq%ofMR: " + (double)
+		 * Math.round(squaredInputPercentageOfMoveableRange * 100) / 100);
+		 * System.out.println(" ffAdj: " + (double) Math.round(ffAdjustedInput * 100) /
+		 * 100);
+		 */
 
 		if (turn == 0) {
 			ffAdjustedInput = 0;
@@ -327,7 +329,7 @@ public class RavenTank {
 		double inputMinusDeadband = input - deadbandDifference;
 		double percentOfInputRange = inputMinusDeadband / inputRange;
 		double squaredPercentOfInputRange = Math.copySign(Math.pow(percentOfInputRange, 2), percentOfInputRange);
-		
+
 		double moveableRange = 1 - feedForward;
 		double squaredInputPercentageOfMoveableRange = squaredPercentOfInputRange * moveableRange;
 
@@ -472,11 +474,12 @@ public class RavenTank {
 	}
 
 	public double getRightNetInchesTraveled() {
-		double rightNetRevolutions = driveRight.getEncoderPosition() / Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
-		
+		double rightNetRevolutions = driveRight.getEncoderPosition()
+				/ Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
+
 		return rightNetRevolutions * Calibrations.WHEEL_CIRCUMFERENCE_INCHES;
 	}
-	
+
 	public double getLeftNetInchesTraveled() {
 		double leftNetRevolutions = driveLeft.getEncoderPosition() / Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
 
@@ -539,7 +542,7 @@ public class RavenTank {
 		return orientationGyro.getAngle();
 	}
 
-		/**
+	/**
 	 * Returns the heading of the robot.
 	 *
 	 * @return the robot's heading in degrees, from 180 to 180
@@ -549,7 +552,8 @@ public class RavenTank {
 	}
 
 	public void updateOdometry() {
-		_odometry.update(Rotation2d.fromDegrees(this.getHeading()), driveLeft.getDistanceMeters(), driveRight.getDistanceMeters());
+		_odometry.update(Rotation2d.fromDegrees(this.getHeading()), driveLeft.getDistanceMeters(),
+				driveRight.getDistanceMeters());
 	}
 
 	private void tankDriveVolts(double left, double right) {
@@ -566,54 +570,47 @@ public class RavenTank {
 		return new DifferentialDriveWheelSpeeds(driveLeft.getRateMeters(), driveRight.getRateMeters());
 	}
 
-  	public Command getCommandForTrajectory(Trajectory trajectory) {
-	
+	public Command getCommandForTrajectory(Trajectory trajectory) {
+
 		this.resetDriveEncoders();
-		this.resetOrientationGyro();;
+		this.resetOrientationGyro();
+		;
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
 
 		var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
 		trajectory = trajectory.transformBy(transform);
 
-		RamseteCommand ramseteCommand = new RamseteCommand(
-			trajectory,
-			_odometry::getPoseMeters,
-			new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
-			new SimpleMotorFeedforward(Calibrations.KS_VOLTS,
-										Calibrations.KV_VOLT_SECONDS_PER_METER,
-										Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
-			Calibrations.DRIVE_KINEMATICS,
-			this::getWheelSpeeds,
-			new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY, Calibrations.KD_DRIVE_VELOCITY),
-			new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY, Calibrations.KD_DRIVE_VELOCITY),
-			// RamseteCommand passes volts to the callback
-			this::tankDriveVolts,
-			Robot.DRIVE_TRAIN_SUBSYSTEM
-		);
+		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, _odometry::getPoseMeters,
+				new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
+				new SimpleMotorFeedforward(Calibrations.KS_VOLTS, Calibrations.KV_VOLT_SECONDS_PER_METER,
+						Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
+				Calibrations.DRIVE_KINEMATICS, this::getWheelSpeeds,
+				new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY,
+						Calibrations.KD_DRIVE_VELOCITY),
+				new PIDController(Calibrations.KP_DRIVE_VELOCITY, Calibrations.KI_DRIVE_VELOCITY,
+						Calibrations.KD_DRIVE_VELOCITY),
+				// RamseteCommand passes volts to the callback
+				this::tankDriveVolts, Robot.DRIVE_TRAIN_SUBSYSTEM);
 
 		// Run path following command, then stop at the end.
-		return ramseteCommand.andThen(() -> { 
+		return ramseteCommand.andThen(() -> {
 			this.tankDriveVolts(0, 0);
 		});
-	  }
-	  
+	}
+
 	public TrajectoryConfig GetTrajectoryConfig() {
-		  		// Create a voltage constraint to ensure we don't accelerate too fast
+		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-			new SimpleMotorFeedforward(
-				Calibrations.KS_VOLTS,
-				Calibrations.KV_VOLT_SECONDS_PER_METER,
-				Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
-				Calibrations.DRIVE_KINEMATICS,
-			10);
+				new SimpleMotorFeedforward(Calibrations.KS_VOLTS, Calibrations.KV_VOLT_SECONDS_PER_METER,
+						Calibrations.KA_VOLT_SECONDS_SQUARED_PER_METER),
+				Calibrations.DRIVE_KINEMATICS, 10);
 
 		// Create config for trajectory
 		return new TrajectoryConfig(Calibrations.MAX_SPEED_METERS_PER_SECOND,
-								Calibrations.MAX_ACCELERATION_METERS_PER_SECOND)
-			// Add kinematics to ensure max speed is actually obeyed
-			.setKinematics(Calibrations.DRIVE_KINEMATICS)
-			// Apply the voltage constraint
-			.addConstraint(autoVoltageConstraint)
-			.setReversed(false);
+				Calibrations.MAX_ACCELERATION_METERS_PER_SECOND)
+						// Add kinematics to ensure max speed is actually obeyed
+						.setKinematics(Calibrations.DRIVE_KINEMATICS)
+						// Apply the voltage constraint
+						.addConstraint(autoVoltageConstraint).setReversed(false);
 	}
 }
