@@ -168,17 +168,20 @@ public class Calibrations {
 	public static final double CONVEYANCE_STOP = 0;
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
 
-	// SHOOTER
-	public static final double SHOOTER_KF = 0.0;
-	public static final double SHOOTER_KP = 0.7;
-	public static final double SHOOTER_KI = 0.0005;
-	public static final double SHOOTER_KD = 0.0075;
+
+	// SHOOTER 
+	public static final double SHOOTER_KF = 0.0098;
+    public static final double SHOOTER_KP = 0.014;
+    public static final double SHOOTER_KI = 0.0;
+	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RANGE = 100;
 
 	/*
-	 * sets soft and hard limits for Falcon Motor RPM THE SOFT VALUES NEED TO BE
-	 * CHANGED, they are placeholders and will not opperate
-	 */
+
+	sets soft and hard limits for Falcon Motor RPM
+	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
+	*/
+	public static final int INIT_LINE_VELOCITY  = 57195;
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;
