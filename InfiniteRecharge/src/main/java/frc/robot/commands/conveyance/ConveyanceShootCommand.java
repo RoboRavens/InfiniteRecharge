@@ -26,19 +26,19 @@ public class ConveyanceShootCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
-    Robot.CONVEYANCE_SUBSYSTEM.setMaxConveyance();
+    Robot.CONVEYANCE_SUBSYSTEM.setMaxForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
+    Robot.CONVEYANCE_SUBSYSTEM.stop();
     Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

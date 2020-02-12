@@ -17,12 +17,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
-import frc.robot.commands.drivetrain.DriveTrainStopCommand;
 import frc.robot.commands.shooter.ControlPanelShotCommand;
 import frc.robot.commands.shooter.InitiationLineShotCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
-import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -61,17 +59,17 @@ public class Robot extends TimedRobot {
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
 
-	public static boolean isRedAlliance;
+  public static boolean isRedAlliance;
 
-	public String autoFromDashboard;
+  public String autoFromDashboard;
   public String positionFromDashboard;
-  
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM);
-  public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand(Robot.SHOOTER_SUBSYSTEM);
-  public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand(Robot.SHOOTER_SUBSYSTEM);
-  public ShooterTuneCommand shooterTune = new ShooterTuneCommand(Robot.SHOOTER_SUBSYSTEM);
 
-  public ShooterRumbleFeedbackCommand shooterRumble = new ShooterRumbleFeedbackCommand(Robot.SHOOTER_SUBSYSTEM);
+  public ShooterRevCommand shooterRev = new ShooterRevCommand();
+  public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand();
+  public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand();
+  public ShooterTuneCommand shooterTune = new ShooterTuneCommand();
+
+  public ShooterRumbleFeedbackCommand shooterRumble = new ShooterRumbleFeedbackCommand();
 
   @Override
   public void robotInit() {
@@ -81,7 +79,7 @@ public class Robot extends TimedRobot {
 
     CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
-    INTAKE_SUBSYSTEM.intakeRetract();
+    INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
     this.setupShooterController();
@@ -89,9 +87,9 @@ public class Robot extends TimedRobot {
     this.setupOperationPanel();
   }
 
-
   private void setupDefaultCommands() {
-    DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
+    DRIVE_TRAIN_SUBSYSTEM
+        .setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
   }
 
@@ -110,13 +108,13 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
+    case kCustomAuto:
+      // Put custom auto code here
+      break;
+    case kDefaultAuto:
+    default:
+      // Put default auto code here
+      break;
     }
   }
 
@@ -132,10 +130,10 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
   }
 
-	public void setupOperationPanel() {
-		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
+  public void setupOperationPanel() {
+    System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
   }
-  
+
   private void setupDriveController() {
   }
 

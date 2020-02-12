@@ -11,14 +11,14 @@ public class BufferedDigitalInput {
 	LinkedList<Boolean> sensorValues;
 
 	public BufferedDigitalInput(int channel) {
-		 _digitalInput = new DigitalInput(channel);
+		_digitalInput = new DigitalInput(channel);
 		sensorValues = new LinkedList<Boolean>();
 	}
 
 	// Adds the current sensor value to the list, and
 	// removes the first item if the list is larger than the list size.
 	public void maintainState() {
-		sensorValues.add( _digitalInput.get());
+		sensorValues.add(_digitalInput.get());
 		if (sensorValues.size() > listSize) {
 			sensorValues.remove();
 		}

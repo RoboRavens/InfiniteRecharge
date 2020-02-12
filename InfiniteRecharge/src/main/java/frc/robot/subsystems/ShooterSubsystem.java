@@ -39,7 +39,6 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor2.configFactoryDefault();
 
     _joystick = new Joystick(0);
-    
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
@@ -54,15 +53,15 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.configNominalOutputReverse(0, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputForward(1, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputReverse(-1, TalonSRXConstants.kTimeoutMs);
-    //VERY IMPORTANT, do not change "false"
+    // VERY IMPORTANT, do not change "false"
     _shooterMotor.setSensorPhase(false);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
-    //this.initialize();
+    // this.initialize();
   }
 
   public void initialize() {
-    //setDefaultCommand(new ShooterStopCommand());
+    // setDefaultCommand(new ShooterStopCommand());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
     System.out.println("ShooterSubsystem Setup!");
@@ -70,21 +69,21 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+
   }
 /*
   public void setVelocityByButton() {
-    //ButtonCode.A is used!
-    if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
-      //If X is pressed, max speed velocity!
+    // ButtonCode.A is used!
+    if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
+      // If X is pressed, max speed velocity!
       setVelocity(1.0);
 
-    } else if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.Y)) {
-      //If Y is pressed, half speed velocity!      
+    } else if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.Y)) {
+      // If Y is pressed, half speed velocity!
       setVelocity(0.5);
 
-    } else if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.B)) {
-      //If B is pressed, BRAKE!      
+    } else if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.B)) {
+      // If B is pressed, BRAKE!
       setVelocity(0.0);
 
     }
@@ -99,7 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return getRPM() * 60;
   }
 
-  public void setVelocityBySlider () {
+  public void setVelocityBySlider() {
     velocity = _joystick.getThrottle();
     setVelocity(velocity);
   }
@@ -135,4 +134,4 @@ public class ShooterSubsystem extends SubsystemBase {
   public void defaultCommand() {
     this.setVelocity(0);
   }
-} 
+}

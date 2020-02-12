@@ -17,7 +17,7 @@ public class HopperSubsystem extends SubsystemBase {
 
   private TalonSRX _hopperLeftMotor;
   private TalonSRX _hopperRightMotor;
-  
+
   public HopperSubsystem() {
     this.initialize();
     _hopperLeftMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_LEFT);
@@ -25,11 +25,11 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-
+    // Set default command here
   }
 
   public void periodic() {
-    
+
   }
 
   public void stopHopperMotors() {
@@ -57,7 +57,7 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void agitateHopperMotors() {
-    //Does nothing yet
+    // Does nothing yet
   }
 
   public void setHopperMotors(double leftMagnitude, double rightMagnitude) {

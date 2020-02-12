@@ -11,11 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class HopperFeedFullCommand extends CommandBase {
-  /**
-   * Creates a new HopperFeedFullCommand.
-   */
+
   public HopperFeedFullCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.HOPPER_SUBSYSTEM);
   }
 

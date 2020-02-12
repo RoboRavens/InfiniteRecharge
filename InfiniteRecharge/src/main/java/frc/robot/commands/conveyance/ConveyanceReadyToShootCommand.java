@@ -9,10 +9,12 @@ package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import edu.wpi.first.wpilibj.Timer;
+import frc.robot.Calibrations;
 
 public class ConveyanceReadyToShootCommand extends CommandBase {
-  private boolean isFinished = false;
-  private int i;
+  private final Timer _safetyTimer = new Timer();
+
   public ConveyanceReadyToShootCommand() {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
@@ -20,40 +22,40 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    _safetyTimer.reset();
+    _safetyTimer.start();
     System.out.println("ConveyanceReadyToShootCommand initialized");
-    isFinished = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
-      System.out.println("TRIGGERD BY BALL");
-      Robot.CONVEYANCE_SUBSYSTEM.stopConveyance();
-    } else {
-      System.out.println("NOT TRIGGERED BY BALL YET");
-      Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
-      Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedConveyance();
-    }
-    for(i = 1; i <= 5; i++) {
-      System.out.println(i);
-    }
-
-    if (i == 5) {
-      isFinished = true;
-    } else {
-      isFinished = false;
-    }
+    System.out.println("NOT TRIGGERED BY BALL YET");
+    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Conveyance ready to shoot done/interrupted");
+    Robot.CONVEYANCE_SUBSYSTEM.stop();
+    _safetyTimer.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    boolean isFinished = false;
+
+    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
+      isFinished = true;
+    }
+
+    if (_safetyTimer.get() >= Calibrations.CONVEYANCE_SAFETY_TIMER_TIMEOUT) {
+      isFinished = true;
+    }
+
     return isFinished;
   }
 }

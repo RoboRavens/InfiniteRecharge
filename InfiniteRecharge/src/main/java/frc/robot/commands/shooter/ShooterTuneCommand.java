@@ -8,23 +8,14 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Robot;
 
-/**
- * An example command that uses an example subsystem.
- */
 public class ShooterTuneCommand extends CommandBase {
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ShooterSubsystem shooter = new ShooterSubsystem();
-  public ShooterTuneCommand(ShooterSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-    
-    }
+
+  public ShooterTuneCommand() {
+    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -35,11 +26,11 @@ public class ShooterTuneCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("SHOOTER TUNE COMMAND HAS BEEN CALLED");
-    shooter.setVelocityBySlider();
-    System.out.println("The current RPM is: " + shooter.getRPM());
+    Robot.SHOOTER_SUBSYSTEM.setVelocityBySlider();
+    System.out.println("The current RPM is: " + Robot.SHOOTER_SUBSYSTEM.getRPM());
   }
 
-    public boolean isFinished() {
-      return true;
-    }
+  public boolean isFinished() {
+    return true;
   }
+}

@@ -11,11 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class HopperFullReverseCommand extends CommandBase {
-  /**
-   * Creates a new HopperFullReverseCommand.
-   */
+
   public HopperFullReverseCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.HOPPER_SUBSYSTEM);
   }
 

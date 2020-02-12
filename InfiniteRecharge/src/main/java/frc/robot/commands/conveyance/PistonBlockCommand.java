@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class PistonBlockCommand extends CommandBase {
+
   public PistonBlockCommand() {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }

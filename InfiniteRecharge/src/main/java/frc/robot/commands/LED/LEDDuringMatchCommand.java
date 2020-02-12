@@ -21,7 +21,7 @@ public class LEDDuringMatchCommand extends CommandBase {
     private LEDBlinkCommand _blinkCommand;
     private boolean _hasRan;
 
-    BlinkCommand(Color color){
+    BlinkCommand(Color color) {
       _blinkCommand = new LEDBlinkCommand(color, 2);
     }
 
@@ -48,7 +48,7 @@ public class LEDDuringMatchCommand extends CommandBase {
   }
 
   // Called repeatedly when this Command is scheduled to run
-   
+
   public void execute() {
     _matchSecond = Robot.PROGRAMMABLE_LED_SUBSYSTEM.getMatchSecond();
     System.out.println(_matchSecond);
@@ -76,19 +76,19 @@ public class LEDDuringMatchCommand extends CommandBase {
   }
 
   // Make this return true when this Command no longer needs to run execute()
-   
+
   public boolean isFinished() {
     return false;
   }
 
   // Called once after isFinished returns true
-   
+
   public void end() {
   }
 
   // Called when another command which addRequirements one or more of the same
   // subsystems is scheduled to run
-   
+
   public void interrupted() {
   }
 }

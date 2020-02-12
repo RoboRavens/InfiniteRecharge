@@ -22,18 +22,21 @@ public class LimelightSubsystem extends SubsystemBase {
 
 	private int _ledState = 3;
 
-	private double _heightDifference = Calibrations.FLOOR_TO_TARGET_CENTER_HEIGHT - Calibrations.FLOOR_TO_LIMELIGHT_LENS_HEIGHT;
+	private double _heightDifference = Calibrations.FLOOR_TO_TARGET_CENTER_HEIGHT
+			- Calibrations.FLOOR_TO_LIMELIGHT_LENS_HEIGHT;
 	private double _angleToTargetFromHorizontal = 0;
 	private double _inchesToTarget = 0;
-	private double _angleComplimenting90 = 0; // Math.acos does not accept fractions as a parameter so this variable was made
+	private double _angleComplimenting90 = 0; // Math.acos does not accept fractions as a parameter so this variable was
+												// made
 	private double _targetAngle = 0;
 	private double _powerMagnitude = 0.0;
-  	private double _distanceDesiredFromTarget = 0.0;
-  	private double _distanceToDrive = 0.0;
+	private double _distanceDesiredFromTarget = 0.0;
+	private double _distanceToDrive = 0.0;
 	private int _direction = 0;
 	private double _offsetFromTargetAngle = 0.0;
 
-	DriveTrainDriveInchesCommand driveTrainDriveInchesCommand = new DriveTrainDriveInchesCommand(_distanceToDrive, _powerMagnitude, _direction);
+	DriveTrainDriveInchesCommand driveTrainDriveInchesCommand = new DriveTrainDriveInchesCommand(_distanceToDrive,
+			_powerMagnitude, _direction);
 
 	private BufferedValue bufferedAngleOffHorizontal = new BufferedValue(9);
 
@@ -46,9 +49,11 @@ public class LimelightSubsystem extends SubsystemBase {
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "angleOffHorizontal", () -> this.angleOffHorizontal());
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "angleOffVertical", () -> this.angleOffVertical());
 		NetworkTableDiagnostics.SubsystemBoolean("Limelight", "hasTarget", () -> this.hasTarget());
-		NetworkTableDiagnostics.SubsystemNumber("Limelight", "Vision Tracking Distance (Inches)", () -> _inchesToTarget);
+		NetworkTableDiagnostics.SubsystemNumber("Limelight", "Vision Tracking Distance (Inches)",
+				() -> _inchesToTarget);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "Height Difference", () -> _heightDifference);
-		NetworkTableDiagnostics.SubsystemNumber("Limelight", "Angle From Crosshair to Target", () -> _angleToTargetFromHorizontal);
+		NetworkTableDiagnostics.SubsystemNumber("Limelight", "Angle From Crosshair to Target",
+				() -> _angleToTargetFromHorizontal);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "TargetAngle", () -> _targetAngle);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "TargetAngleOffset", () -> _offsetFromTargetAngle);
 		NetworkTableDiagnostics.SubsystemNumber("Limelight", "LED State", () -> _ledState);
@@ -56,18 +61,19 @@ public class LimelightSubsystem extends SubsystemBase {
 
 	public void periodic() {
 
-		_angleToTargetFromHorizontal = Math.tan(Math.toRadians(Calibrations.CAMERA_ANGLE_OFFSET_FROM_HORIZONTAL + ty.getDouble(0.0)));
-		_inchesToTarget = _heightDifference/_angleToTargetFromHorizontal;
-		_angleComplimenting90 = Calibrations.LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES/_inchesToTarget;
+		_angleToTargetFromHorizontal = Math
+				.tan(Math.toRadians(Calibrations.CAMERA_ANGLE_OFFSET_FROM_HORIZONTAL + ty.getDouble(0.0)));
+		_inchesToTarget = _heightDifference / _angleToTargetFromHorizontal;
+		_angleComplimenting90 = Calibrations.LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES / _inchesToTarget;
 		_targetAngle = 90 - Math.toDegrees(Math.acos(_angleComplimenting90));
 		_targetAngle = _targetAngle - 4.2; // limelight was mounted at a slight angle, this is the correcting number
-		
+
 		if (this.hasTarget()) {
 			_offsetFromTargetAngle = _targetAngle - angleOffHorizontal();
 		} else {
 			_offsetFromTargetAngle = 0;
 		}
-	
+
 		bufferedAngleOffHorizontal.maintainState(this.angleOffHorizontal());
 	}
 
@@ -98,7 +104,9 @@ public class LimelightSubsystem extends SubsystemBase {
 	}
 
 	public void turnToTarget() {
-		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeading(Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCurrentHeading() + this.bufferedAngleOffHorizontal.getMedian());
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank
+				.setGyroTargetHeading(Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCurrentHeading()
+						+ this.bufferedAngleOffHorizontal.getMedian());
 	}
 
 	public void driveToTarget(double distanceDesiredFromTarget) {
@@ -123,7 +131,7 @@ public class LimelightSubsystem extends SubsystemBase {
 		} else {
 			CommandScheduler.getInstance().schedule(new DriveTrainStopCommand());
 			System.out.println("DO NOTHING, I'M AT 10 FEET");
-		} 
+		}
 	}
 
 	public void toggleLED() {
@@ -150,54 +158,55 @@ public class LimelightSubsystem extends SubsystemBase {
 		ledMode.setNumber(_ledState);
 	}
 
-		/*Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeading(Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCurrentHeading() + x);
-        
-		if (_inchesToTarget < Calibrations.MINIMUM_DISTANCE_FROM_LIMELIGHT) {
-			_inchesToTarget = Calibrations.MINIMUM_DISTANCE_FROM_LIMELIGHT;
-		}
+	/*
+	 * Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeading(Robot.
+	 * DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCurrentHeading() + x);
+	 * 
+	 * if (_inchesToTarget < Calibrations.MINIMUM_DISTANCE_FROM_LIMELIGHT) {
+	 * _inchesToTarget = Calibrations.MINIMUM_DISTANCE_FROM_LIMELIGHT; }
+	 * 
+	 * if (_inchesToTarget > Calibrations.MAXIMUM_DISTANCE_FROM_LIMELIGHT) {
+	 * _inchesToTarget = Calibrations.MAXIMUM_DISTANCE_FROM_LIMELIGHT; }
+	 * 
+	 * if (hasTarget()) { if (_inchesToTarget < (distanceDesiredFromTarget +
+	 * Calibrations.desiredTargetBuffer) && _inchesToTarget >
+	 * (distanceDesiredFromTarget - Calibrations.desiredTargetBuffer)) { (new
+	 * DriveTrainDriveFPSCommand()).start();
+	 * System.out.println("DO NOTHING, I'M AT 2 FEET"); } else if (_inchesToTarget >
+	 * distanceDesiredFromTarget) { DriveTrainDriveInchesCommand nick = new
+	 * DriveTrainDriveInchesCommand(_inchesToTarget - distanceDesiredFromTarget, .2,
+	 * Calibrations.drivingForward); nick.start();
+	 * System.out.println("MOVE FORWARD " + (_inchesToTarget -
+	 * distanceDesiredFromTarget) + " INCHES"); } else if (_inchesToTarget <
+	 * distanceDesiredFromTarget) { DriveTrainDriveInchesCommand nick = new
+	 * DriveTrainDriveInchesCommand(distanceDesiredFromTarget - _inchesToTarget, .2,
+	 * Calibrations.drivingBackward); nick.start(); System.out.println("BACKING UP "
+	 * + (distanceDesiredFromTarget - _inchesToTarget) + " INCHES"); } } else {
+	 * 
+	 */
 
-		if (_inchesToTarget > Calibrations.MAXIMUM_DISTANCE_FROM_LIMELIGHT) {
-			_inchesToTarget = Calibrations.MAXIMUM_DISTANCE_FROM_LIMELIGHT;
-		}
-		
-		if (hasTarget()) {
-			if (_inchesToTarget < (distanceDesiredFromTarget + Calibrations.desiredTargetBuffer) && _inchesToTarget > (distanceDesiredFromTarget - Calibrations.desiredTargetBuffer)) {
-				(new DriveTrainDriveFPSCommand()).start();
-				System.out.println("DO NOTHING, I'M AT 2 FEET");
-			} else if (_inchesToTarget > distanceDesiredFromTarget) {
-				DriveTrainDriveInchesCommand nick = new DriveTrainDriveInchesCommand(_inchesToTarget - distanceDesiredFromTarget, .2, Calibrations.drivingForward);
-				nick.start();
-				System.out.println("MOVE FORWARD " + (_inchesToTarget - distanceDesiredFromTarget) + " INCHES");
-			} else if (_inchesToTarget < distanceDesiredFromTarget) {
-				DriveTrainDriveInchesCommand nick = new DriveTrainDriveInchesCommand(distanceDesiredFromTarget - _inchesToTarget, .2, Calibrations.drivingBackward);
-				nick.start();
-				System.out.println("BACKING UP " + (distanceDesiredFromTarget - _inchesToTarget) + " INCHES");
-			} 
-		} else {
-			
-		*/
+	/*
+	 * driveTrainDriveInchesCommand.start();
+	 * 
+	 * if (direction == Calibrations.drivingBackward) { netInchesTraveledSoFar =
+	 * distanceToDriveBlind -
+	 * Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled(); } else {
+	 * netInchesTraveledSoFar =
+	 * Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled() -
+	 * distanceToDriveBlind; }
+	 */
 
-		/*driveTrainDriveInchesCommand.start();
-    	
-    	if (direction == Calibrations.drivingBackward) {
-    	netInchesTraveledSoFar = distanceToDriveBlind - Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled();
-    	} else {
-    	netInchesTraveledSoFar = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getNetInchesTraveled() - distanceToDriveBlind;
-		   }*/
-		   
-		   /*  boolean hasTraveledTargetDistance = (netInchesTraveledSoFar >= distanceToDriveBlind); 
-    	double area = ta.getDouble(0.0);
-        
-   	 	if (timeoutTimer.get() > timeoutSeconds) {
-      	hasTraveledTargetDistance = true;
-
-      	System.out.println("TIMEOUTTIMEOUTTIMEOUT");
-    	}		
-
-    	if (area > 0.0) {
-      	new DriveDistanceToTargetCommand().start();
-      	hasTraveledTargetDistance = true;
-    	}
-    	
-    	return hasTraveledTargetDistance; */
+	/*
+	 * boolean hasTraveledTargetDistance = (netInchesTraveledSoFar >=
+	 * distanceToDriveBlind); double area = ta.getDouble(0.0);
+	 * 
+	 * if (timeoutTimer.get() > timeoutSeconds) { hasTraveledTargetDistance = true;
+	 * 
+	 * System.out.println("TIMEOUTTIMEOUTTIMEOUT"); }
+	 * 
+	 * if (area > 0.0) { new DriveDistanceToTargetCommand().start();
+	 * hasTraveledTargetDistance = true; }
+	 * 
+	 * return hasTraveledTargetDistance;
+	 */
 }

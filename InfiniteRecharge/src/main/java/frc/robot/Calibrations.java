@@ -1,21 +1,26 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+
 public class Calibrations {
 
-    // DRIVE TRAIN
-	// Slew rate of .2 seems to work well for when the lift is lowered, though more testing
+	// DRIVE TRAIN
+	// Slew rate of .2 seems to work well for when the lift is lowered, though more
+	// testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
 	public static final double SLEW_RATE_MINIMUM = .3;
 	public static final double SLEW_RATE_MAXIMUM = .35;
-	
+
 	// The safe slew rate changes based upon a few variables:
-	// 		- What gear we are in
-	//		- How high the lift is
-	//		- What direction the robot is moving (forward or backward.)
-	//			(backwards to forwards seems worse - but that's with no arm or cube, and a broken chassis)
-	//		- A number low enough to be safe for all scenarios will negatively impact normal operation.
-	
+	// - What gear we are in
+	// - How high the lift is
+	// - What direction the robot is moving (forward or backward.)
+	// (backwards to forwards seems worse - but that's with no arm or cube, and a
+	// broken chassis)
+	// - A number low enough to be safe for all scenarios will negatively impact
+	// normal operation.
+
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
 	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .025;
@@ -24,18 +29,16 @@ public class Calibrations {
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
 	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 1;
 	public static final boolean DRIVE_TRAIN_STARTING_IS_IN_HIGH_GEAR = false;
-	
 
 	public static final double TURN_FEED_FORWARD_MAGNITUDE = .18;
 	public static final double TRANSLATION_FEED_FORWARD_MAGNITUDE = .1;
-
 
 	// .35 is for minibot
 	// public static final double turnFeedForwardMagnitude = .35;
 
 	// .18 is for minibot
 	// public static final double translationFeedForwardMagnitude = .18;
-	
+
 	// Drive collision
 	public static final double DRIVE_TRAIN_COLLISION_JERK_THRESHOLD = 4;
 
@@ -45,30 +48,31 @@ public class Calibrations {
 	// Drive and gyro modes
 	public static final int BULLDOZER_TANK = 0;
 	public static final int FPS_TANK = 1;
-	
+
 	public static final int GYRO_DISABLED = 0;
 	public static final int GYRO_ENABLED = 1;
-	
-	// Any turn taking too long to complete (e.g. wheel scrub has halted the turn) will abandon after this number of seconds.
+
+	// Any turn taking too long to complete (e.g. wheel scrub has halted the turn)
+	// will abandon after this number of seconds.
 	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS = 1;
 	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
-	
+
 	// Deadband
 	public static final double DEAD_BAND_MAGNITUDE = .2;
-	
+
 	// Default drive and gyro modes
 	public static final int DEFAULT_DRIVE_MODE = Calibrations.FPS_TANK;
 	public static final int DEFAULT_GYRO_MODE = Calibrations.GYRO_ENABLED;
-	
-	
+
 	// DRIVE ENCODERS
 	public static final double ENCODER_CUI103_CYCLES_PER_REVOLUTION = 4096;
 	public static final double TALON_SRX_MOTOR_TICKS_PER_REVOLUTION = 8186;
+	public static final double TALON_FX_TICKS_PER_REVOLUTION = 2048;
 	public static final double WHEEL_DIAMETER_INCHES = 4;
 	public static final double WHEEL_CIRCUMFERENCE_INCHES = Calibrations.WHEEL_DIAMETER_INCHES * Math.PI;
-	public static final double WHEEL_DIAMETER_FEET = 1/3;
+	public static final double WHEEL_DIAMETER_FEET = 1 / 3;
 	public static final double WHEEL_CIRCUMFERENCE_FEET = Calibrations.WHEEL_DIAMETER_FEET * Math.PI;
-	
+
 	// We're using CUI 103 encoders on both sides of the drivetrain.
 	public static final double ENCODER_CYCLES_PER_REVOLUTION = TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
 
@@ -78,47 +82,76 @@ public class Calibrations {
 	public static final int USE_BOTH_ENCODERS = 2;
 
 	public static final int USE_WHICH_ENCODERS = USE_BOTH_ENCODERS;
-	
+
 	// Direction magic numbers
 	public static final int DRIVING_FORWARD = -1;
 	public static final int DRIVING_BACKWARD = 1;
-	
+
 	// Adjust max power based on elevator height
 	public static final double DRIVETRAIN_MAXPOWER_AT_MAX_ELEVEATOR_HEIGHT = .4;
 
+	// Robot characterization generated values
+	public static final double KS_VOLTS = 0.12;
+	public static final double KV_VOLT_SECONDS_PER_METER = 2.27;
+	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.09;
+	public static final double KP_DRIVE_VELOCITY = 0.00005;
+	public static final double KI_DRIVE_VELOCITY = 0;
+	public static final double KD_DRIVE_VELOCITY = 0.000178;
 
-	// CLIMBER 
+	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
+	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
+			Calibrations.TRACK_WIDTH_METERS);
+	public static final int ENCODER_CPR = 2048;
+	public static final double WHEEL_DIAMETER_METERS = 0.15621;
+	public static final double POST_ENCODER_GEARING = 9.77;
+	public static final double ENCODER_DISTANCE_PER_PULSE =
+			// Assumes the encoders are directly mounted on the wheel shafts
+			((WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_CPR) / POST_ENCODER_GEARING;
+
+	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5;
+	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3;
+
+	// Reasonable baseline values for a RAMSETE follower in units of meters and
+	// seconds
+	public static final double RAMSETE_B = 2;
+	public static final double RAMSETE_ZETA = 0.7;
+
+	// CLIMBER
 	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = .13;
 	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = .66;
 	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = .4;
 	public static final double CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE = .2;
-	
-	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
-    public static final int CLIMBER_ENCODER_MAXIMUM_VALUE = 53000;
 
-    // The safety margin is how far away from the end of travel the encoders will stop the lift.
-	// At low speeds (max of .3), and a lift max value of 30k, 1500 maxes out the climber.
-	// At higher speeds, a higher value is needed because the climber will overshoot the target until we have PID.
-	
+	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
+	public static final int CLIMBER_ENCODER_MAXIMUM_VALUE = 53000;
+
+	// The safety margin is how far away from the end of travel the encoders will
+	// stop the lift.
+	// At low speeds (max of .3), and a lift max value of 30k, 1500 maxes out the
+	// climber.
+	// At higher speeds, a higher value is needed because the climber will overshoot
+	// the target until we have PID.
+
 	public static final int CLIMBER_LIFT_UPWARD_SAFETY_MARGIN = 400;
 	public static final int CLIMBER_LIFT_DOWNWARD_SAFETY_MARGIN = 500;
 	public static final int CLIMBER_AT_POSITION_BUFFER = 500;
-	
+
 	public static final double CLIMBER_CONSIDERED_MOVING_ENCODER_RATE = 0;
-	
-    public static final double CLIMBER_MOVE_TO_POSITION_TIMEOUT = 2;
-    public static final double CLIMBER_SAFETY_TIMER_TIMEOUT = 5;
-	
+
+	public static final double CLIMBER_MOVE_TO_POSITION_TIMEOUT = 2;
+	public static final double CLIMBER_SAFETY_TIMER_TIMEOUT = 5;
+
 	public static final int CLIMBER_INCHES_TO_ENCODER_TICKS_CONVERSION_VALUE = 411;
 	public static final int CLIMBER_INCHES_TO_ENCODER_TICKS_OFFSET_VALUE = 10;
-	
+
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	// INTAKE
-	public static final double INTAKE_POWER_MAGNITUDE = 1;
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = 1;
+	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
-	//HOPPER
+	// HOPPER
 	public static final double HOPPER_LEFT_FORWARD = 0.5;
 	public static final double HOPPER_RIGHT_FORWARD = 0.5;
 	public static final double HOPPER_LEFT_REVERSE = -0.5;
@@ -127,12 +160,14 @@ public class Calibrations {
 	public static final double HOPPER_FEED_FULL_SPEED_RIGHT = -1.0;
 	public static final double HOPPER_STOP = 0;
 
-	//CONVEYANCE
+	// CONVEYANCE
 	public static final double CONVEYANCE_FULL_SPEED = 1.0;
 	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
 	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
 	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
 	public static final double CONVEYANCE_STOP = 0;
+	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
+
 
 	// SHOOTER 
 	public static final double SHOOTER_KF = 0.0098;
@@ -140,8 +175,9 @@ public class Calibrations {
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RANGE = 100;
-	
+
 	/*
+
 	sets soft and hard limits for Falcon Motor RPM
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
@@ -151,29 +187,27 @@ public class Calibrations {
 	public static final int FALCON_RPM_SOFT_MAX = 0;
 	public static final int FALCON_RPM_SOFT_MIN = 0;
 
-	
 	// Velocity 600 = about 45 RPM (measured empirically)
-    // 25 revolutions = 204661 encoder ticks (measured empirically)
-    // 1 rev = ~8186 ticks
+	// 25 revolutions = 204661 encoder ticks (measured empirically)
+	// 1 rev = ~8186 ticks
 
-    // Velocity: measured in "change in native units per 100 ms"
+	// Velocity: measured in "change in native units per 100 ms"
 
-    // 45 rpm = ~368,370 ticks
-    // 60 seconds = 600 100ms segments
-    // 600 * 600 = 360,000 ticks, so this checks out within range of measurement
-    // error
-    // 1 rpm = 8186 ticks in 600 time units
-    // 1 rpm = 8192 / 600 = 13.64 velocity
+	// 45 rpm = ~368,370 ticks
+	// 60 seconds = 600 100ms segments
+	// 600 * 600 = 360,000 ticks, so this checks out within range of measurement
+	// error
+	// 1 rpm = 8186 ticks in 600 time units
+	// 1 rpm = 8192 / 600 = 13.64 velocity
 
 	public static final double VEL_TO_RPM = 8192 / 600;
 	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
 
-    /**
-     * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
-     * either direction: velocity setpoint is in units/100ms
-     */
+	/**
+	 * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
+	 * either direction: velocity setpoint is in units/100ms
+	 */
 
-	
 	// LIMELIGHT
 	public static final double FLOOR_TO_LIMELIGHT_LENS_HEIGHT = 19.5;
 	public static final double FLOOR_TO_TARGET_CENTER_HEIGHT = 28.0;
@@ -187,10 +221,9 @@ public class Calibrations {
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;
 	public static final double LIGHTING_FLASHES = 10;
 
-	//n CAMERA QUALITY
+	// n CAMERA QUALITY
 	public static final int CAMERA_QUALITY = 50;
 
 	// CONTROLLER RUMBLE
 	public static final double GAME_PIECE_COLLECTED_RUMBLE_SECONDS = .25;
 }
-
