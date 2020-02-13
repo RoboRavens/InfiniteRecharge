@@ -171,6 +171,7 @@ public class Calibrations {
 
 	//Current Limiting
 	public static final int AMPS = 60;
+	public static final int TIMEOUT = 0;
 	
 	/*
 	sets soft and hard limits for Falcon Motor RPM

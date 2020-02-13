@@ -5,7 +5,6 @@ import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -28,7 +27,7 @@ public class RavenTalon {
 		_talonFX = new WPI_TalonFX(mainChannel);
 		_talonFX2 = new WPI_TalonFX(followerChannel);
 		_talonFX2.follow(_talonFX);
-		_talonSRX = new TalonSRX(0);
+		//_talonSRX = new TalonSRX(0);
 		_encoderReversed = encoderReversed;
 
 
@@ -120,9 +119,9 @@ public class RavenTalon {
 		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE * 10 * (_encoderReversed ? -1 : 1);
 	}
 
-	public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+	/*public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
 		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
-	}
+	}*/
 
 	public void configStatorCurrentLimit(StatorCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
 		_talonFX.configStatorCurrentLimit(currLimitCfg, timeoutMs);

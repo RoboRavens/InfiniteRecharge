@@ -4,6 +4,8 @@ import frc.controls.AxisCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -54,6 +56,7 @@ public class RavenTank {
 
 	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
 	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
+
 
 	private DifferentialDriveOdometry _odometry;
 
@@ -620,14 +623,15 @@ public class RavenTank {
 	}
 
 	public void currentLimting() {
-	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configPeakCurrentLimit(Calibrations.AMPS, 0); 
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configContinuousCurrentLimit(Calibrations.AMPS, 0); 
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configPeakCurrentDuration(Calibrations.AMPS, 0); 
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.enableCurrentLimit(true);
+	
 
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configPeakCurrentLimit(Calibrations.AMPS, 0);
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configContinuousCurrentLimit(Calibrations.AMPS, 0);
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configPeakCurrentDuration(Calibrations.AMPS, 0);
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.enableCurrentLimit(true);
+
+	//This is the TalonSRX current limiting
+	
+	//This is the FalconFX current limting
+	StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.AMPS, 0.0, 0.0);
+	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
+	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
+	
 	}
 }
