@@ -29,7 +29,7 @@ public class InitiationLineShotCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("INITIATION LINE SHOT running at: " + Robot.SHOOTER_SUBSYSTEM.getVelocity());
+    //System.out.println("INITIATION LINE SHOT running at: " + Robot.SHOOTER_SUBSYSTEM.getVelocity());
     Robot.SHOOTER_SUBSYSTEM.setVelocityRaw(Calibrations.INIT_LINE_VELOCITY);
   }
 

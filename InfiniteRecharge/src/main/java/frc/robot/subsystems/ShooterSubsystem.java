@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
@@ -106,12 +107,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocityRaw(int velocity) {
     SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
@@ -119,8 +122,19 @@ public class ShooterSubsystem extends SubsystemBase {
     setVelocity(rpm * Calibrations.RPM_TO_VEL);
   }
 
+  public int secsTillRevved() {
+    double lastTimestamp = Timer.getFPGATimestamp();
+
+
+    return 1;
+  }
+
   public void stopShooter() {
     this.setVelocity(0);
+  }
+
+  public void printShooterSpeeds() {
+    System.out.println("UnitsPer100ms: " + getVelocity() + ". RPM: " + getRPM());
   }
 
   public int getVelocity() {
