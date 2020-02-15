@@ -5,13 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.powercells;
+package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.shooter.PrepareShotCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.Robot;
+import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 
-public class RunShooterCommandGroup extends SequentialCommandGroup {
-  public RunShooterCommandGroup() {
-    super(new PrepareShotCommandGroup(), new RunPowerCellsShooterCommandGroup());
+public class PrepareShotCommandGroup extends ParallelCommandGroup {
+
+  public PrepareShotCommandGroup() {
+    super(new DriveTrainTurnTargetCommand(), new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM.getTargetRPM()));
   }
 }

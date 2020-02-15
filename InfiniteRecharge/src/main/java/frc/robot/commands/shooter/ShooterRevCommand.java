@@ -12,7 +12,9 @@ import frc.robot.Robot;
 
 public class ShooterRevCommand extends CommandBase {
 
-  public ShooterRevCommand() {
+  private double _setRPM;
+  public ShooterRevCommand(double setRPM) {
+    this._setRPM = setRPM;
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
@@ -25,11 +27,14 @@ public class ShooterRevCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("SHOOTER REV COMMAND HAS BEEN CALLED");
-    Robot.SHOOTER_SUBSYSTEM.setRPM(1000.0);
+    Robot.SHOOTER_SUBSYSTEM.setRPM(this._setRPM);
   }
 
   public boolean isFinished() {
-    return true;
+    boolean isFinished = false;
+    if (Robot.SHOOTER_SUBSYSTEM.getRPM() >= Robot.SHOOTER_SUBSYSTEM.getTargetRPM()) {
+      isFinished = true;
+    }
+    return isFinished;
   }
 }

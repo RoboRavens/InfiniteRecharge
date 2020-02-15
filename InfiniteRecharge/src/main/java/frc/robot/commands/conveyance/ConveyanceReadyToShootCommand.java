@@ -38,7 +38,6 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Conveyance ready to shoot done/interrupted");
     Robot.CONVEYANCE_SUBSYSTEM.stop();
     _safetyTimer.stop();
   }

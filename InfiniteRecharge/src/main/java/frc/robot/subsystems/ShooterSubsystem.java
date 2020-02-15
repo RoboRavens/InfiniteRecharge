@@ -15,7 +15,6 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -27,6 +26,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonSRX _shooterMotor;
   private VictorSPX _shooterMotor2;
   private Joystick _joystick;
+  private Boolean _isControlPanelShot = false;
+  private double _targetRPM = 0;
 
   private double targetVelocity_UnitsPer100ms = 0;
   double velocity;
@@ -119,8 +120,18 @@ public class ShooterSubsystem extends SubsystemBase {
     setVelocity(rpm * Calibrations.RPM_TO_VEL);
   }
 
+  public double getTargetRPM() {
+    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == true) {
+      this._targetRPM = Calibrations.CONTROL_PANEL_RPM;
+    } 
+    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == false) {
+      this._targetRPM = Calibrations.INIT_LINE_RPM;
+    }
+    return this._targetRPM;
+  }
+
   public void stopShooter() {
-    this.setVelocity(0);
+    this.setRPM(0);
   }
 
   public int getVelocity() {
@@ -133,5 +144,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void defaultCommand() {
     this.setVelocity(0);
+  }
+
+  public boolean getIsControlPanelShot() {
+    return this._isControlPanelShot;
+  }
+
+  public void setIsControlPanelShot(boolean isControlPanelShot) {
+    this._isControlPanelShot = isControlPanelShot;
   }
 }

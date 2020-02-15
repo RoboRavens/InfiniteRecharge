@@ -41,6 +41,10 @@ public class HopperReadyShotCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    boolean isFinished = false;
+    if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
+      isFinished = true;
+    }
+    return isFinished;
   }
 }

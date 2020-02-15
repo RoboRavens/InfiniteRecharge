@@ -17,9 +17,11 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
-import frc.robot.commands.shooter.ControlPanelShotCommand;
-import frc.robot.commands.shooter.InitiationLineShotCommand;
-import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.powercells.ReadyConveyanceCommandGroup;
+import frc.robot.commands.powercells.RevDownCommandGroup;
+import frc.robot.commands.powercells.RunShooterCommandGroup;
+import frc.robot.commands.shooter.SetShotControlPanelCommand;
+import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -43,10 +45,9 @@ public class Robot extends TimedRobot {
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
-
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
-
+  
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
@@ -64,12 +65,13 @@ public class Robot extends TimedRobot {
   public String autoFromDashboard;
   public String positionFromDashboard;
 
-  public ShooterRevCommand shooterRev = new ShooterRevCommand();
-  public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand();
-  public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand();
   public ShooterTuneCommand shooterTune = new ShooterTuneCommand();
-
+  public ReadyConveyanceCommandGroup readyConveyance = new ReadyConveyanceCommandGroup();
   public ShooterRumbleFeedbackCommand shooterRumble = new ShooterRumbleFeedbackCommand();
+  public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
+  public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
+  public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
+  public RevDownCommandGroup revDown = new RevDownCommandGroup();
 
   @Override
   public void robotInit() {
@@ -82,7 +84,6 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    this.setupShooterController();
     this.setupDriveController();
     this.setupOperationPanel();
   }
@@ -121,20 +122,19 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
   }
 
-  public void setupShooterController() {
-    System.out.println("DRIVE CONTROLLER CONFIGURED");
-    System.out.println("Remember to enable to actually make things work");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterLineShot);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTune);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whileHeld(shooterRev);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
-  }
-
   public void setupOperationPanel() {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTPOWERCELLS).whileHeld(runShooter);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTPOWERCELLS).whenReleased(revDown);
   }
 
   private void setupDriveController() {
+    System.out.println("DRIVE CONTROLLER CONFIGURED");
+    System.out.println("Remember to enable to actually make things work");
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(readyConveyance);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whenPressed(readyConveyance);
   }
 
   public void testPeriodic() {
