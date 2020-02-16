@@ -8,7 +8,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalon {
 	private WPI_TalonFX _talonFX;
-	private WPI_TalonFX _talonFX2;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -22,8 +21,8 @@ public class RavenTalon {
 
 	public RavenTalon(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
 		_talonFX = new WPI_TalonFX(mainChannel);
-		_talonFX2 = new WPI_TalonFX(followerChannel);
-		_talonFX2.follow(_talonFX);
+		var talonFX2 = new WPI_TalonFX(followerChannel);
+		talonFX2.follow(_talonFX);
 		_encoderReversed = encoderReversed;
 
 		_name = name;
@@ -98,7 +97,6 @@ public class RavenTalon {
 
 	public void setVoltage(double voltage) {
 		_talonFX.setVoltage(voltage);
-		_talonFX2.setVoltage(voltage);
 	}
 
 	/**
