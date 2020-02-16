@@ -123,7 +123,8 @@ public class RavenTalonFX implements IRavenTalon {
 		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
 	}*/
 
-	public void configStatorCurrentLimit(StatorCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
+	public void setCurrentLimit(int amps, int timeoutMs) {
+		StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.AMPS, 0.0, 0.0);
 		_talonFX.configStatorCurrentLimit(currLimitCfg, timeoutMs);
 	}
 

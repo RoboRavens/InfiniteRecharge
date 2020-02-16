@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Calibrations;
 import frc.robot.RobotMap;
-import frc.robot.Calibrations;
 
 public class IntakeSubsystem extends SubsystemBase {
 

@@ -1,7 +1,5 @@
 package frc.ravenhardware;
 
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-
 public interface IRavenTalon {
 	public void setSlewRate(double slewRate);
 	public void setMaxPower(double newMaxPower);
@@ -24,12 +22,6 @@ public interface IRavenTalon {
 		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
 	}*/
 
-	public void configStatorCurrentLimit(StatorCurrentLimitConfiguration currLimitCfg, int timeoutMs);
-	//i is the amount of amps and j is the timeout in ms
-	public void configPeakCurrentLimit(int i, int j);
-	public void configPeakCurrentDuration(int i, int j);
-
-	public void configContinuousCurrentLimit(int i, int j);
-   	public void enableCurrentLimit(boolean b);
+	public void setCurrentLimit(int amps, int timeoutMs);
     public double getOutputCurrent();
 }
