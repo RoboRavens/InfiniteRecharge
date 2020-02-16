@@ -174,14 +174,21 @@ public class Calibrations {
     public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RANGE = 100;
+	public static final double TARGET_RPM_BUFFER = 100;
 
 	/*
 
 	sets soft and hard limits for Falcon Motor RPM
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
-	public static final int INIT_LINE_VELOCITY  = 57195;
+
+	public static final double VEL_TO_RPM = 8192 / 600;
+	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
+
+	public static final double INIT_LINE_VELOCITY  = 57195;
+	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
+	public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY * VEL_TO_RPM;
+	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY * VEL_TO_RPM;
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;
@@ -199,9 +206,6 @@ public class Calibrations {
 	// error
 	// 1 rpm = 8186 ticks in 600 time units
 	// 1 rpm = 8192 / 600 = 13.64 velocity
-
-	public static final double VEL_TO_RPM = 8192 / 600;
-	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
 
 	/**
 	 * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in
