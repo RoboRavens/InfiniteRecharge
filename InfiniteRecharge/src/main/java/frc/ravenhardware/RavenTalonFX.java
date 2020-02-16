@@ -5,13 +5,11 @@ import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalonFX implements IRavenTalon {
 	private WPI_TalonFX _talonFX;
 	private WPI_TalonFX _talonFX2;
-	private TalonSRX _talonSRX;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -27,7 +25,6 @@ public class RavenTalonFX implements IRavenTalon {
 		_talonFX = new WPI_TalonFX(mainChannel);
 		_talonFX2 = new WPI_TalonFX(followerChannel);
 		_talonFX2.follow(_talonFX);
-		//_talonSRX = new TalonSRX(0);
 		_encoderReversed = encoderReversed;
 
 
@@ -128,27 +125,8 @@ public class RavenTalonFX implements IRavenTalon {
 		_talonFX.configStatorCurrentLimit(currLimitCfg, timeoutMs);
 	}
 
-	//i is the amount of amps and j is the timeout in ms
-	public void configPeakCurrentLimit(int i, int j) {
-		_talonSRX.configPeakCurrentLimit(i, j);
-   }
-
-   //i is the amount of amps and j is the timeout in ms
-   public void configPeakCurrentDuration(int i, int j) {
-	   _talonSRX.configPeakCurrentDuration(i, j);
-   }
-
-   //i is the amount of amps and j is the timeout in ms
-   public void configContinuousCurrentLimit(int i, int j) {
-	   _talonSRX.configContinuousCurrentLimit(i, j);
-   }
-
-   public void enableCurrentLimit(boolean b) {
-	   _talonSRX.enableCurrentLimit(b);
-   }
-
-   public double getOutputCurrent() {
-	   return _talonSRX.getSupplyCurrent();
-   }
+    public double getOutputCurrent() {
+		// could either throw exception or return something useless
+	   return _talonFX.getStatorCurrent();
+    }
 }
-
