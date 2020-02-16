@@ -623,15 +623,11 @@ public class RavenTank {
 	}
 
 	public void currentLimting() {
+		//This is the TalonSRX current limiting
 	
-
-
-	//This is the TalonSRX current limiting
-	
-	//This is the FalconFX current limting
-	StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.AMPS, 0.0, 0.0);
-	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
-	Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
-	
+		//This is the FalconFX current limting
+		StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.AMPS, 0.0, 0.0);
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.configStatorCurrentLimit(currLimitCfg, Calibrations.TIMEOUT);
 	}
 }
