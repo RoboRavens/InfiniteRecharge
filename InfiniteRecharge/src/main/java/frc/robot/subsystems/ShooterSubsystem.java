@@ -129,6 +129,14 @@ public class ShooterSubsystem extends SubsystemBase {
     return 1;
   }
 
+  public boolean isRPMWithinRange(int target) {
+    // If RPM is within range, output true. Otherwise, output false
+    if (Calibrations.TARGET_RANGE > Math.abs(getRPM() - target)) {
+      return true;
+    }
+    return false;
+  }
+
   public void stopShooter() {
     this.setVelocity(0);
   }
