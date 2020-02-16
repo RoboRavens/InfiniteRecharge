@@ -174,7 +174,7 @@ public class Calibrations {
     public static final double SHOOTER_KP = 0.014;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RANGE = 100;
+	public static final double TARGET_RPM_BUFFER = 100;
 
 	/*
 

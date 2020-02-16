@@ -31,6 +31,12 @@ public class OperationPanel {
 		case SHOOTPOWERCELLS:
 			buttonNumber = 3;
 			break;
+		case READYTOSHOOT:
+			buttonNumber = 4;
+			break;
+		case OVERRIDEREVERSECONVEYANCE:
+			buttonNumber = 5;
+			break;
 		default:
 			throw new IllegalArgumentException("Invalid Button Code" + button);
 		}

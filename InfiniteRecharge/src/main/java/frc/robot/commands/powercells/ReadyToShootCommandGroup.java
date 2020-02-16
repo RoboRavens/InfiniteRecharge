@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.powercells;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.Robot;
-import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
+import frc.robot.commands.conveyance.ConveyanceReadyToShootCommand;
+import frc.robot.commands.hopper.HopperReadyShotCommand;
 
-public class PrepareShotCommandGroup extends ParallelCommandGroup {
-
-  public PrepareShotCommandGroup() {
-    super(new DriveTrainTurnTargetCommand(), new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM.getTargetRPM()));
+public class ReadyToShootCommandGroup extends ParallelCommandGroup {
+  
+  public ReadyToShootCommandGroup() {
+    super(new ConveyanceReadyToShootCommand(), new HopperReadyShotCommand());
   }
 }

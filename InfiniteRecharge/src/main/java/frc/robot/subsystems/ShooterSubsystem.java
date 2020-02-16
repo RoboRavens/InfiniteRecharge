@@ -153,4 +153,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setIsControlPanelShot(boolean isControlPanelShot) {
     this._isControlPanelShot = isControlPanelShot;
   }
+
+  public boolean getIsAtRpmRange() {
+    return true;
+  }
 }
