@@ -98,7 +98,6 @@ public class RavenTalonFX implements IRavenTalon {
 
 	public void setVoltage(double voltage) {
 		_talonFX.setVoltage(voltage);
-		_talonFX2.setVoltage(voltage);
 	}
 
 	  /**
@@ -126,7 +125,6 @@ public class RavenTalonFX implements IRavenTalon {
 	}
 
     public double getOutputCurrent() {
-		// could either throw exception or return something useless
-	   return _talonFX.getStatorCurrent();
+		return _talonFX.getStatorCurrent();
     }
 }
