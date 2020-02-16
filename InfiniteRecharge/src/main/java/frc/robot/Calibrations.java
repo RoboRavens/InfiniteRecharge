@@ -98,6 +98,8 @@ public class Calibrations {
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0.000178;
 
+	public static final double METERS_TO_INCHES = 39.37;
+
 	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
 			Calibrations.TRACK_WIDTH_METERS);

@@ -9,13 +9,18 @@ package frc.robot;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.List;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -40,8 +45,8 @@ import frc.util.LoggerOverlord;
 import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String kDefaultAuto = "ReverseLine";
+  private static final String kCustomAuto = "Curve";
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public DriverStation driverStation;
@@ -104,16 +109,35 @@ public class Robot extends TimedRobot {
   }
 
   @Override
+  public void disabledInit() {
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.tankDriveVolts(0, 0);
+  }
+
+  @Override
   public void autonomousInit() {
     Command autonomousCommand = null;
 
-    try {
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
-      autonomousCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    // An example trajectory to follow.  All units in meters.
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(3, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      List.of(new Translation2d(2, 0), new Translation2d(1, 1)),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass config
+      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
+    );
+
+    //try {
+      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
+      //var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
+      //DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
+      autonomousCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(exampleTrajectory);
+    //} catch (IOException e) {
+      //e.printStackTrace();
+    //}
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -122,6 +146,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
+
+  }
+
+  @Override
+  public void teleopInit() {
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading();
 
   }
 
