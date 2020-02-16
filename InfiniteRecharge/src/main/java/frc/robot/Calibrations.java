@@ -176,6 +176,8 @@ public class Calibrations {
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 100;
 
+
+
 	/*
 
 	sets soft and hard limits for Falcon Motor RPM
@@ -194,6 +196,8 @@ public class Calibrations {
 	public static final int FALCON_RPM_SOFT_MAX = 0;
 	public static final int FALCON_RPM_SOFT_MIN = 0;
 
+	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
+	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 	// Velocity 600 = about 45 RPM (measured empirically)
 	// 25 revolutions = 204661 encoder ticks (measured empirically)
 	// 1 rev = ~8186 ticks

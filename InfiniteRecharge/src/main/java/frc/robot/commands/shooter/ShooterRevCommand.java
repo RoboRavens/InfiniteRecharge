@@ -31,10 +31,12 @@ public class ShooterRevCommand extends CommandBase {
   }
 
   public boolean isFinished() {
-    boolean isFinished = false;
-    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange() == true) {
+  /*  boolean isFinished = false;
+    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Robot.SHOOTER_SUBSYSTEM.getTargetRPM()) == true) {
       isFinished = true;
     }
     return isFinished;
-  }
+  }*/
+  return false;
+ }
 }
