@@ -10,10 +10,9 @@ package frc.robot.commands.powercells;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.conveyance.ConveyanceShootCommand;
 import frc.robot.commands.hopper.HopperFeedFullCommand;
-import frc.robot.commands.shooter.ControlPanelShotCommand;
 
 public class RunShooterCommandGroup extends ParallelCommandGroup {
   public RunShooterCommandGroup() {
-    super(new ConveyanceShootCommand(), new HopperFeedFullCommand(), new ControlPanelShotCommand());
+    super(new HopperFeedFullCommand(), new ConveyanceShootCommand());
   }
 }

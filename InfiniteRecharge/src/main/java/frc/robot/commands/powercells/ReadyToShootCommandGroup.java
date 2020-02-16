@@ -9,11 +9,11 @@ package frc.robot.commands.powercells;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.conveyance.ConveyanceReadyToShootCommand;
-import frc.robot.commands.hopper.HopperFeedForwardCommand;
+import frc.robot.commands.hopper.HopperReadyShotCommand;
 
-public class ReadyConveyanceCommandGroup extends ParallelCommandGroup {
+public class ReadyToShootCommandGroup extends ParallelCommandGroup {
   
-  public ReadyConveyanceCommandGroup() {
-    super(new ConveyanceReadyToShootCommand(), new HopperFeedForwardCommand());
+  public ReadyToShootCommandGroup() {
+    super(new ConveyanceReadyToShootCommand(), new HopperReadyShotCommand());
   }
 }
