@@ -8,7 +8,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
 public class ShooterRevCommand extends CommandBase {
@@ -32,10 +31,12 @@ public class ShooterRevCommand extends CommandBase {
   }
 
   public boolean isFinished() {
-    boolean isFinished = false;
-    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange() == true) {
+  /*  boolean isFinished = false;
+    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Robot.SHOOTER_SUBSYSTEM.getTargetRPM()) == true) {
       isFinished = true;
     }
     return isFinished;
-  }
+  }*/
+  return false;
+ }
 }
