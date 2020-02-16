@@ -4,6 +4,10 @@ import frc.controls.AxisCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,10 +16,15 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Transform2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator.ControlVectorList;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -574,7 +583,6 @@ public class RavenTank {
 
 		this.resetDriveEncoders();
 		this.resetOrientationGyro();
-		;
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
 
 		var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
@@ -598,7 +606,22 @@ public class RavenTank {
 		});
 	}
 
-	public TrajectoryConfig GetTrajectoryConfig() {
+	// Change a trajectory so that the robot follows it but drives backwards
+	public Trajectory reverseTrajectory(Trajectory trajectory){
+		final var flip = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180.0));
+		List<State> states = trajectory.getStates();
+		return new Trajectory(states.stream().map(state -> 
+		{
+			var newPose = state.poseMeters.transformBy(flip);
+			var newCurvatureRadPerMeter = state.curvatureRadPerMeter * -1;
+			return new State(state.timeSeconds,
+				state.velocityMetersPerSecond, state.accelerationMetersPerSecondSq,
+				newPose, newCurvatureRadPerMeter);
+		})
+        .collect(Collectors.toList()));
+	}
+
+	public TrajectoryConfig getTrajectoryConfig() {
 		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
 				new SimpleMotorFeedforward(Calibrations.KS_VOLTS, Calibrations.KV_VOLT_SECONDS_PER_METER,
