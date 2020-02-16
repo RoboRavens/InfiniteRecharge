@@ -54,8 +54,8 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
-	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
+	IRavenTalon driveLeft = new RavenTalonFX(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
+	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
 
 
 	private DifferentialDriveOdometry _odometry;

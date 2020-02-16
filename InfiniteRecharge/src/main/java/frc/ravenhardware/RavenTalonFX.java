@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-public class RavenTalonFX {
+public class RavenTalonFX implements IRavenTalon {
 	private WPI_TalonFX _talonFX;
 	private WPI_TalonFX _talonFX2;
 	private TalonSRX _talonSRX;

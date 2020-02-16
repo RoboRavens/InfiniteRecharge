@@ -8,7 +8,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-public class RavenTalonSRX {
+public class RavenTalonSRX implements IRavenTalon {
 	private WPI_TalonFX _talonFX;
 	private WPI_TalonFX _talonFX2;
 	private TalonSRX _talonSRX;
@@ -24,7 +24,7 @@ public class RavenTalonSRX {
 	protected double deadband = .0;
 
 	public RavenTalonSRX(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
-		_talonFX = newdd WPI_TalonFX(mainChannel);
+		_talonFX = new WPI_TalonFX(mainChannel);
 		_talonFX2 = new WPI_TalonFX(followerChannel);
 		_talonFX2.follow(_talonFX);
 		//_talonSRX = new TalonSRX(0);
