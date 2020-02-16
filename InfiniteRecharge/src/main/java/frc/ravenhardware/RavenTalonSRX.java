@@ -4,13 +4,9 @@ import frc.robot.Calibrations;
 import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalonSRX implements IRavenTalon {
-	private WPI_TalonFX _talonFX;
-	private WPI_TalonFX _talonFX2;
 	private TalonSRX _talonSRX;
 	protected double outputSpeed;
 	private String _name;
@@ -24,13 +20,8 @@ public class RavenTalonSRX implements IRavenTalon {
 	protected double deadband = .0;
 
 	public RavenTalonSRX(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
-		_talonFX = new WPI_TalonFX(mainChannel);
-		_talonFX2 = new WPI_TalonFX(followerChannel);
-		_talonFX2.follow(_talonFX);
-		//_talonSRX = new TalonSRX(0);
+		_talonSRX = new TalonSRX(mainChannel);
 		_encoderReversed = encoderReversed;
-
-
 		_name = name;
 		setSlewRate(slewRate);
 	}
@@ -88,20 +79,20 @@ public class RavenTalonSRX implements IRavenTalon {
 
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
-		_talonFX.set(ControlMode.PercentOutput, outputSpeed);
+		_talonSRX.set(ControlMode.PercentOutput, outputSpeed);
 	}
 
 	public int getEncoderPosition() {
-		return (int) _talonFX.getSensorCollection().getIntegratedSensorPosition();
+		//what should SRX do?
+		return 0;
 	}
 
 	public void resetEncoderPosition() {
-		_talonFX.getSensorCollection().setIntegratedSensorPosition(0, 10);
+		// what should the SRX do?
 	}
 
 	public void setVoltage(double voltage) {
-		_talonFX.setVoltage(voltage);
-		_talonFX2.setVoltage(voltage);
+		// what should the SRX do?
 	}
 
 	  /**
@@ -111,20 +102,13 @@ public class RavenTalonSRX implements IRavenTalon {
    * @return The distance driven since the last reset
    */
 	public double getDistanceMeters() {
-		// return _talon.getSelectedSensorPosition(Constants.DriveConstants.pidx) * _distancePerPulse;
-		return _talonFX.getSensorCollection().getIntegratedSensorPosition() * Calibrations.ENCODER_DISTANCE_PER_PULSE * (_encoderReversed ? -1 : 1);
+		//what should SRX do?
+		return 0.0;
 	}
 
 	public double getRateMeters() {
-		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE * 10 * (_encoderReversed ? -1 : 1);
-	}
-
-	/*public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
-		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
-	}*/
-
-	public void configStatorCurrentLimit(StatorCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
-		_talonFX.configStatorCurrentLimit(currLimitCfg, timeoutMs);
+		//what should SRX do?
+		return 0.0;
 	}
 
 	public void setCurrentLimit(int amps, int timeoutMs) {
