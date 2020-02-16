@@ -8,6 +8,7 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
 public class SetShotInitiationLineCommand extends CommandBase {
@@ -26,7 +27,7 @@ public class SetShotInitiationLineCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.setIsControlPanelShot(false);
+    Robot.SHOOTER_SUBSYSTEM.setTargetShotRPM(Calibrations.INITIATION_LINE_SHOT);
   }
 
   // Called once the command ends or is interrupted.

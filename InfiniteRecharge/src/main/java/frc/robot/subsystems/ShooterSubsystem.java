@@ -130,7 +130,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return 1;
   }
 
-  public boolean isRPMWithinRange(int target) {
+  public boolean getIsAtRpmRange(double target) {
     // If RPM is within range, output true. Otherwise, output false
     if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - target)) {
       return true;
@@ -140,12 +140,12 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public double getTargetRPM() {
-    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == true) {
+    /*if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == true) {
       this._targetRPM = Calibrations.CONTROL_PANEL_RPM;
     } 
     if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == false) {
       this._targetRPM = Calibrations.INIT_LINE_RPM;
-    }
+    }*/
     return this._targetRPM;
   }
 
@@ -169,15 +169,22 @@ public class ShooterSubsystem extends SubsystemBase {
     this.setVelocity(0);
   }
 
+  /*
   public boolean getIsControlPanelShot() {
     return this._isControlPanelShot;
   }
-
+  
   public void setIsControlPanelShot(boolean isControlPanelShot) {
     this._isControlPanelShot = isControlPanelShot;
   }
-
+  */
+  
+  public void setTargetShotRPM(double shot) {
+    this._targetRPM = shot;
+  }
+/*
   public boolean getIsAtRpmRange() {
     return true;
   }
+  */
 }
