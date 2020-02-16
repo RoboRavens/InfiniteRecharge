@@ -5,9 +5,12 @@ import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
+<<<<<<< HEAD
+=======
 import java.util.List;
 import java.util.stream.Collectors;
 
+>>>>>>> master
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -59,10 +62,16 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
+<<<<<<< HEAD
+	IRavenTalon driveLeft = new RavenTalonFX(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
+	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
+
+=======
 	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft",
 			_slewRate, false);
 	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight",
 			_slewRate, false);
+>>>>>>> master
 
 	private DifferentialDriveOdometry _odometry;
 
@@ -100,7 +109,9 @@ public class RavenTank {
 		rightX = deadband(rightX);
 
 		fpsTank(left, rightX);
+
 	}
+		
 
 	public void driveLeftSide(double magnitude) {
 		driveLeft.set(magnitude);
@@ -633,5 +644,11 @@ public class RavenTank {
 						.setKinematics(Calibrations.DRIVE_KINEMATICS)
 						// Apply the voltage constraint
 						.addConstraint(autoVoltageConstraint).setReversed(false);
+	}
+
+	public void currentLimting() {
+		//This is the FalconFX current limting
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.AMPS, Calibrations.TIMEOUT);
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.setCurrentLimit(Calibrations.AMPS, Calibrations.TIMEOUT);
 	}
 }

@@ -170,14 +170,22 @@ public class Calibrations {
 
 
 	// SHOOTER 
+	public static final double TARGET_RANGE = 100;
 	public static final double SHOOTER_KF = 0.00985;
     public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 100;
 
+<<<<<<< HEAD
+	//Current Limiting
+	public static final int AMPS = 60;
+	public static final int TIMEOUT = 0;
+	
+=======
 
 
+>>>>>>> master
 	/*
 
 	sets soft and hard limits for Falcon Motor RPM
