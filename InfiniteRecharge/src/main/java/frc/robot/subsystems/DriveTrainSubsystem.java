@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.AxisCode;
 import frc.ravenhardware.RavenTank;
@@ -35,10 +36,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "SlewRate", () -> _slewRateFinal);
 		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PitchAngle", () -> ravenTank.getPitchAngle());
 		NetworkTableDiagnostics.SubsystemBoolean("DriveTrain", "CutPower", () -> ravenTank.getCutPower());
+
 	}
 
 	public void periodic() {
 		ravenTank.setMaxPower(1);
+
+		SmartDashboard.putNumber("EncoderRightInchesTraveled", ravenTank.getRightNetInchesTraveled());
+		SmartDashboard.putNumber("EncoderLeftInchesTraveled", ravenTank.getLeftNetInchesTraveled());
+		ravenTank.logPose();
 
 		double slewRate = Calibrations.SLEW_RATE_MAXIMUM;
 		slewRate = Math.max(Calibrations.SLEW_RATE_MINIMUM, slewRate);

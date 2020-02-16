@@ -5,12 +5,9 @@ import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
-<<<<<<< HEAD
-=======
 import java.util.List;
 import java.util.stream.Collectors;
 
->>>>>>> master
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
@@ -62,16 +59,8 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-<<<<<<< HEAD
 	IRavenTalon driveLeft = new RavenTalonFX(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
-	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, false);
-
-=======
-	RavenTalon driveLeft = new RavenTalon(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft",
-			_slewRate, false);
-	RavenTalon driveRight = new RavenTalon(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight",
-			_slewRate, false);
->>>>>>> master
+	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, true);
 
 	private DifferentialDriveOdometry _odometry;
 
@@ -390,6 +379,10 @@ public class RavenTank {
 		return this.gyroTargetHeading;
 	}
 
+	public Pose2d getPose() {
+		return _odometry.getPoseMeters();
+	}
+
 	public double setGyroTargetHeadingToCurrentHeading() {
 		this.gyroTargetHeading = getCurrentHeading();
 		return gyroTargetHeading;
@@ -492,16 +485,11 @@ public class RavenTank {
 	}
 
 	public double getRightNetInchesTraveled() {
-		double rightNetRevolutions = driveRight.getEncoderPosition()
-				/ Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
-
-		return rightNetRevolutions * Calibrations.WHEEL_CIRCUMFERENCE_INCHES;
+		return driveRight.getDistanceMeters() * Calibrations.METERS_TO_INCHES;
 	}
 
 	public double getLeftNetInchesTraveled() {
-		double leftNetRevolutions = driveLeft.getEncoderPosition() / Calibrations.TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
-
-		return -leftNetRevolutions * Calibrations.WHEEL_CIRCUMFERENCE_INCHES;
+		return driveLeft.getDistanceMeters() * Calibrations.METERS_TO_INCHES;
 	}
 
 	public void setSlewRate(double slewRate) {
@@ -574,9 +562,9 @@ public class RavenTank {
 				driveRight.getDistanceMeters());
 	}
 
-	private void tankDriveVolts(double left, double right) {
+	public void tankDriveVolts(double left, double right) {
 		driveLeft.setVoltage(left);
-		driveRight.setVoltage(right);
+		driveRight.setVoltage(-right);
 	}
 
 	/**
@@ -592,8 +580,8 @@ public class RavenTank {
 
 		this.resetDriveEncoders();
 		this.resetOrientationGyro();
+		//_odometry.resetPosition(new Pose2d(new Translation2d(3, 0), Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
-
 		var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
 		trajectory = trajectory.transformBy(transform);
 
@@ -646,6 +634,10 @@ public class RavenTank {
 						.addConstraint(autoVoltageConstraint).setReversed(false);
 	}
 
+	public void logPose(){
+		System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
+	}
+	  
 	public void currentLimting() {
 		//This is the FalconFX current limting
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.AMPS, Calibrations.TIMEOUT);

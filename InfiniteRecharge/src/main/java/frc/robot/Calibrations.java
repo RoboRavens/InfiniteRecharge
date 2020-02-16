@@ -98,6 +98,8 @@ public class Calibrations {
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0.000178;
 
+	public static final double METERS_TO_INCHES = 39.37;
+
 	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
 			Calibrations.TRACK_WIDTH_METERS);
@@ -177,15 +179,10 @@ public class Calibrations {
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 100;
 
-<<<<<<< HEAD
 	//Current Limiting
 	public static final int AMPS = 60;
 	public static final int TIMEOUT = 0;
 	
-=======
-
-
->>>>>>> master
 	/*
 
 	sets soft and hard limits for Falcon Motor RPM
