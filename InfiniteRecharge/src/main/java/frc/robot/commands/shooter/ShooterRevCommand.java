@@ -8,24 +8,17 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Calibrations;
+import frc.robot.Robot;
 
-/**
- * An example command that uses an example subsystem.
- */
 public class ShooterRevCommand extends CommandBase {
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ShooterSubsystem shooter = new ShooterSubsystem();
-  public ShooterRevCommand(ShooterSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-    
-    }
-  // Called when the command is initially scheduled.
+
+  private double _setRPM;
+  public ShooterRevCommand(double setRPM) {
+    this._setRPM = setRPM;
+    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -35,11 +28,14 @@ public class ShooterRevCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("SHOOTER REV COMMAND HAS BEEN CALLED");
-    shooter.setRPM(1000.0);
+    Robot.SHOOTER_SUBSYSTEM.setRPM(this._setRPM);
   }
 
-    public boolean isFinished() {
-      return true;
+  public boolean isFinished() {
+    boolean isFinished = false;
+    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange() == true) {
+      isFinished = true;
     }
+    return isFinished;
   }
+}

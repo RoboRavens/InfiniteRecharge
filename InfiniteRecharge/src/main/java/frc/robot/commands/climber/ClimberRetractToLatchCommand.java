@@ -18,17 +18,17 @@ public class ClimberRetractToLatchCommand extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit() == false) {
-			Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE);
-		} else {
-			Robot.CLIMBER_SUBSYSTEM.stop();
-		}
+            Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE);
+        } else {
+            Robot.CLIMBER_SUBSYSTEM.stop();
+        }
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         Robot.CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
-		Robot.CLIMBER_SUBSYSTEM.stop();
+        Robot.CLIMBER_SUBSYSTEM.stop();
     }
 
     // Returns true when the command should end.
@@ -36,9 +36,9 @@ public class ClimberRetractToLatchCommand extends CommandBase {
     public boolean isFinished() {
         boolean isFinished = false;
 
-		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit()) {
-			isFinished = true;
-		}
-		return isFinished;
+        if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit()) {
+            isFinished = true;
+        }
+        return isFinished;
     }
 }

@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -19,7 +18,7 @@ import frc.robot.RobotMap;
 public class ConveyanceSubsystem extends SubsystemBase {
 
   // 1 talon SRX will run two bag motors on robot
-  private TalonSRX _conveyanceMotor; 
+  private TalonSRX _conveyanceMotor;
   private BufferedDigitalInput _conveyanceSensor;
 
   private Solenoid _pistonBlock;
@@ -35,7 +34,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-    //setDefaultCommand(new ConveyanceStopCommand());
+    // setDefaultCommand(new ConveyanceStopCommand());
   }
 
   public void periodic() {
@@ -67,20 +66,20 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public boolean getConveyanceSensor() {
-    //Sysouts are for testing
+    // Sysouts are for testing
     System.out.println("Got sensor");
     return _conveyanceSensor.get();
   }
 
   public void pistonBlock() {
-    //Sysouts are for testing
+    // Sysouts are for testing
     System.out.println("Blocking");
     _pistonUnblock.set(false);
     _pistonBlock.set(true);
   }
 
   public void pistonUnblock() {
-    //Sysouts are for testing
+    // Sysouts are for testing
     System.out.println("Unblocking");
     _pistonUnblock.set(true);
     _pistonBlock.set(false);

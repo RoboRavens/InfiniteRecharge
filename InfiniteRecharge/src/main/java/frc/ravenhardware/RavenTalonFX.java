@@ -50,12 +50,14 @@ public class RavenTalonFX implements IRavenTalon {
 			targetOutput = Math.signum(targetOutput) * _maxPower;
 		}
 
-		// apply deadband to compensate for controller joystick not returning to exactly 0
+		// apply deadband to compensate for controller joystick not returning to exactly
+		// 0
 		if (Math.abs(targetOutput) < this.deadband) {
 			targetOutput = 0;
 		}
 
-		//Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target output power " + targetOutput);
+		// Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target
+		// output power " + targetOutput);
 		this.setWithSlewRate(targetOutput);
 	}
 
@@ -100,19 +102,22 @@ public class RavenTalonFX implements IRavenTalon {
 		_talonFX.setVoltage(voltage);
 	}
 
-	  /**
-   * Get the distance the robot has driven since the last reset as scaled by the value from {@link
-   * #setDistancePerPulse(double)}.
-   *
-   * @return The distance driven since the last reset
-   */
+	/**
+	 * Get the distance the robot has driven since the last reset as scaled by the
+	 * value from {@link #setDistancePerPulse(double)}.
+	 *
+	 * @return The distance driven since the last reset
+	 */
 	public double getDistanceMeters() {
-		// return _talon.getSelectedSensorPosition(Constants.DriveConstants.pidx) * _distancePerPulse;
-		return _talonFX.getSensorCollection().getIntegratedSensorPosition() * Calibrations.ENCODER_DISTANCE_PER_PULSE * (_encoderReversed ? -1 : 1);
+		// return _talon.getSelectedSensorPosition(Constants.DriveConstants.pidx) *
+		// _distancePerPulse;
+		return _talonFX.getSensorCollection().getIntegratedSensorPosition() * Calibrations.ENCODER_DISTANCE_PER_PULSE
+				* (_encoderReversed ? -1 : 1);
 	}
 
 	public double getRateMeters() {
-		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE * 10 * (_encoderReversed ? -1 : 1);
+		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE
+				* 10 * (_encoderReversed ? -1 : 1);
 	}
 
 	/*public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {

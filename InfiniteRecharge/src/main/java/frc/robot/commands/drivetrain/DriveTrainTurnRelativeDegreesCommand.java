@@ -19,7 +19,8 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
     double previousGyroScaleFactor;
     private double _timeoutSeconds;
 
-    public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn, double gyroScaleFactor, double timeoutSeconds) {
+    public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn,
+            double gyroScaleFactor, double timeoutSeconds) {
         addRequirements(driveTrain);
         this.ravenTank = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank;
         this.degreesToTurn = degreesToTurn;
@@ -29,8 +30,10 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         _timeoutSeconds = timeoutSeconds;
     }
 
-    public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn, double gyroScaleFactor) {
-        this(driveTrain, degreesToTurn, gyroScaleFactor, Calibrations.DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS);
+    public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn,
+            double gyroScaleFactor) {
+        this(driveTrain, degreesToTurn, gyroScaleFactor,
+                Calibrations.DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS);
     }
 
     public DriveTrainTurnRelativeDegreesCommand(DriveTrainSubsystem driveTrain, double degreesToTurn) {
@@ -51,17 +54,17 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         ravenTank.fpsTankManual(0, 0);
     }
 
-     // Called once the command ends or is interrupted.
-     @Override
-     public void end(boolean interrupted) {
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
         ravenTank.setGyroTargetHeadingToCurrentHeading();
         Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroAdjustmentScaleFactor(previousGyroScaleFactor);
         ravenTank.stop();
-     }
- 
-     // Returns true when the command should end.
-     @Override
-     public boolean isFinished() {
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
         double currentHeading = ravenTank.getCurrentHeading();
         double degreesTurned = currentHeading - driveTrainOriginalHeading;
 
@@ -74,5 +77,5 @@ public class DriveTrainTurnRelativeDegreesCommand extends CommandBase {
         }
 
         return turnComplete;
-     }
+    }
 }

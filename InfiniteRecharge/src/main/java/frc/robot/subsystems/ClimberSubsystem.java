@@ -30,9 +30,12 @@ public class ClimberSubsystem extends SubsystemBase {
 		// setDefaultCommand(new ClimberHoldPositionCommand());
 		NetworkTableDiagnostics.SubsystemNumber("Climber", "Encoder", () -> getEncoderPosition());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderExtended", () -> isEncoderAtExtensionLimit());
-		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted", () -> isEncoderAtRetractionLimit());
-		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchExtended", () -> getClimberExtensionLimitSwitchValue());
-		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchRetracted", () -> getClimberRetractionLimitSwitchValue());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitEncoderRetracted",
+				() -> isEncoderAtRetractionLimit());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchExtended",
+				() -> getClimberExtensionLimitSwitchValue());
+		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitSwitchRetracted",
+				() -> getClimberRetractionLimitSwitchValue());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitFinalExtension", () -> isAtExtensionLimit());
 		NetworkTableDiagnostics.SubsystemBoolean("Climber", "LimitFinalRetraction", () -> isAtRetractionLimit());
 
@@ -77,19 +80,19 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void checkExpectedSpeedVersusPower() {
 		// Check if climber is being sent power and not moving at the right speed
 		if (Math.abs(_expectedPower) > Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE) {
-			// The line below only returns as true if the climber is pushing harder than it needs to not move it
+			// The line below only returns as true if the climber is pushing harder than it
+			// needs to not move it
 			if (Math.abs(
 					_climberMotor.getSelectedSensorVelocity()) < Calibrations.CLIMBER_CONSIDERED_MOVING_ENCODER_RATE) {
-				//burnoutProtection();
+				// burnoutProtection();
 			}
 		}
 	}
 
-	/*public void burnoutProtection() {
-		ClimberHoldPositionCommand command = new ClimberHoldPositionCommand();
-		command.start();
-		command.close();
-	}*/
+	/*
+	 * public void burnoutProtection() { ClimberHoldPositionCommand command = new
+	 * ClimberHoldPositionCommand(); command.start(); command.close(); }
+	 */
 
 	public void getIsAtLimits() {
 		System.out.print(" Extension Limit: " + isAtExtensionLimit() + " Retraction Limit: " + isAtRetractionLimit());
@@ -111,55 +114,58 @@ public class ClimberSubsystem extends SubsystemBase {
 		_climberMotor2.set(ControlMode.PercentOutput, 0);
 	}
 
-	// Right now this method just looks at the right limit switch; some combination of both should be used.
+	// Right now this method just looks at the right limit switch; some combination
+	// of both should be used.
 
 	public boolean isEncoderAtExtensionLimit() {
-    	boolean encoderLimit = false;
-    	
-    	if (this.getEncoderPosition() >= Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE - Calibrations.CLIMBER_LIFT_UPWARD_SAFETY_MARGIN) {
-    		encoderLimit = true;
-    	}
-    	
-    	return encoderLimit;
-    }
-    
-    public boolean isEncoderAtRetractionLimit() {
-    	boolean encoderLimit = false;
-    	
-    	if (this.getEncoderPosition() <= Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE + Calibrations.CLIMBER_LIFT_DOWNWARD_SAFETY_MARGIN) {
-    		encoderLimit = true;
-    	}
-    	
-    	return encoderLimit;
-    }
-	
+		boolean encoderLimit = false;
+
+		if (this.getEncoderPosition() >= Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE
+				- Calibrations.CLIMBER_LIFT_UPWARD_SAFETY_MARGIN) {
+			encoderLimit = true;
+		}
+
+		return encoderLimit;
+	}
+
+	public boolean isEncoderAtRetractionLimit() {
+		boolean encoderLimit = false;
+
+		if (this.getEncoderPosition() <= Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE
+				+ Calibrations.CLIMBER_LIFT_DOWNWARD_SAFETY_MARGIN) {
+			encoderLimit = true;
+		}
+
+		return encoderLimit;
+	}
+
 	public boolean isAtExtensionLimit() {
-    	boolean encoderLimit = false;
-    	boolean switchLimit = false;
-    	
-    	encoderLimit = this.isEncoderAtExtensionLimit();
-    
-    	if (this.getClimberExtensionLimitSwitchValue() == true) {
-    		switchLimit = true;
-    		this.resetEncodersToExtendedLimit();
-    	}
-    	
-    	return Robot.OVERRIDE_SYSTEM_CLIMBER_EXTEND.getIsAtLimit(encoderLimit, switchLimit);
-    }
+		boolean encoderLimit = false;
+		boolean switchLimit = false;
+
+		encoderLimit = this.isEncoderAtExtensionLimit();
+
+		if (this.getClimberExtensionLimitSwitchValue() == true) {
+			switchLimit = true;
+			this.resetEncodersToExtendedLimit();
+		}
+
+		return Robot.OVERRIDE_SYSTEM_CLIMBER_EXTEND.getIsAtLimit(encoderLimit, switchLimit);
+	}
 
 	public boolean isAtRetractionLimit() {
-    	boolean encoderLimit = false;
-    	boolean switchLimit = false;
-    	
+		boolean encoderLimit = false;
+		boolean switchLimit = false;
+
 		encoderLimit = this.isEncoderAtRetractionLimit();
-    	
-    	if (this.getClimberRetractionLimitSwitchValue() == true) {
-    		switchLimit = true;
-    		this.resetEncodersToRetractedLimit();
-    	}
-    	
-    	return Robot.OVERRIDE_SYSTEM_CLIMBER_RETRACT.getIsAtLimit(encoderLimit, switchLimit);
-    }
+
+		if (this.getClimberRetractionLimitSwitchValue() == true) {
+			switchLimit = true;
+			this.resetEncodersToRetractedLimit();
+		}
+
+		return Robot.OVERRIDE_SYSTEM_CLIMBER_RETRACT.getIsAtLimit(encoderLimit, switchLimit);
+	}
 
 	public void holdPosition() {
 		_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);

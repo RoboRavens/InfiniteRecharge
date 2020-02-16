@@ -30,15 +30,14 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      System.out.println("NOT TRIGGERED BY BALL YET");
-      Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
-      Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedForward();
+    System.out.println("NOT TRIGGERED BY BALL YET");
+    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    Robot.CONVEYANCE_SUBSYSTEM.setNormalSpeedForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    System.out.println("Conveyance ready to shoot done/interrupted");
     Robot.CONVEYANCE_SUBSYSTEM.stop();
     _safetyTimer.stop();
   }
@@ -51,11 +50,11 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
     if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
       isFinished = true;
     }
-  
+
     if (_safetyTimer.get() >= Calibrations.CONVEYANCE_SAFETY_TIMER_TIMEOUT) {
       isFinished = true;
     }
-    
+
     return isFinished;
   }
 }

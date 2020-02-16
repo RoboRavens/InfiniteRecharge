@@ -20,14 +20,14 @@ public class SetCutPowerFalseCommand extends CommandBase {
         Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(false);
     }
 
-     // Called once the command ends or is interrupted.
-     @Override
-     public void end(boolean interrupted) {
-     }
- 
-     // Returns true when the command should end.
-     @Override
-     public boolean isFinished() {
-         return true;
-     }
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+    }
+
+    // Returns true when the command should end.
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
 }

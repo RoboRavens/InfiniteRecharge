@@ -34,6 +34,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
 
   }
+
   public void collect() {
     this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE);
   }

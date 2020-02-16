@@ -7,18 +7,36 @@
 
 package frc.robot;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
-import frc.robot.commands.shooter.ControlPanelShotCommand;
-import frc.robot.commands.shooter.InitiationLineShotCommand;
+import frc.robot.commands.climber.ClimberExtendFullyCommand;
+import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
+import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
+import frc.robot.commands.conveyance.ConveyanceReverseCommand;
+import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
+import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
+import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
+import frc.robot.commands.powercells.ReadyToShootCommandGroup;
+import frc.robot.commands.powercells.RevDownCommandGroup;
+import frc.robot.commands.powercells.RunShooterCommandGroup;
+import frc.robot.commands.powercells.StopConveyanceCommandGroup;
+import frc.robot.commands.shooter.SetShotControlPanelCommand;
+import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.shooter.ShooterRumbleFeedbackCommand;
 import frc.robot.commands.shooter.ShooterTuneCommand;
@@ -36,17 +54,15 @@ import frc.util.OverrideSystem;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
-  private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
-
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
-
+  
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
@@ -59,17 +75,26 @@ public class Robot extends TimedRobot {
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
 
-	public static boolean isRedAlliance;
+  public static boolean isRedAlliance;
 
-	public String autoFromDashboard;
+  public String autoFromDashboard;
   public String positionFromDashboard;
-  
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM);
-  public ControlPanelShotCommand shooterCtrlPanelShot = new ControlPanelShotCommand(Robot.SHOOTER_SUBSYSTEM);
-  public InitiationLineShotCommand shooterLineShot = new InitiationLineShotCommand(Robot.SHOOTER_SUBSYSTEM);
-  public ShooterTuneCommand shooterTune = new ShooterTuneCommand(Robot.SHOOTER_SUBSYSTEM);
 
-  public ShooterRumbleFeedbackCommand shooterRumble = new ShooterRumbleFeedbackCommand(Robot.SHOOTER_SUBSYSTEM);
+  // COMMANDS
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM.getTargetRPM());
+  public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
+  public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
+  public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
+  public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
+  public StopConveyanceCommandGroup stopConveyance = new StopConveyanceCommandGroup();
+  public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
+  public RevDownCommandGroup revDown = new RevDownCommandGroup();
+  public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
+  public ClimberRetractWhileHeldCommand climberRetract = new ClimberRetractWhileHeldCommand();
+  public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
+  public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
+
+  public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
   @Override
   public void robotInit() {
@@ -82,11 +107,9 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    this.setupShooterController();
     this.setupDriveController();
     this.setupOperationPanel();
   }
-
 
   private void setupDefaultCommands() {
     DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
@@ -100,41 +123,58 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    m_autoSelected = m_chooser.getSelected();
-    // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
-    System.out.println("Auto selected: " + m_autoSelected);
+    Command autonomousCommand = null;
+
+    try {
+      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
+      autonomousCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
+      DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
   }
 
   @Override
   public void autonomousPeriodic() {
-    switch (m_autoSelected) {
-      case kCustomAuto:
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+
   }
 
   public void teleopPeriodic() {
+    if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
+			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
+				System.out.println("CUT POWER TRUE");
+			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(true);
+			}
+			else {
+			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(false);
+			}
+    }
+    
+    if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
+      intakeAndCollect.schedule();
+    }
   }
 
-  public void setupShooterController() {
-    System.out.println("DRIVE CONTROLLER CONFIGURED");
-    System.out.println("Remember to enable to actually make things work");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(shooterRev);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(shooterTune);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(shooterLineShot);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.Y).whenPressed(shooterCtrlPanelShot);
+  public void setupOperationPanel() {
+    System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(shooterRev);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTPOWERCELLS).whileHeld(runShooter);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTPOWERCELLS).whenReleased(revDown);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
   }
 
-	public void setupOperationPanel() {
-		System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
-  }
-  
   private void setupDriveController() {
+    System.out.println("DRIVE CONTROLLER CONFIGURED");
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(turnTarget);
   }
 
   public void testPeriodic() {

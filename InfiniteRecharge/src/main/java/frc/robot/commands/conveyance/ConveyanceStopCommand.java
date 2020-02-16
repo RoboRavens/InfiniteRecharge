@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ConveyanceStopCommand extends CommandBase {
-  
+
   public ConveyanceStopCommand() {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }

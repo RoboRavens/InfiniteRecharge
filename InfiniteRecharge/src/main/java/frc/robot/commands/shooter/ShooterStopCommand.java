@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ShooterStopCommand extends CommandBase {
-  
+
   public ShooterStopCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
@@ -36,6 +36,6 @@ public class ShooterStopCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

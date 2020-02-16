@@ -8,38 +8,33 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.Robot;
 
-/**
- * An example command that uses an example subsystem.
- */
-public class ControlPanelShotCommand extends CommandBase {
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public ShooterSubsystem shooter = new ShooterSubsystem();
-  public ControlPanelShotCommand(ShooterSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
-    
-    }
-  // Called when the command is initially scheduled.
+public class SetShotControlPanelCommand extends CommandBase {
+
+  public SetShotControlPanelCommand() {
+    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ControlPanelShot Command Initialized!!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("CONTROL PANEL SHOT COMMAND HAS BEEN CALLED");
-    shooter.setRPM(1000.0);
+    Robot.SHOOTER_SUBSYSTEM.setIsControlPanelShot(true);
   }
 
-    public boolean isFinished() {
-      return true;
-    }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
   }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return true;
+  }
+}

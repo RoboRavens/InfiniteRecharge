@@ -7,18 +7,18 @@ public class RobotMap {
 	public static final int RIGHT_DRIVE_CHANNEL_1 = 3;
 	public static final int RIGHT_DRIVE_CHANNEL_2 = 4;
 
-	public static final int INTAKE_MOTOR = 11;
+	public static final int INTAKE_MOTOR = 29;
 
-	public static final int HOPPER_MOTOR_LEFT = 21;
-	public static final int HOPPER_MOTOR_RIGHT = 22; //Not sure what the correct ID is
+	public static final int HOPPER_MOTOR_LEFT = 30;
+	public static final int HOPPER_MOTOR_RIGHT = 31; // Not sure what the correct ID is
 
-	public static final int CONVEYANCE_MOTOR = 31;
+	public static final int CONVEYANCE_MOTOR = 32;
 
-	public static final int SHOOTER_MOTOR_1 = 4;
-	public static final int SHOOTER_MOTOR_2 = 10;
+	public static final int SHOOTER_MOTOR_1 = 41;
+	public static final int SHOOTER_MOTOR_2 = 42;
 
-	public static final int CLIMBER_MOTOR_1 = 51;
-	public static final int CLIMBER_MOTOR_2 = 52;
+	public static final int CLIMBER_MOTOR_1 = 35;
+	public static final int CLIMBER_MOTOR_2 =36;
 
 	// PCM
 	public static final int INTAKE_EXTEND_SOLENOID = 0;

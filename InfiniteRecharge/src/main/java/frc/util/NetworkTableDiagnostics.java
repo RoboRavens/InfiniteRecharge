@@ -25,7 +25,7 @@ public class NetworkTableDiagnostics {
 
     private static List<DiagnosticSendFunction> _registeredFunctions = new ArrayList<DiagnosticSendFunction>();
 
-    public static void SubsystemBoolean(String subsystemName, String name, BooleanResult function){
+    public static void SubsystemBoolean(String subsystemName, String name, BooleanResult function) {
         NetworkTableEntry entry = _table.getEntry("Subsystem/" + subsystemName + "/" + name);
         DiagnosticSendFunction dSendFunc = () -> {
             entry.setBoolean(function.GetBoolean());
@@ -34,7 +34,7 @@ public class NetworkTableDiagnostics {
         _registeredFunctions.add(dSendFunc);
     }
 
-    public static void SubsystemNumber(String subsystemName, String name, NumberResult function){
+    public static void SubsystemNumber(String subsystemName, String name, NumberResult function) {
         NetworkTableEntry entry = _table.getEntry("Subsystem/" + subsystemName + "/" + name);
         DiagnosticSendFunction dSendFunc = () -> {
             entry.setNumber(function.GetNumber());

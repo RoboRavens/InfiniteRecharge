@@ -10,11 +10,12 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -24,22 +25,23 @@ import frc.util.NetworkTableDiagnostics;
 public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
-  private TalonSRX _shooterMotor2;
+  private VictorSPX _shooterMotor2;
   private Joystick _joystick;
+  private Boolean _isControlPanelShot = false;
+  private double _targetRPM = 0;
 
   private double targetVelocity_UnitsPer100ms = 0;
   double velocity;
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    _shooterMotor2 = new TalonSRX(RobotMap.SHOOTER_MOTOR_2);
+    _shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
     _shooterMotor2.follow(_shooterMotor);
 
     _shooterMotor.configFactoryDefault();
     _shooterMotor2.configFactoryDefault();
 
     _joystick = new Joystick(0);
-    
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
@@ -54,15 +56,15 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.configNominalOutputReverse(0, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputForward(1, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.configPeakOutputReverse(-1, TalonSRXConstants.kTimeoutMs);
-
-    _shooterMotor.setSensorPhase(true);
+    // VERY IMPORTANT, do not change "false"
+    _shooterMotor.setSensorPhase(false);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
-    //this.initialize();
+    // this.initialize();
   }
 
   public void initialize() {
-    //setDefaultCommand(new ShooterStopCommand());
+    // setDefaultCommand(new ShooterStopCommand());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
     NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
     System.out.println("ShooterSubsystem Setup!");
@@ -70,26 +72,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
-  }
 
+  }
+/*
   public void setVelocityByButton() {
-    //ButtonCode.A is used!
-    if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
-      //If X is pressed, max speed velocity!
+    // ButtonCode.A is used!
+    if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.X)) {
+      // If X is pressed, max speed velocity!
       setVelocity(1.0);
 
-    } else if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.Y)) {
-      //If Y is pressed, half speed velocity!      
+    } else if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.Y)) {
+      // If Y is pressed, half speed velocity!
       setVelocity(0.5);
 
-    } else if(Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.B)) {
-      //If B is pressed, BRAKE!      
+    } else if (Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.B)) {
+      // If B is pressed, BRAKE!
       setVelocity(0.0);
 
     }
   }
-
+*/
   //RPS to FPS
   public double RevolutionsToFeet() {
     return getRPS() * Calibrations.WHEEL_CIRCUMFERENCE_FEET;
@@ -99,14 +101,21 @@ public class ShooterSubsystem extends SubsystemBase {
     return getRPM() * 60;
   }
 
-  public void setVelocityBySlider () {
+  public void setVelocityBySlider() {
     velocity = _joystick.getThrottle();
     setVelocity(velocity);
+  }
+
+  public void setVelocityRaw(int velocity) {
+    SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
+    _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
@@ -114,8 +123,38 @@ public class ShooterSubsystem extends SubsystemBase {
     setVelocity(rpm * Calibrations.RPM_TO_VEL);
   }
 
+  public int secsTillRevved() {
+    double lastTimestamp = Timer.getFPGATimestamp();
+
+
+    return 1;
+  }
+
+  public boolean isRPMWithinRange(int target) {
+    // If RPM is within range, output true. Otherwise, output false
+    if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - target)) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  public double getTargetRPM() {
+    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == true) {
+      this._targetRPM = Calibrations.CONTROL_PANEL_RPM;
+    } 
+    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == false) {
+      this._targetRPM = Calibrations.INIT_LINE_RPM;
+    }
+    return this._targetRPM;
+  }
+
   public void stopShooter() {
-    this.setVelocity(0);
+    this.setRPM(0);
+  }
+
+  public void printShooterSpeeds() {
+    System.out.println("UnitsPer100ms: " + getVelocity() + ". RPM: " + getRPM());
   }
 
   public int getVelocity() {
@@ -129,4 +168,16 @@ public class ShooterSubsystem extends SubsystemBase {
   public void defaultCommand() {
     this.setVelocity(0);
   }
-} 
+
+  public boolean getIsControlPanelShot() {
+    return this._isControlPanelShot;
+  }
+
+  public void setIsControlPanelShot(boolean isControlPanelShot) {
+    this._isControlPanelShot = isControlPanelShot;
+  }
+
+  public boolean getIsAtRpmRange() {
+    return true;
+  }
+}
