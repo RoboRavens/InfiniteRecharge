@@ -98,6 +98,8 @@ public class Calibrations {
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0.000178;
 
+	public static final double METERS_TO_INCHES = 39.37;
+
 	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
 			Calibrations.TRACK_WIDTH_METERS);
@@ -170,23 +172,37 @@ public class Calibrations {
 
 
 	// SHOOTER 
-	public static final double SHOOTER_KF = 0.0098;
-    public static final double SHOOTER_KP = 0.014;
+	public static final double TARGET_RANGE = 100;
+	public static final double SHOOTER_KF = 0.00985;
+    public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RANGE = 100;
+	public static final double TARGET_RPM_BUFFER = 100;
 
+	//Current Limiting
+	public static final int AMPS = 60;
+	public static final int TIMEOUT = 0;
+	
 	/*
 
 	sets soft and hard limits for Falcon Motor RPM
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
-	public static final int INIT_LINE_VELOCITY  = 57195;
+
+	public static final double VEL_TO_RPM = 8192 / 600;
+	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
+
+	public static final double INIT_LINE_VELOCITY  = 57195;
+	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
+	public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY * VEL_TO_RPM;
+	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY * VEL_TO_RPM;
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;
 	public static final int FALCON_RPM_SOFT_MIN = 0;
 
+	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
+	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 	// Velocity 600 = about 45 RPM (measured empirically)
 	// 25 revolutions = 204661 encoder ticks (measured empirically)
 	// 1 rev = ~8186 ticks
@@ -199,9 +215,6 @@ public class Calibrations {
 	// error
 	// 1 rpm = 8186 ticks in 600 time units
 	// 1 rpm = 8192 / 600 = 13.64 velocity
-
-	public static final double VEL_TO_RPM = 8192 / 600;
-	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
 
 	/**
 	 * Convert 500 RPM to units / 100ms. 4096 Units/Rev * 500 RPM / 600 100ms/min in

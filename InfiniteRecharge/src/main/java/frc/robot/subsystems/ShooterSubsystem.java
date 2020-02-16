@@ -13,9 +13,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -27,6 +27,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonSRX _shooterMotor;
   private VictorSPX _shooterMotor2;
   private Joystick _joystick;
+  private Boolean _isControlPanelShot = false;
+  private double _targetRPM = 0;
 
   private double targetVelocity_UnitsPer100ms = 0;
   double velocity;
@@ -106,12 +108,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocityRaw(int velocity) {
     SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", velocity);
+    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
@@ -119,8 +123,38 @@ public class ShooterSubsystem extends SubsystemBase {
     setVelocity(rpm * Calibrations.RPM_TO_VEL);
   }
 
+  public int secsTillRevved() {
+    double lastTimestamp = Timer.getFPGATimestamp();
+
+
+    return 1;
+  }
+
+  public boolean getIsAtRpmRange(double target) {
+    // If RPM is within range, output true. Otherwise, output false
+    if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - target)) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  public double getTargetRPM() {
+    /*if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == true) {
+      this._targetRPM = Calibrations.CONTROL_PANEL_RPM;
+    } 
+    if (Robot.SHOOTER_SUBSYSTEM.getIsControlPanelShot() == false) {
+      this._targetRPM = Calibrations.INIT_LINE_RPM;
+    }*/
+    return this._targetRPM;
+  }
+
   public void stopShooter() {
-    this.setVelocity(0);
+    this.setRPM(0);
+  }
+
+  public void printShooterSpeeds() {
+    System.out.println("UnitsPer100ms: " + getVelocity() + ". RPM: " + getRPM());
   }
 
   public int getVelocity() {
@@ -134,4 +168,23 @@ public class ShooterSubsystem extends SubsystemBase {
   public void defaultCommand() {
     this.setVelocity(0);
   }
+
+  /*
+  public boolean getIsControlPanelShot() {
+    return this._isControlPanelShot;
+  }
+  
+  public void setIsControlPanelShot(boolean isControlPanelShot) {
+    this._isControlPanelShot = isControlPanelShot;
+  }
+  */
+  
+  public void setTargetShotRPM(double shot) {
+    this._targetRPM = shot;
+  }
+/*
+  public boolean getIsAtRpmRange() {
+    return true;
+  }
+  */
 }

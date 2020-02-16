@@ -4,11 +4,10 @@ import frc.robot.Calibrations;
 import frc.util.PCDashboardDiagnostics;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-public class RavenTalon {
-	private WPI_TalonFX _talonFX;
-	private WPI_TalonFX _talonFX2;
+public class RavenTalonSRX implements IRavenTalon {
+	private TalonSRX _talonSRX;
 	protected double outputSpeed;
 	private String _name;
 	private double _maxPower;
@@ -20,12 +19,9 @@ public class RavenTalon {
 
 	protected double deadband = .0;
 
-	public RavenTalon(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
-		_talonFX = new WPI_TalonFX(mainChannel);
-		_talonFX2 = new WPI_TalonFX(followerChannel);
-		_talonFX2.follow(_talonFX);
+	public RavenTalonSRX(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
+		_talonSRX = new TalonSRX(mainChannel);
 		_encoderReversed = encoderReversed;
-
 		_name = name;
 		setSlewRate(slewRate);
 	}
@@ -48,14 +44,12 @@ public class RavenTalon {
 			targetOutput = Math.signum(targetOutput) * _maxPower;
 		}
 
-		// apply deadband to compensate for controller joystick not returning to exactly
-		// 0
+		// apply deadband to compensate for controller joystick not returning to exactly 0
 		if (Math.abs(targetOutput) < this.deadband) {
 			targetOutput = 0;
 		}
 
-		// Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target
-		// output power " + targetOutput);
+		//Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target output power " + targetOutput);
 		this.setWithSlewRate(targetOutput);
 	}
 
@@ -85,37 +79,47 @@ public class RavenTalon {
 
 		PCDashboardDiagnostics.SubsystemNumber("DriveTrain", _name + "OutputPercent", outputSpeed);
 
-		_talonFX.set(ControlMode.PercentOutput, outputSpeed);
+		_talonSRX.set(ControlMode.PercentOutput, outputSpeed);
 	}
 
 	public int getEncoderPosition() {
-		return (int) _talonFX.getSensorCollection().getIntegratedSensorPosition();
+		//what should SRX do?
+		return 0;
 	}
 
 	public void resetEncoderPosition() {
-		_talonFX.getSensorCollection().setIntegratedSensorPosition(0, 10);
+		// what should the SRX do?
 	}
 
 	public void setVoltage(double voltage) {
-		_talonFX.setVoltage(voltage);
-		_talonFX2.setVoltage(voltage);
+		// what should the SRX do?
 	}
 
-	/**
-	 * Get the distance the robot has driven since the last reset as scaled by the
-	 * value from {@link #setDistancePerPulse(double)}.
-	 *
-	 * @return The distance driven since the last reset
-	 */
+	  /**
+   * Get the distance the robot has driven since the last reset as scaled by the value from {@link
+   * #setDistancePerPulse(double)}.
+   *
+   * @return The distance driven since the last reset
+   */
 	public double getDistanceMeters() {
-		// return _talon.getSelectedSensorPosition(Constants.DriveConstants.pidx) *
-		// _distancePerPulse;
-		return _talonFX.getSensorCollection().getIntegratedSensorPosition() * Calibrations.ENCODER_DISTANCE_PER_PULSE
-				* (_encoderReversed ? -1 : 1);
+		//what should SRX do?
+		return 0.0;
 	}
 
 	public double getRateMeters() {
-		return _talonFX.getSensorCollection().getIntegratedSensorVelocity() * Calibrations.ENCODER_DISTANCE_PER_PULSE
-				* 10 * (_encoderReversed ? -1 : 1);
+		//what should SRX do?
+		return 0.0;
 	}
+
+	public void setCurrentLimit(int amps, int timeoutMs) {
+		_talonSRX.configPeakCurrentLimit(amps, timeoutMs);
+		_talonSRX.enableCurrentLimit(true);
+		_talonSRX.configContinuousCurrentLimit(amps, timeoutMs);
+	
+   	}
+	
+   public double getOutputCurrent() {
+	   return _talonSRX.getSupplyCurrent();
+   }
 }
+
