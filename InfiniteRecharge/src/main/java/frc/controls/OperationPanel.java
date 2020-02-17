@@ -34,6 +34,16 @@ public class OperationPanel {
 		case OVERRIDEREVERSECONVEYANCE:
 			buttonNumber = 4;
 			break;
+		case SHOOTERREV:
+			buttonNumber = 5;
+			break;
+		case OVERRIDECLIMBEXTEND:
+			buttonNumber = 6;
+			break;
+		case OVERRIDECLIMBRETRACT:
+			buttonNumber = 7;
+			break;
+
 		default:
 			throw new IllegalArgumentException("Invalid Button Code" + button);
 		}
