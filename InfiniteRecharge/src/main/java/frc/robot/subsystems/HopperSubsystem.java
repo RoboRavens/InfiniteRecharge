@@ -57,7 +57,7 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void agitateHopperMotors() {
-    // Does nothing yet
+    fullForward();
   }
 
   public void setHopperMotors(double leftMagnitude, double rightMagnitude) {

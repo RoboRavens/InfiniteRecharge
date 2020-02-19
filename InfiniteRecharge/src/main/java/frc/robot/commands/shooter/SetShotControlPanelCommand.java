@@ -26,6 +26,7 @@ public class SetShotControlPanelCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.SHOOTER_SUBSYSTEM.setTargetShotRPM(Calibrations.CONTROL_PANEL_SHOT);
+    System.out.println("SET_SHOT_CONTROL_PANEL!!!");
   }
 
   // Called once the command ends or is interrupted.
