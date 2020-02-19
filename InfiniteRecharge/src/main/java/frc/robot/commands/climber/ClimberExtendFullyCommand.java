@@ -17,6 +17,7 @@ public class ClimberExtendFullyCommand extends CommandBase {
 
 	// Called repeatedly when this Command is scheduled to run
 	public void execute() {
+		System.out.println("EXTENDING_CLIMBER_FULLY!!!");
 		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit() == false) {
 			Robot.CLIMBER_SUBSYSTEM.extend(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
 		} else {

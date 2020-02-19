@@ -18,6 +18,7 @@ public class ClimberExtendWhileHeldCommand extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         Robot.CLIMBER_SUBSYSTEM.extend(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
+        System.out.println("EXTENDING_CLIMBER!!!");
     }
 
     // Called once the command ends or is interrupted.

@@ -28,6 +28,7 @@ public class SetShotInitiationLineCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.SHOOTER_SUBSYSTEM.setTargetShotRPM(Calibrations.INITIATION_LINE_SHOT);
+    System.out.println("SET_SHOT_INITIATION_LINE!!!");
   }
 
   // Called once the command ends or is interrupted.

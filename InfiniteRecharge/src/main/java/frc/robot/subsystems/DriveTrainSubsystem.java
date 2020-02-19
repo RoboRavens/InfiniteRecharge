@@ -44,7 +44,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 		SmartDashboard.putNumber("EncoderRightInchesTraveled", ravenTank.getRightNetInchesTraveled());
 		SmartDashboard.putNumber("EncoderLeftInchesTraveled", ravenTank.getLeftNetInchesTraveled());
-		ravenTank.logPose();
+		ravenTank.Ready();
 
 		double slewRate = Calibrations.SLEW_RATE_MAXIMUM;
 		slewRate = Math.max(Calibrations.SLEW_RATE_MINIMUM, slewRate);

@@ -29,10 +29,14 @@ import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
+import frc.controls.OperationPanel2;
+import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
+import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
+import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
@@ -64,6 +68,7 @@ public class Robot extends TimedRobot {
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
+  public static final OperationPanel2 OPERATION_PANEL_2 = new OperationPanel2(2);
   
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
@@ -92,8 +97,11 @@ public class Robot extends TimedRobot {
   public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
   public RevDownCommandGroup revDown = new RevDownCommandGroup();
   public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
+  public HopperAgitateCommand hopperAgitate = new HopperAgitateCommand();
   public ClimberRetractWhileHeldCommand climberRetract = new ClimberRetractWhileHeldCommand();
+  public ClimberRetractFullyCommand climberRetractFully = new ClimberRetractFullyCommand();
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
+  public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
@@ -180,27 +188,33 @@ public class Robot extends TimedRobot {
 			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(false);
 			}
     }
-    
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
-      intakeAndCollect.schedule();
+      System.out.println("TURNING TO TARGET");
+      turnTarget.schedule();
     }
+
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
   }
 
   public void setupOperationPanel() {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
+    
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(shooterRev);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTOPOSITION).whenPressed(climberExtendFully);
+    // ^ May want to make a command group that retracts to latch after extending fully ^
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
   }
 
   private void setupDriveController() {
     System.out.println("DRIVE CONTROLLER CONFIGURED");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(turnTarget);
   }
 
   public void testPeriodic() {
