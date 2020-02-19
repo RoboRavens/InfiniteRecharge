@@ -26,11 +26,11 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public ConveyanceSubsystem() {
     this.initialize();
-    _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
-    _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
+    //_conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
+    //_conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
 
-    _pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
-    _pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
+    //_pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
+    //_pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
   }
 
   public void initialize() {
@@ -62,7 +62,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void runAtPower(double magnitude) {
-    _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+    //_conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public boolean getConveyanceSensor() {
@@ -74,14 +74,14 @@ public class ConveyanceSubsystem extends SubsystemBase {
   public void pistonBlock() {
     // Sysouts are for testing
     System.out.println("Blocking");
-    _pistonUnblock.set(false);
-    _pistonBlock.set(true);
+    //_pistonUnblock.set(false);
+    //_pistonBlock.set(true);
   }
 
   public void pistonUnblock() {
     // Sysouts are for testing
     System.out.println("Unblocking");
-    _pistonUnblock.set(true);
-    _pistonBlock.set(false);
+    //_pistonUnblock.set(true);
+    //_pistonBlock.set(false);
   }
 }
