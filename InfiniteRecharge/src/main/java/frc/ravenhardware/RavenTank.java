@@ -20,8 +20,10 @@ import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.spline.Spline.ControlVector;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.Trajectory.State;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -503,7 +505,7 @@ public class RavenTank {
 		driveLeft.setMaxPower(maxPower);
 	}
 
-	public void resetDriveEncoders() {
+	private void resetDriveEncoders() {
 		driveLeft.resetEncoderPosition();
 		driveRight.resetEncoderPosition();
 	}
@@ -540,7 +542,7 @@ public class RavenTank {
 		return _slewRate;
 	}
 
-	public void resetOrientationGyro() {
+	private void resetOrientationGyro() {
 		orientationGyro.reset();
 	}
 
@@ -562,6 +564,13 @@ public class RavenTank {
 				driveRight.getDistanceMeters());
 	}
 
+	public void resetOdometry() {
+		this.resetDriveEncoders();
+		this.resetOrientationGyro();
+		//_odometry.resetPosition(new Pose2d(new Translation2d(3, 0), Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
+		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
+	}
+
 	public void tankDriveVolts(double left, double right) {
 		driveLeft.setVoltage(left);
 		driveRight.setVoltage(-right);
@@ -577,13 +586,9 @@ public class RavenTank {
 	}
 
 	public Command getCommandForTrajectory(Trajectory trajectory) {
-
-		this.resetDriveEncoders();
-		this.resetOrientationGyro();
-		//_odometry.resetPosition(new Pose2d(new Translation2d(3, 0), Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
-		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
-		var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
-		trajectory = trajectory.transformBy(transform);
+		// this code would only run when the command is generated, not when the command is used... so I'm commenting it out for now
+		// var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
+		// trajectory = trajectory.transformBy(transform);
 
 		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, _odometry::getPoseMeters,
 				new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
@@ -616,6 +621,18 @@ public class RavenTank {
 				newPose, newCurvatureRadPerMeter);
 		})
         .collect(Collectors.toList()));
+	}
+
+	// Change a trajectory so that the robot follows it but drives backwards
+	public Trajectory reverseTrajectory2(Trajectory trajectory){
+		List<State> states = trajectory.getStates();
+		var waypoints = states.stream().map(state -> 
+		{
+			return state.poseMeters;
+		})
+		.collect(Collectors.toList());
+
+		return TrajectoryGenerator.generateTrajectory(waypoints, this.getTrajectoryConfig().setReversed(true));
 	}
 
 	public TrajectoryConfig getTrajectoryConfig() {
