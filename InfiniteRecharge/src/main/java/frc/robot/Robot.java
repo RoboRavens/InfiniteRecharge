@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
@@ -105,7 +106,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Auto choices", m_chooser);
 
     CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
-    DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetDriveEncoders();
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
@@ -128,12 +129,21 @@ public class Robot extends TimedRobot {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.tankDriveVolts(0, 0);
   }
 
-  @Override
-  public void autonomousInit() {
-    Command autonomousCommand = null;
-
+  private Command GetReverseTrajectoryTest(){
     // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    var forwardTrajectory = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(0, 0, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(3, 0, new Rotation2d(0)),
+      // Pass config
+      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
+    );
+
+    var reverseTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
       new Pose2d(3, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints, making an 's' curve path
@@ -145,14 +155,43 @@ public class Robot extends TimedRobot {
       DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
     );
 
-    //try {
+    var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(forwardTrajectory);
+    var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
+    return new SequentialCommandGroup(autonomousCommand1, autonomousCommand2);
+  }
+
+  public Trajectory GetPathweaverTrajectoryForAuto(){
+    try {
       SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
-      //var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
-      //DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
-      autonomousCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(exampleTrajectory);
-    //} catch (IOException e) {
-      //e.printStackTrace();
-    //}
+      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
+      return DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  public Command GetReversePathweaverTrajectoryTest(){
+    try {
+      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
+      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/Line.wpilib.json"));
+      var trajectoryToReverse = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/ReverseLine.wpilib.json"));
+      var reverseTrajectory = DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory2(trajectoryToReverse);
+      var trajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
+      var reverseTrajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
+      return new SequentialCommandGroup(trajectoryCommand, reverseTrajectoryCommand);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+
+    return null;
+  }
+
+  @Override
+  public void autonomousInit() {
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
+    Command autonomousCommand = GetReversePathweaverTrajectoryTest();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -161,7 +200,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
   }
 
   @Override
@@ -171,6 +210,7 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
 				System.out.println("CUT POWER TRUE");
