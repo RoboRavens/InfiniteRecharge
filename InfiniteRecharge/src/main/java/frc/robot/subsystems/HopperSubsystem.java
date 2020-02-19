@@ -20,8 +20,8 @@ public class HopperSubsystem extends SubsystemBase {
 
   public HopperSubsystem() {
     this.initialize();
-    _hopperLeftMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_LEFT);
-    _hopperRightMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_RIGHT);
+    //_hopperLeftMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_LEFT);
+    //_hopperRightMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_RIGHT);
   }
 
   public void initialize() {
@@ -61,7 +61,7 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void setHopperMotors(double leftMagnitude, double rightMagnitude) {
-    _hopperLeftMotor.set(ControlMode.PercentOutput, leftMagnitude);
-    _hopperRightMotor.set(ControlMode.PercentOutput, rightMagnitude);
+    //_hopperLeftMotor.set(ControlMode.PercentOutput, leftMagnitude);
+    //_hopperRightMotor.set(ControlMode.PercentOutput, rightMagnitude);
   }
 }

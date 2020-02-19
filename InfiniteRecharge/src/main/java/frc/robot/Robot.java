@@ -118,8 +118,8 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    this.setupDriveController();
-    this.setupOperationPanel();
+    //this.setupDriveController();
+    //this.setupOperationPanel();
   }
 
   private void setupDefaultCommands() {

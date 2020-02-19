@@ -635,6 +635,20 @@ public class RavenTank {
 		return TrajectoryGenerator.generateTrajectory(waypoints, this.getTrajectoryConfig().setReversed(true));
 	}
 
+		// Change a trajectory so that the robot follows it but drives backwards
+		public Trajectory reverseTrajectory3(Trajectory trajectory){
+			List<State> states = trajectory.getStates();
+			var start = new Pose2d(3, 0, new Rotation2d(0));
+			var end = new Pose2d(0, 0, new Rotation2d(0));
+			//var waypoints = states.stream().map(state -> 
+			//{
+			//	return new Translation2d(state.poseMeters.getTranslation().getX(), state.poseMeters.getTranslation().getY());
+			//})
+			//.collect(Collectors.toList());
+	
+			return TrajectoryGenerator.generateTrajectory(start, List.of(), end, this.getTrajectoryConfig().setReversed(true));
+		}
+
 	public TrajectoryConfig getTrajectoryConfig() {
 		// Create a voltage constraint to ensure we don't accelerate too fast
 		var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
