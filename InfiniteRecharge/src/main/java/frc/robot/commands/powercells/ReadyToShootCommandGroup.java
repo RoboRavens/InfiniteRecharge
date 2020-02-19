@@ -15,5 +15,6 @@ public class ReadyToShootCommandGroup extends ParallelCommandGroup {
   
   public ReadyToShootCommandGroup() {
     super(new ConveyanceReadyToShootCommand(), new HopperReadyShotCommand());
+    System.out.println("READY_TO_SHOOT!!!");
   }
 }

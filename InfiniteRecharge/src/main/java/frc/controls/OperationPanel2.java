@@ -3,10 +3,10 @@ package frc.controls;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public class OperationPanel {
+public class OperationPanel2 {
 	private Joystick _joystick;
 
-	public OperationPanel(int port) {
+	public OperationPanel2(int port) {
 		_joystick = new Joystick(port);
 	}
 
@@ -22,29 +22,17 @@ public class OperationPanel {
 		int buttonNumber;
 
 		switch (button) {
-		case SHOOTERREV:
-			buttonNumber = 2;
-			break;
-		case OVERRIDEREVERSECONVEYANCE:
-			buttonNumber = 5;
-			break;
-		case READYTOSHOOT:
-			buttonNumber = 6;
-			break;
-		case OVERRIDECLIMBEXTEND:
-			buttonNumber = 7;
-			break;
-		case OVERRIDECLIMBRETRACT:
-			buttonNumber = 8;
-			break;
-		case SETCLIMBERTOPOSITION:
-			buttonNumber = 9;
-			break;
-		case SETCLIMBERTORETRACTED:
-			buttonNumber = 11;
-			break;
+        case HOPPERAGITATE:
+            buttonNumber = 3;
+            break;
+        case SETSHOTCONTROLPANEL:
+            buttonNumber = 5;
+            break;
+        case SETSHOTINITIATIONLINE:
+            buttonNumber = 6;
+            break;
 		default:
-			throw new IllegalArgumentException("Invalid Button Code" + button);
+			throw new IllegalArgumentException("Invalid Button Code: " + button);
 		}
 
 		return buttonNumber;

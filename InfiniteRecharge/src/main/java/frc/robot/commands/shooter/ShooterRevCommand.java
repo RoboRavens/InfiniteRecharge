@@ -28,6 +28,7 @@ public class ShooterRevCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.SHOOTER_SUBSYSTEM.setRPM(this._setRPM);
+    System.out.println("REVING_SHOOTER!!!");
   }
 
   public boolean isFinished() {
