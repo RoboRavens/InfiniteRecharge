@@ -26,7 +26,7 @@ public class ConveyanceShootCommand extends CommandBase {
   @Override
   public void execute() {
     //Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
-    Robot.CONVEYANCE_SUBSYSTEM.runWheel();
+    Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
     Robot.CONVEYANCE_SUBSYSTEM.setMaxForward();
   }
 
