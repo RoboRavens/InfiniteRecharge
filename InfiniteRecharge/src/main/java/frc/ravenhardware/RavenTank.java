@@ -657,7 +657,7 @@ public class RavenTank {
 	  
 	public void currentLimting() {
 		//This is the FalconFX current limting
-		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.AMPS, Calibrations.TIMEOUT);
-		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.setCurrentLimit(Calibrations.AMPS, Calibrations.TIMEOUT);
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
+		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
 	}
 }

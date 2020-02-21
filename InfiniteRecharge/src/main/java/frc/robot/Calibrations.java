@@ -167,6 +167,8 @@ public class Calibrations {
 	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
 	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
 	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
+	public static final double CONVEYANCE_WHEEL_SPEED = .25;
+	public static final double CONVEYANCE_WHEEL_STOP = 0.0;
 	public static final double CONVEYANCE_STOP = 0;
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
 
@@ -180,7 +182,8 @@ public class Calibrations {
 	public static final double TARGET_RPM_BUFFER = 100;
 
 	//Current Limiting
-	public static final int AMPS = 60;
+	public static final int LIMIT_DRIVE_AMPS = 60;
+	public static final int CONVEYANCE_WHEEL_LIMIT = 40;
 	public static final int TIMEOUT = 0;
 	
 	/*
