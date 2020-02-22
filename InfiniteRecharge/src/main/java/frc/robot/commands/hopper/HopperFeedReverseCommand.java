@@ -25,7 +25,7 @@ public class HopperFeedReverseCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.HOPPER_SUBSYSTEM.feedReverse();
+    Robot.HOPPER_SUBSYSTEM.fullReverse(); // .feedReverse()
   }
 
   // Called once the command ends or is interrupted.

@@ -36,7 +36,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void collect() {
-    this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE);
+    this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE * -1);
   }
 
   public void spit() {
@@ -64,5 +64,9 @@ public class IntakeSubsystem extends SubsystemBase {
   public void stopAndRetract() {
     this.stop();
     this.retract();
+  }
+
+  public void defaultCommand() {
+    this.stop();
   }
 }

@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Calibrations;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.util.NetworkTableDiagnostics;
@@ -37,6 +36,7 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
     _shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
     _shooterMotor2.follow(_shooterMotor);
+    _shooterMotor2.setInverted(true);
 
     _shooterMotor.configFactoryDefault();
     _shooterMotor2.configFactoryDefault();

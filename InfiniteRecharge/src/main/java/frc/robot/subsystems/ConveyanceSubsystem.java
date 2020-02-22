@@ -18,7 +18,8 @@ import frc.robot.RobotMap;
 public class ConveyanceSubsystem extends SubsystemBase {
 
   // 1 talon SRX will run two bag motors on robot
-  private TalonSRX _conveyanceMotor;
+  private TalonSRX _conveyanceMotorLower;
+  private TalonSRX _conveyanceMotorUpper;
   private BufferedDigitalInput _conveyanceSensor;
 
   private Solenoid _pistonBlock;
@@ -26,11 +27,12 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public ConveyanceSubsystem() {
     this.initialize();
-    _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
+    _conveyanceMotorLower = new TalonSRX(RobotMap.CONVEYANCE_MOTOR_LOWER);
+    _conveyanceMotorUpper = new TalonSRX(RobotMap.CONVEYANCE_MOTOR_UPPER);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
 
-    _pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
-    _pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
+    //_pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
+    //_pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
   }
 
   public void initialize() {
@@ -62,7 +64,8 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void runAtPower(double magnitude) {
-    _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+    _conveyanceMotorLower.set(ControlMode.PercentOutput, magnitude);
+    _conveyanceMotorUpper.set(ControlMode.PercentOutput, magnitude);
   }
 
   public boolean getConveyanceSensor() {
@@ -83,5 +86,9 @@ public class ConveyanceSubsystem extends SubsystemBase {
     System.out.println("Unblocking");
     _pistonUnblock.set(true);
     _pistonBlock.set(false);
+  }
+
+  public void defaultCommand() {
+    this.stop();
   }
 }

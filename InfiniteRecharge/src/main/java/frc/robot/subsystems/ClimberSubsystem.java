@@ -7,10 +7,12 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.commands.climber.ClimberHoldPositionCommand;
 import frc.util.NetworkTableDiagnostics;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -42,13 +44,14 @@ public class ClimberSubsystem extends SubsystemBase {
 		// Measure power sent to climber
 		NetworkTableDiagnostics.SubsystemNumber("Climber", "EncoderExpectedPower", () -> _expectedPower);
 	}
+	
 
 	public void extend(double magnitude) {
-		set(-1 * magnitude);
+		set(magnitude);
 	}
 
 	public void retract(double magnitude) {
-		set(magnitude);
+		set(-1 * magnitude);
 	}
 
 	private void set(double magnitude) {
@@ -59,7 +62,7 @@ public class ClimberSubsystem extends SubsystemBase {
 		_expectedPower = magnitude;
 
 		_climberMotor.set(ControlMode.PercentOutput, magnitude);
-		_climberMotor2.set(ControlMode.PercentOutput, magnitude);
+		_climberMotor2.set(ControlMode.PercentOutput, -1 * magnitude);
 	}
 
 	public void printPosition() {
@@ -234,5 +237,9 @@ public class ClimberSubsystem extends SubsystemBase {
 		}
 
 		return false;
+	}
+
+	public void defaultCommand() {
+		this.stop();
 	}
 }

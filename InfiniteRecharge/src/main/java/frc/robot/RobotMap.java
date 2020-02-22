@@ -7,24 +7,24 @@ public class RobotMap {
 	public static final int RIGHT_DRIVE_CHANNEL_1 = 3;
 	public static final int RIGHT_DRIVE_CHANNEL_2 = 4;
 
-	public static final int INTAKE_MOTOR = 29;
+	public static final int INTAKE_MOTOR = 11;
 
-	public static final int HOPPER_MOTOR_LEFT = 30;
-	public static final int HOPPER_MOTOR_RIGHT = 31; // Not sure what the correct ID is
+	public static final int HOPPER_MOTOR = 21;
 
-	public static final int CONVEYANCE_MOTOR = 32;
+	public static final int CONVEYANCE_MOTOR_LOWER = 31;
+	public static final int CONVEYANCE_MOTOR_UPPER = 32;
 
 	public static final int SHOOTER_MOTOR_1 = 41;
 	public static final int SHOOTER_MOTOR_2 = 42;
 
-	public static final int CLIMBER_MOTOR_1 = 35;
-	public static final int CLIMBER_MOTOR_2 =36;
+	public static final int CLIMBER_MOTOR_1 = 51;
+	public static final int CLIMBER_MOTOR_2 = 52;
 
 	// PCM
 	public static final int INTAKE_EXTEND_SOLENOID = 0;
 	public static final int INTAKE_RETRACT_SOLENOID = 1;
-	public static final int PISTON_BLOCK_SOLENOID = 2;
-	public static final int PISTON_UNBLOCK_SOLENOID = 3;
+	//public static final int PISTON_BLOCK_SOLENOID = 2;
+	//public static final int PISTON_UNBLOCK_SOLENOID = 3;
 
 	// DIO PORTS
 	public static final int CONVEYANCE_SENSOR = 0;
