@@ -24,8 +24,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public ClimberSubsystem() {
 		this.initialize();
-		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
-		_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
+		//_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
+		//_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
 	}
 
 	public void initialize() {
@@ -61,8 +61,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 		_expectedPower = magnitude;
 
-		_climberMotor.set(ControlMode.PercentOutput, magnitude);
-		_climberMotor2.set(ControlMode.PercentOutput, -1 * magnitude);
+		//_climberMotor.set(ControlMode.PercentOutput, magnitude);
+		//_climberMotor2.set(ControlMode.PercentOutput, -1 * magnitude);
 	}
 
 	public void printPosition() {
@@ -70,7 +70,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public double getEncoderPosition() {
-		return _climberMotor.getSelectedSensorPosition();
+		return 0;//_climberMotor.getSelectedSensorPosition();
 	}
 
 	public void periodic() {
@@ -102,19 +102,19 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void resetEncodersToRetractedLimit() {
-		_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
-		_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
+		//_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
+		//_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MINIMUM_VALUE, 0, 0);
 	}
 
 	public void resetEncodersToExtendedLimit() {
-		_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
-		_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
+		//_climberMotor.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
+		//_climberMotor2.setSelectedSensorPosition(Calibrations.CLIMBER_ENCODER_MAXIMUM_VALUE, 0, 0);
 
 	}
 
 	public void stop() {
-		_climberMotor.set(ControlMode.PercentOutput, 0);
-		_climberMotor2.set(ControlMode.PercentOutput, 0);
+		//_climberMotor.set(ControlMode.PercentOutput, 0);
+		//_climberMotor2.set(ControlMode.PercentOutput, 0);
 	}
 
 	// Right now this method just looks at the right limit switch; some combination
@@ -171,8 +171,8 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void holdPosition() {
-		_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
-		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+		//_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+		//_climberMotor2.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 	}
 
 	public double getClimberHeightPercentage() {
@@ -204,11 +204,11 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public boolean getClimberExtensionLimitSwitchValue() {
-		return _climberMotor.getSensorCollection().isRevLimitSwitchClosed();
+		return false;//_climberMotor.getSensorCollection().isRevLimitSwitchClosed();
 	}
 
 	public boolean getClimberRetractionLimitSwitchValue() {
-		return _climberMotor.getSensorCollection().isFwdLimitSwitchClosed();
+		return false;//_climberMotor.getSensorCollection().isFwdLimitSwitchClosed();
 	}
 
 	public boolean getIsExtendedPastEncoderPosition(int encoderPosition) {

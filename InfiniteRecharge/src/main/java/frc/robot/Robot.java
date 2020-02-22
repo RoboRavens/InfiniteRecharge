@@ -14,6 +14,7 @@ import java.util.List;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -119,8 +120,8 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    this.setupDriveController();
-    this.setupOperationPanel();
+    //this.setupDriveController();
+    //this.setupOperationPanel();
   }
 
   private void setupDefaultCommands() {
@@ -149,19 +150,25 @@ public class Robot extends TimedRobot {
       new Pose2d(0, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints, making an 's' curve path
       // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      List.of(
+        new Translation2d(1, 0),
+        new Translation2d(2, 1),
+        new Translation2d(3, 0)),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(3, 0, new Rotation2d(0)),
+      new Pose2d(4, 0, new Rotation2d(0)),
       // Pass config
       DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
     );
 
     var reverseTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
-      new Pose2d(3, 0, new Rotation2d(0)),
+      new Pose2d(4, 0, new Rotation2d(0)),
       // Pass through these two interior waypoints, making an 's' curve path
       // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(new Translation2d(2, 0), new Translation2d(1, 1)),
+      List.of(
+        new Translation2d(3, 0),
+        new Translation2d(2, 1),
+        new Translation2d(1, 0)),
       // End 3 meters straight ahead of where we started, facing forward
       new Pose2d(0, 0, new Rotation2d(0)),
       // Pass config
@@ -170,7 +177,8 @@ public class Robot extends TimedRobot {
 
     var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(forwardTrajectory);
     var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
-    return new SequentialCommandGroup(autonomousCommand1, autonomousCommand2);
+
+    return new SequentialCommandGroup(autonomousCommand1, autonomousCommand2, new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM), new InstantCommand(()-> System.out.println("Drive Command Finished!")));
   }
 
   public Trajectory GetPathweaverTrajectoryForAuto(){
@@ -204,7 +212,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    Command autonomousCommand = GetReversePathweaverTrajectoryTest();
+    Command autonomousCommand = GetReverseTrajectoryTest();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
