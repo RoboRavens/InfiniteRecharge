@@ -27,13 +27,13 @@ public class ConveyanceShootCommand extends CommandBase {
   public void execute() {
     //Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
     Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
-    Robot.CONVEYANCE_SUBSYSTEM.setMaxForward();
+    Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.CONVEYANCE_SUBSYSTEM.stop();
+    Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
     Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
   }
 

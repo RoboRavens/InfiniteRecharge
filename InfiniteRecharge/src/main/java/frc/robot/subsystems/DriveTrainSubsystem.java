@@ -16,7 +16,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
 	public DriveTrainSubsystem() {
 		ravenTank = new RavenTank();
-		this.initialize();
 	}
 
 	public void defaultCommand() {
@@ -24,19 +23,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		double rightYAxisValue = Robot.DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTSTICKY);
 		double rightXAxisValue = Robot.DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTSTICKX);
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.drive(leftYAxisValue, rightYAxisValue, rightXAxisValue);
-	}
-
-	public void initialize() {
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PowerMax", () -> _maxPower);
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderLeftInchesTraveled",
-				() -> ravenTank.getLeftNetInchesTraveled());
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderRightInchesTraveled",
-				() -> ravenTank.getRightNetInchesTraveled());
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "EncoderAvgInchesTraveled", () -> ((double) 0));
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "SlewRate", () -> _slewRateFinal);
-		NetworkTableDiagnostics.SubsystemNumber("DriveTrain", "PitchAngle", () -> ravenTank.getPitchAngle());
-		NetworkTableDiagnostics.SubsystemBoolean("DriveTrain", "CutPower", () -> ravenTank.getCutPower());
-
 	}
 
 	public void periodic() {
