@@ -13,14 +13,12 @@ public class ClimberHoldPositionCommand extends CommandBase {
 	// Called just before this Command runs the first time
 	public void initialize() {
 		System.out.println("ClimberHoldPositionCommand init");
-		this.targetPosition = Robot.CLIMBER_SUBSYSTEM.getEncoderPosition();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	public void execute() {
-		// The goal of this command is to send a very small amount of power to the
-		// elevator motors to fight against gravity - NOT to move the elevator, at all.
-		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit() == false) {
+		// This fights against the constant force springs keeping the climber extended.
+		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit() == false) {
 			Robot.CLIMBER_SUBSYSTEM.holdPosition();
 		} else {
 			Robot.CLIMBER_SUBSYSTEM.stop();

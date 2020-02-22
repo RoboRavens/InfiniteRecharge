@@ -25,7 +25,7 @@ public class ConveyanceReverseCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.CONVEYANCE_SUBSYSTEM.setReverse();
+    Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxReverse();
     Robot.CONVEYANCE_SUBSYSTEM.feederWheelReverse();
     System.out.println("REVERSING_CONVEYOR!!!");
   }

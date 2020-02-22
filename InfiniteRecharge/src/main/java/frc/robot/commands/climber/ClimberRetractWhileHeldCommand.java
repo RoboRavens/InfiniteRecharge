@@ -1,6 +1,5 @@
 package frc.robot.commands.climber;
 
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,8 +17,8 @@ public class ClimberRetractWhileHeldCommand extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        Robot.CLIMBER_SUBSYSTEM.retract(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
-        System.out.println("RETRACTING_CLIMBER!!!");
+        Robot.CLIMBER_SUBSYSTEM.retract();
+        System.out.println("RETRACTING_CLIMBER_WHILE_HELD!!!");
     }
 
     // Called once the command ends or is interrupted.

@@ -25,7 +25,7 @@ public class ConveyanceStopCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.CONVEYANCE_SUBSYSTEM.stop();
+    Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
     Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
   }
 

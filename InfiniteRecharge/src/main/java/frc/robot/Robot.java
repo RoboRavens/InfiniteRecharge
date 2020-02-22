@@ -34,7 +34,6 @@ import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
-import frc.robot.commands.climber.ClimberHoldPositionCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
@@ -115,7 +114,6 @@ public class Robot extends TimedRobot {
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
 
-    CLIMBER_SUBSYSTEM.resetEncodersToRetractedLimit();
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();

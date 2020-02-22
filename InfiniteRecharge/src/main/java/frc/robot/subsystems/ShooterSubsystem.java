@@ -24,8 +24,6 @@ import frc.util.NetworkTableDiagnostics;
 public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
-  private VictorSPX _shooterMotor2;
-  private Joystick _joystick;
   private Boolean _isControlPanelShot = false;
   private double _targetRPM = 0;
 
@@ -34,14 +32,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    _shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
-    _shooterMotor2.follow(_shooterMotor);
-    _shooterMotor2.setInverted(true);
+    var shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
 
     _shooterMotor.configFactoryDefault();
-    _shooterMotor2.configFactoryDefault();
+    shooterMotor2.configFactoryDefault();
 
-    _joystick = new Joystick(0);
+    shooterMotor2.follow(_shooterMotor);
+    shooterMotor2.setInverted(true);
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
@@ -99,11 +96,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public int getRPS() {
     return getRPM() * 60;
-  }
-
-  public void setVelocityBySlider() {
-    velocity = _joystick.getThrottle();
-    setVelocity(velocity);
   }
 
   public void setVelocityRaw(int velocity) {

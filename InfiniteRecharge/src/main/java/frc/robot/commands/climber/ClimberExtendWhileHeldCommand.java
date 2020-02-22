@@ -1,6 +1,5 @@
 package frc.robot.commands.climber;
 
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -17,13 +16,14 @@ public class ClimberExtendWhileHeldCommand extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        Robot.CLIMBER_SUBSYSTEM.extend(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
-        System.out.println("EXTENDING_CLIMBER!!!");
+        Robot.CLIMBER_SUBSYSTEM.extend();
+        System.out.println("EXTENDING_CLIMBER_WHILE_HELD!!!");
     }
 
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        Robot.CLIMBER_SUBSYSTEM.stop();
     }
 
     // Returns true when the command should end.
