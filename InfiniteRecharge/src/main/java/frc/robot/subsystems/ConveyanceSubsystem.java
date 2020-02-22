@@ -30,14 +30,13 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public ConveyanceSubsystem() {
     this.initialize();
+    
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
     _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, 0, null, 0, false);
 
     this._conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
 
-    //_pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
-    //_pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
   }
 
   public void initialize() {
@@ -69,7 +68,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void runAtPower(double magnitude) {
-    _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+    //_conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public void runWheelAtPercentPower(double magnitude) {

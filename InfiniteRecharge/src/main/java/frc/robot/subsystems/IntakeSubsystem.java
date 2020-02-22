@@ -22,9 +22,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public IntakeSubsystem() {
     this.initialize();
-    _intakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
-    _intakeExtend = new Solenoid(RobotMap.INTAKE_EXTEND_SOLENOID);
-    _intakeRetract = new Solenoid(RobotMap.INTAKE_RETRACT_SOLENOID);
+    //_intakeMotor = new TalonSRX(RobotMap.INTAKE_MOTOR);
+    //_intakeExtend = new Solenoid(RobotMap.INTAKE_EXTEND_SOLENOID);
+    //_intakeRetract = new Solenoid(RobotMap.INTAKE_RETRACT_SOLENOID);
   }
 
   public void initialize() {
@@ -44,7 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runAtPower(double magnitude) {
-    this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
+    //this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public void stop() {
@@ -52,13 +52,13 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void extend() {
-    this._intakeRetract.set(false);
-    this._intakeExtend.set(true);
+    //this._intakeRetract.set(false);
+    //this._intakeExtend.set(true);
   }
 
   public void retract() {
-    this._intakeRetract.set(true);
-    this._intakeExtend.set(false);
+    //this._intakeRetract.set(true);
+    //this._intakeExtend.set(false);
   }
 
   public void stopAndRetract() {
