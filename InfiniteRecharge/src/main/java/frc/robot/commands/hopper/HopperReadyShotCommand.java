@@ -26,16 +26,16 @@ public class HopperReadyShotCommand extends CommandBase {
   @Override
   public void execute() {
     if (Robot.CONVEYANCE_SUBSYSTEM.getConveyanceSensor() == true) {
-      Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+      Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
     } else {
-      Robot.HOPPER_SUBSYSTEM.feedForward();
+      Robot.HOPPER_SUBSYSTEM.fullForward(); // .feedForward()
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.HOPPER_SUBSYSTEM.stopHopperMotors();
+    Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
   }
 
   // Returns true when the command should end.

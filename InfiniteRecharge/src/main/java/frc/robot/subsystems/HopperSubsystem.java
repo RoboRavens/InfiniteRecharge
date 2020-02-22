@@ -15,13 +15,11 @@ import frc.robot.RobotMap;
 
 public class HopperSubsystem extends SubsystemBase {
 
-  private TalonSRX _hopperLeftMotor;
-  private TalonSRX _hopperRightMotor;
+  private TalonSRX _hopperMotor;
 
   public HopperSubsystem() {
     this.initialize();
-    //_hopperLeftMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_LEFT);
-    //_hopperRightMotor = new TalonSRX(RobotMap.HOPPER_MOTOR_RIGHT);
+    _hopperMotor = new TalonSRX(RobotMap.HOPPER_MOTOR);
   }
 
   public void initialize() {
@@ -32,36 +30,39 @@ public class HopperSubsystem extends SubsystemBase {
 
   }
 
-  public void stopHopperMotors() {
-    this.setHopperMotors(Calibrations.HOPPER_STOP, Calibrations.HOPPER_STOP);
+  public void stopHopperMotor() {
+    this.setHopperMotor(Calibrations.HOPPER_STOP, Calibrations.HOPPER_STOP);
   }
 
-  public void feedForward() {
-    this.setHopperMotors(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_FORWARD);
-  }
+  /* public void feedForward() {
+    this.setHopperMotor(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_FORWARD);
+  } */
 
-  public void feedReverse() {
-    this.setHopperMotors(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_REVERSE);
-  }
+  /* public void feedReverse() {
+    this.setHopperMotor(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_REVERSE);
+  } */
 
   public void feedFullSpeed() {
-    this.setHopperMotors(Calibrations.HOPPER_FEED_FULL_SPEED_LEFT, Calibrations.HOPPER_FEED_FULL_SPEED_RIGHT);
+    this.setHopperMotor(Calibrations.HOPPER_FEED_FULL_SPEED_LEFT, Calibrations.HOPPER_FEED_FULL_SPEED_RIGHT);
   }
 
   public void fullReverse() {
-    this.setHopperMotors(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_REVERSE);
+    this.setHopperMotor(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_REVERSE);
   }
 
   public void fullForward() {
-    this.setHopperMotors(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_FORWARD);
+    this.setHopperMotor(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_FORWARD);
   }
 
   public void agitateHopperMotors() {
     fullForward();
   }
 
-  public void setHopperMotors(double leftMagnitude, double rightMagnitude) {
-    //_hopperLeftMotor.set(ControlMode.PercentOutput, leftMagnitude);
-    //_hopperRightMotor.set(ControlMode.PercentOutput, rightMagnitude);
+  public void setHopperMotor(double leftMagnitude, double rightMagnitude) {
+    _hopperMotor.set(ControlMode.PercentOutput, leftMagnitude);
+  }
+
+  public void defaultCommand() {
+    this.stopHopperMotor();
   }
 }

@@ -35,8 +35,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
     _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, 0, null, 0, false);
 
-    this._conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
-
+    _conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
   }
 
   public void initialize() {
@@ -48,27 +47,27 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void setReverse() {
-    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_FULL_SPEED_REVERSE);
   }
 
   public void setMaxForward() {
-    this.runAtPower(Calibrations.CONVEYANCE_FULL_SPEED);
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_FULL_SPEED);
   }
 
   public void stop() {
-    this.runAtPower(Calibrations.CONVEYANCE_STOP);
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_STOP);
   }
 
   public void setNormalSpeedForward() {
-    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_SPEED);
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_NORMAL_SPEED);
   }
 
   public void setNormalSpeedReverse() {
-    this.runAtPower(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_NORMAL_REVERSE_SPEED);
   }
 
-  public void runAtPower(double magnitude) {
-    //_conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+  public void runBeltAtPercentPower(double magnitude) {
+    _conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public void runWheelAtPercentPower(double magnitude) {
@@ -105,5 +104,9 @@ public class ConveyanceSubsystem extends SubsystemBase {
     System.out.println("Unblocking");
     //_pistonUnblock.set(true);
     //_pistonBlock.set(false);
+  }
+
+  public void defaultCommand() {
+    this.stop();
   }
 }
