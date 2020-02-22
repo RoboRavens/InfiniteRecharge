@@ -26,6 +26,7 @@ public class ConveyanceReverseCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.CONVEYANCE_SUBSYSTEM.setReverse();
+    Robot.CONVEYANCE_SUBSYSTEM.feederWheelReverse();
     System.out.println("REVERSING_CONVEYOR!!!");
   }
 

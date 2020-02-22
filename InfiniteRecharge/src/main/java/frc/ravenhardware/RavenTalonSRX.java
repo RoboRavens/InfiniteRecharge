@@ -111,12 +111,12 @@ public class RavenTalonSRX implements IRavenTalon {
 		return 0.0;
 	}
 
-	public void setCurrentLimit(int amps, int timeoutMs) {
-		_talonSRX.configPeakCurrentLimit(amps, timeoutMs);
+	public void setCurrentLimit(int amps) {
+		_talonSRX.configPeakCurrentLimit(amps);
 		_talonSRX.enableCurrentLimit(true);
-		_talonSRX.configContinuousCurrentLimit(amps, timeoutMs);
+		_talonSRX.configContinuousCurrentLimit(amps);
 	
-   	}
+	   }
 	
    public double getOutputCurrent() {
 	   return _talonSRX.getSupplyCurrent();

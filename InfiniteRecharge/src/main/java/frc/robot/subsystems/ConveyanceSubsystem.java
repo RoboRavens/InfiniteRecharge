@@ -11,26 +11,32 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
-import edu.wpi.first.wpilibj.Solenoid;
+import frc.ravenhardware.IRavenTalon;
+import frc.ravenhardware.RavenTalonSRX;
+//import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ConveyanceSubsystem extends SubsystemBase {
 
   // 1 talon SRX will run two bag motors on robot
   private TalonSRX _conveyanceMotor;
+  private RavenTalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
 
-  private Solenoid _pistonBlock;
-  private Solenoid _pistonUnblock;
+  //private Solenoid _pistonBlock;
+  //private Solenoid _pistonUnblock;
 
   public ConveyanceSubsystem() {
     this.initialize();
-    //_conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
-    //_conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
+    
+    _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
+    _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
+    _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, 0, null, 0, false);
 
-    //_pistonBlock = new Solenoid(RobotMap.PISTON_BLOCK_SOLENOID);
-    //_pistonUnblock = new Solenoid(RobotMap.PISTON_UNBLOCK_SOLENOID);
+    this._conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
+
   }
 
   public void initialize() {
@@ -63,6 +69,22 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void runAtPower(double magnitude) {
     //_conveyanceMotor.set(ControlMode.PercentOutput, magnitude);
+  }
+
+  public void runWheelAtPercentPower(double magnitude) {
+    _conveyanceWheel.set(magnitude);
+  }
+  
+  public void feederWheelForward() {
+    this.runWheelAtPercentPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
+  }
+
+  public void wheelStop() {
+    this.runWheelAtPercentPower(Calibrations.CONVEYANCE_FEEDER_STOP);
+  }
+
+  public void feederWheelReverse() {
+    this.runWheelAtPercentPower(Calibrations.CONVEYANCE_REVERSE_FEEDER);
   }
 
   public boolean getConveyanceSensor() {

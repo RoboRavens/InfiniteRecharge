@@ -26,6 +26,7 @@ public class ConveyanceStopCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.CONVEYANCE_SUBSYSTEM.stop();
+    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
   }
 
   // Called once the command ends or is interrupted.

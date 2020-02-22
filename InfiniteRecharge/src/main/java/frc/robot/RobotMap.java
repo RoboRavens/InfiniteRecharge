@@ -13,6 +13,7 @@ public class RobotMap {
 	public static final int HOPPER_MOTOR_RIGHT = 31; // Not sure what the correct ID is
 
 	public static final int CONVEYANCE_MOTOR = 32;
+	public static final int CONVEYANCE_WHEEL = 33;
 
 	public static final int SHOOTER_MOTOR_1 = 41;
 	public static final int SHOOTER_MOTOR_2 = 42;
