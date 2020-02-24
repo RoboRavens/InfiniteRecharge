@@ -15,7 +15,7 @@ public class IntakeExtendAndReverseCommand extends CommandBase {
    * Creates a new IntakeExtendAndReverseCommand.
    */
   public IntakeExtendAndReverseCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Robot.INTAKE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
