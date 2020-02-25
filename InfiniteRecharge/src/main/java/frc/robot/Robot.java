@@ -41,6 +41,7 @@ import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
+import frc.robot.commands.intake.IntakeRetractCommand;
 import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
@@ -253,8 +254,14 @@ public class Robot extends TimedRobot {
     var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory2);
 
     return new SequentialCommandGroup(autonomousCommand1,
-      new ParallelCommandGroup(autonomousCommand2),
-      new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM),
+      new ParallelCommandGroup(
+        new SequentialCommandGroup(
+          autonomousCommand2,
+          new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM),
+          new IntakeRetractCommand()
+        ),
+        new IntakeExtendAndCollectCommand()
+      ),
       new InstantCommand(()-> System.out.println("Drive Command Finished!")));
   }
 
