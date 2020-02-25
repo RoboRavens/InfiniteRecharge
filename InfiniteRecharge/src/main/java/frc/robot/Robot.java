@@ -153,6 +153,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.tankDriveVolts(0, 0);
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
   }
 
   private Command GetReverseTrajectoryTest(){
@@ -239,11 +240,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading();
-
   }
 
   public void teleopPeriodic() {
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
 				System.out.println("CUT POWER TRUE");
@@ -254,6 +255,7 @@ public class Robot extends TimedRobot {
 			}
     }
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
+      Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
       System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
@@ -284,5 +286,9 @@ public class Robot extends TimedRobot {
   }
 
   public void testPeriodic() {
+  }
+
+  public void disabledPeriodic() {
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
   }
 }
