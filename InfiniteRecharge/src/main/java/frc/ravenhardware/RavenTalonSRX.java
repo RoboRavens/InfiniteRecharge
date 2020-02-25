@@ -9,7 +9,7 @@ public class RavenTalonSRX implements IRavenTalon {
 	private TalonSRX _talonSRX;
 	protected double outputSpeed;
 	private String _name;
-	private double _maxPower;
+	private double _maxPower = 1;
 	private boolean _encoderReversed;
 
 	// The default slew rate of 2 means no acceleration cutting will occur,
@@ -18,11 +18,10 @@ public class RavenTalonSRX implements IRavenTalon {
 
 	protected double deadband = .0;
 
-	public RavenTalonSRX(int mainChannel, int followerChannel, String name, double slewRate, boolean encoderReversed) {
+	public RavenTalonSRX(int mainChannel, String name, boolean encoderReversed) {
 		_talonSRX = new TalonSRX(mainChannel);
 		_encoderReversed = encoderReversed;
 		_name = name;
-		setSlewRate(slewRate);
 	}
 
 	// For now, the slew rate is defined in "magnitude of change to

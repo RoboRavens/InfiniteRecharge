@@ -8,11 +8,12 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class IsTargetAlignedCommand extends CommandBase {
+public class CheckIfTargetAlignedCommand extends CommandBase {
 
-  public IsTargetAlignedCommand() {
+  public CheckIfTargetAlignedCommand() {
   }
 
   // Called when the command is initially scheduled.
@@ -34,7 +35,7 @@ public class IsTargetAlignedCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= 5) {
+    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
       isFinished = true;
     }
     return isFinished;

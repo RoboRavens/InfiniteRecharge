@@ -107,7 +107,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", velocity);
-    printShooterSpeeds();
+    //printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 

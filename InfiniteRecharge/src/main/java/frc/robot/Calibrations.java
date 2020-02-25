@@ -119,9 +119,9 @@ public class Calibrations {
 	public static final double RAMSETE_ZETA = 0.7;
 
 	// CLIMBER
-	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = .13;
+	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; //.13
 	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = .1; // .66
-	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = .1; // .4
+	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = -.1; // -.4
 	public static final double CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE = .2;
 
 	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
@@ -149,7 +149,7 @@ public class Calibrations {
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	// INTAKE
-	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .1; // 1
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .5; // 1
 	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
@@ -163,10 +163,10 @@ public class Calibrations {
 	public static final double HOPPER_STOP = 0;
 
 	// CONVEYANCE
-	public static final double CONVEYANCE_FULL_SPEED = 1.0;
-	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
-	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
-	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
+	public static final double CONVEYANCE_FULL_SPEED = -1.0;
+	public static final double CONVEYANCE_FULL_SPEED_REVERSE = 0.25; // 1;
+	public static final double CONVEYANCE_NORMAL_SPEED = -0.5;
+	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = 0.5;
 	public static final double CONVEYANCE_FEEDER_SPEED = .25;
 	public static final double CONVEYANCE_FEEDER_STOP = 0.0;
 	public static final double CONVEYANCE_REVERSE_FEEDER = -.25;
@@ -232,7 +232,7 @@ public class Calibrations {
 	public static final double MINIMUM_DISTANCE_FROM_LIMELIGHT = 46.0;
 	public static final double MAXIMUM_DISTANCE_FROM_LIMELIGHT = 240.0;
 	public static final double LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES = 6.25;
-	public static final int DESIRED_TARGET_BUFER = 16;
+	public static final int DESIRED_TARGET_BUFFER = 5;
 
 	// LIGHTING
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;

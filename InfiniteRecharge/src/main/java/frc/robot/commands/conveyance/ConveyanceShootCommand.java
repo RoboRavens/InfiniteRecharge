@@ -34,7 +34,7 @@ public class ConveyanceShootCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
-    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
   }
 
   // Returns true when the command should end.

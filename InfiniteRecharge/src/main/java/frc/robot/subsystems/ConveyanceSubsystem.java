@@ -23,6 +23,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   // 1 talon SRX will run two bag motors on robot
   private TalonSRX _conveyanceMotor;
   private RavenTalonSRX _conveyanceWheel;
+  //private TalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
 
   //private Solenoid _pistonBlock;
@@ -31,8 +32,10 @@ public class ConveyanceSubsystem extends SubsystemBase {
   public ConveyanceSubsystem() {
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
-    _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, 0, null, 0, false);
+    _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, "Conveyance Wheel", false);
+    //_conveyanceWheel = new TalonSRX(RobotMap.CONVEYANCE_WHEEL);
 
+    _conveyanceWheel.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
     _conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
   }
 
@@ -102,5 +105,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void defaultCommand() {
     //setDefaultCommand(new ConveyanceStopCommand());
+    this.stopBelt();
+    this.wheelStop();
   }
 }

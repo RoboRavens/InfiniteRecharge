@@ -44,6 +44,7 @@ import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
 import frc.robot.commands.powercells.RunShooterCommandGroup;
+import frc.robot.commands.powercells.ShootIfReadyCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
@@ -90,7 +91,7 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM.getTargetRPM());
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(10000); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
   public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
@@ -105,6 +106,7 @@ public class Robot extends TimedRobot {
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
+  public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
@@ -118,11 +120,18 @@ public class Robot extends TimedRobot {
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    //this.setupDriveController();
-    //this.setupOperationPanel();
+    this.setupDriveController();
+    this.setupOperationPanel();
   }
 
   private void setupDefaultCommands() {
+    /* CLIMBER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CLIMBER_SUBSYSTEM.defaultCommand(), CLIMBER_SUBSYSTEM));
+    CONVEYANCE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
+    DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
+    HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
+    INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
+    SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM)); */
+
     CLIMBER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CLIMBER_SUBSYSTEM.defaultCommand(), CLIMBER_SUBSYSTEM));
     CONVEYANCE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
     DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
@@ -134,6 +143,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTERREV)) {
+      System.out.println("SHOOTERREV IS PRESSED");
+    }
   }
 
   @Override
@@ -229,7 +241,7 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
-    DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
+    // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
 				System.out.println("CUT POWER TRUE");
@@ -244,6 +256,7 @@ public class Robot extends TimedRobot {
       turnTarget.schedule();
     }
 
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootIfReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
   }
 
@@ -251,7 +264,7 @@ public class Robot extends TimedRobot {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
     
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(shooterRev);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(shooterRev);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
