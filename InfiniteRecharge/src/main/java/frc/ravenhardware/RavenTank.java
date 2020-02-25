@@ -570,6 +570,11 @@ public class RavenTank {
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
 	}
 
+	public void setOdemetry(Pose2d start) {
+		// for now assume it starts at 0 rad heading
+		_odometry.resetPosition(start, Rotation2d.fromDegrees(getHeading()));
+	}
+
 	public void tankDriveVolts(double left, double right) {
 		driveLeft.setVoltage(left);
 		driveRight.setVoltage(-right);
