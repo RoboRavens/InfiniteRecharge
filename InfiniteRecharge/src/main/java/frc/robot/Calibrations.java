@@ -58,7 +58,7 @@ public class Calibrations {
 	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
 
 	// Deadband
-	public static final double DEAD_BAND_MAGNITUDE = .2;
+	public static final double DEAD_BAND_MAGNITUDE = .2; 
 
 	// Default drive and gyro modes
 	public static final int DEFAULT_DRIVE_MODE = Calibrations.FPS_TANK;

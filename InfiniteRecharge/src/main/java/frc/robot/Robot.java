@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -216,10 +217,48 @@ public class Robot extends TimedRobot {
     return null;
   }
 
+  public Command GetAutonomousCommand(){
+    var trajectory1 = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(3.558, -2.404, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      List.of(
+        new Translation2d(4.219, -1.542)
+      ),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(5.2, -0.705, new Rotation2d(0)),
+      // Pass config
+      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
+    );
+
+    var trajectory2 = TrajectoryGenerator.generateTrajectory(
+      // Start at the origin facing the +X direction
+      new Pose2d(5.2, -0.705, new Rotation2d(0)),
+      // Pass through these two interior waypoints, making an 's' curve path
+      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
+      List.of(),
+      // End 3 meters straight ahead of where we started, facing forward
+      new Pose2d(7.588, -0.705, new Rotation2d(0)),
+      // Pass config
+      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
+    );
+
+    DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdemetry(trajectory1.getInitialPose());
+
+    var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory1);
+    var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory2);
+
+    return new SequentialCommandGroup(autonomousCommand1,
+      new ParallelCommandGroup(autonomousCommand2),
+      new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM),
+      new InstantCommand(()-> System.out.println("Drive Command Finished!")));
+  }
+
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    Command autonomousCommand = GetReverseTrajectoryTest();
+    Command autonomousCommand = GetAutonomousCommand();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
