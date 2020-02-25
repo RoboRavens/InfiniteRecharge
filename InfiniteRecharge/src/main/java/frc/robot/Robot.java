@@ -143,9 +143,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTERREV)) {
-      System.out.println("SHOOTERREV IS PRESSED");
-    }
   }
 
   @Override
