@@ -36,11 +36,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void collect() {
-    this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE * -1);
+    this.runAtPower(Calibrations.INTAKE_COLLECT_POWER_MAGNITUDE);
   }
 
   public void spit() {
-    this.runAtPower(Calibrations.INTAKE_SPIT_POWER_MAGNITUDE);
+    this.runAtPower(Calibrations.INTAKE_SPIT_POWER_MAGNITUDE * -1);
   }
 
   public void runAtPower(double magnitude) {

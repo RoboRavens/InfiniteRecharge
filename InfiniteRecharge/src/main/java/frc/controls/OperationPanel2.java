@@ -30,7 +30,10 @@ public class OperationPanel2 {
             break;
         case SETSHOTINITIATIONLINE:
             buttonNumber = 6;
-            break;
+			break;
+		case CONVEYANCESHOOT:
+			buttonNumber = 7;
+			break;
 		default:
 			throw new IllegalArgumentException("Invalid Button Code: " + button);
 		}

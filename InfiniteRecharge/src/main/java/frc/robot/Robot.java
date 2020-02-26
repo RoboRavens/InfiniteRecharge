@@ -38,6 +38,7 @@ import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
+import frc.robot.commands.conveyance.ConveyanceShootCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
@@ -95,7 +96,7 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(10000); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(120); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
   public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
@@ -111,6 +112,8 @@ public class Robot extends TimedRobot {
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
+
+  public ConveyanceShootCommand conveyanceShoot = new ConveyanceShootCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
@@ -322,6 +325,7 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShoot);
   }
 
   private void setupDriveController() {

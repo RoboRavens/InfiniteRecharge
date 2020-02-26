@@ -41,8 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotor2.setInverted(true);
 
     /* Config the Velocity closed loop gains in slot0 */
-    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, 0.00085/*Calibrations.SHOOTER_KF*/, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, 0/*Calibrations.SHOOTER_KP*/, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
     _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
 
@@ -69,7 +69,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    System.out.println(this.getRPM());
   }
 /*
   public void setVelocityByButton() {

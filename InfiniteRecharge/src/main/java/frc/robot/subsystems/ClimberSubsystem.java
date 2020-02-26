@@ -26,18 +26,18 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public ClimberSubsystem() {
 		
-/* 		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
+ 		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
 		_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
 		_climberMotor.configFactoryDefault();
 		_climberMotor2.configFactoryDefault();
 
-		_climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		_climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		_climberMotor2.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		_climberMotor2.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen); */
+		//_climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+		//_climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+		//_climberMotor2.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+		//_climberMotor2.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
 
-		/* climberMotor2.setInverted(true);
-		climberMotor2.follow(_climberMotor); */
+		_climberMotor2.setInverted(true);
+		// climberMotor2.follow(_climberMotor);
 	}
 
 	public void extend() {

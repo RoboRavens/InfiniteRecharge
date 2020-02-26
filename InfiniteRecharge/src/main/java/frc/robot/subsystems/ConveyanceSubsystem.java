@@ -22,7 +22,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   // 1 talon SRX will run two bag motors on robot
   private TalonSRX _conveyanceMotor;
-  private RavenTalonSRX _conveyanceWheel;
+  private RavenTalonSRX _feederWheelMotor;
   //private TalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
 
@@ -32,11 +32,11 @@ public class ConveyanceSubsystem extends SubsystemBase {
   public ConveyanceSubsystem() {
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
-    _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, "Conveyance Wheel", false);
+    _feederWheelMotor = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, "Conveyance Wheel", false);
     //_conveyanceWheel = new TalonSRX(RobotMap.CONVEYANCE_WHEEL);
 
-    _conveyanceWheel.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
-    _conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
+    _feederWheelMotor.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
+    _feederWheelMotor.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
   }
 
   public void periodic() {
@@ -68,7 +68,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   private void runWheelAtPercentPower(double magnitude) {
-    _conveyanceWheel.set(magnitude);
+    _feederWheelMotor.set(magnitude);
   }
   
   public void feederWheelForward() {

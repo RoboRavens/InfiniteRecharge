@@ -120,8 +120,8 @@ public class Calibrations {
 
 	// CLIMBER
 	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; //.13
-	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = .1; // .66
-	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = -.1; // -.4
+	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = 1;
+	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = -.4;
 	public static final double CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE = .2;
 
 	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
