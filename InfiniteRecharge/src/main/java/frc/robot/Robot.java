@@ -36,6 +36,7 @@ import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
+import frc.robot.commands.autonomous.NamedAutonomousCommand;
 import frc.robot.commands.autonomous.RunShooterAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
@@ -75,9 +76,7 @@ import frc.util.LoggerOverlord;
 import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "ReverseLine";
-  private static final String kCustomAuto = "Curve";
-  private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
+  private final SendableChooser<NamedAutonomousCommand> autonomousChooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -160,7 +159,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    Command autonomousCommand = autonomousChooser.getSelected();
+    Command autonomousCommand = autonomousChooser.getSelected().Command;
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -226,14 +225,15 @@ public class Robot extends TimedRobot {
 
   public void disabledPeriodic() {
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
-    SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().getName());
+    SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
+    SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
   }
 
   private void setupAutonomousCommands() {
-    autonomousChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    autonomousChooser.addOption("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand());
-    autonomousChooser.addOption("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand());
-    autonomousChooser.addOption("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand());
+    autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
+    autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
     
     SmartDashboard.putData("Autonomous Choices", autonomousChooser);
   }
