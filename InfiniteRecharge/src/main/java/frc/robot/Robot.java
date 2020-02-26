@@ -138,13 +138,6 @@ public class Robot extends TimedRobot {
   }
 
   private void setupDefaultCommands() {
-    /* CLIMBER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CLIMBER_SUBSYSTEM.defaultCommand(), CLIMBER_SUBSYSTEM));
-    CONVEYANCE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
-    DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
-    HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
-    INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
-    SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM)); */
-
     CLIMBER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CLIMBER_SUBSYSTEM.defaultCommand(), CLIMBER_SUBSYSTEM));
     CONVEYANCE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
     DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
@@ -162,70 +155,6 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.tankDriveVolts(0, 0);
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
-  }
-
-  private Command GetReverseTrajectoryTest(){
-    // An example trajectory to follow.  All units in meters.
-    var forwardTrajectory = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(
-        new Translation2d(1, 0),
-        new Translation2d(2, 1),
-        new Translation2d(3, 0)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(4, 0, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
-
-    var reverseTrajectory = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(4, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(
-        new Translation2d(3, 0),
-        new Translation2d(2, 1),
-        new Translation2d(1, 0)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
-    );
-
-    var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(forwardTrajectory);
-    var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
-
-    return new SequentialCommandGroup(autonomousCommand1, autonomousCommand2, new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM), new InstantCommand(()-> System.out.println("Drive Command Finished!")));
-  }
-
-  public Trajectory GetPathweaverTrajectoryForAuto(){
-    try {
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + "Line" + ".wpilib.json"));
-      return DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
-
-  public Command GetReversePathweaverTrajectoryTest(){
-    try {
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/Line.wpilib.json"));
-      var trajectoryToReverse = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/ReverseLine.wpilib.json"));
-      var reverseTrajectory = DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory2(trajectoryToReverse);
-      var trajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
-      var reverseTrajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
-      return new SequentialCommandGroup(trajectoryCommand, reverseTrajectoryCommand);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
   }
 
   @Override
