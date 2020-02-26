@@ -8,11 +8,10 @@
 package frc.robot.commands.powercells;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.conveyance.ConveyanceShootCommand;
 
 public class ShootIfReadyCommandGroup extends SequentialCommandGroup {
 
   public ShootIfReadyCommandGroup() {
-    super(new CheckIfReadyToShootCommandGroup(), new ConveyanceShootCommand());
+    super(new CheckIfReadyToShootCommandGroup(), new RunShooterCommandGroup());
   }
 }

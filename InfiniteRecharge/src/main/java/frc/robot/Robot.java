@@ -51,6 +51,7 @@ import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.shooter.ShooterStopCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -99,7 +100,7 @@ public class Robot extends TimedRobot {
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
   public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
-  public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
+  // public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
   public StopConveyanceCommandGroup stopConveyance = new StopConveyanceCommandGroup();
   public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
   public RevDownCommandGroup revDown = new RevDownCommandGroup();
@@ -253,7 +254,9 @@ public class Robot extends TimedRobot {
     var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory1);
     var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory2);
 
-    return new SequentialCommandGroup(autonomousCommand1,
+    return new SequentialCommandGroup(
+      new SequentialCommandGroup(new ShooterRevCommand(Calibrations.INITIATION_LINE_SHOT), new RunShooterCommandGroup(), new RevDownCommandGroup()),
+      autonomousCommand1,
       new ParallelCommandGroup(
         new SequentialCommandGroup(
           autonomousCommand2,
