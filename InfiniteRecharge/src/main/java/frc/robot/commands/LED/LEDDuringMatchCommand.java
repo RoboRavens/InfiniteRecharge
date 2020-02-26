@@ -21,7 +21,7 @@ public class LEDDuringMatchCommand extends CommandBase {
     private LEDBlinkCommand _blinkCommand;
     private boolean _hasRan;
 
-    BlinkCommand(Color color) {
+    BlinkCommand(double color) {
       _blinkCommand = new LEDBlinkCommand(color, 2);
     }
 
@@ -33,10 +33,10 @@ public class LEDDuringMatchCommand extends CommandBase {
     }
   }
 
-  private BlinkCommand After90SecondsCommand = new BlinkCommand(Color.GREEN);
-  private BlinkCommand After60SecondsCommand = new BlinkCommand(Color.YELLOW);
-  private BlinkCommand After30SecondsCommand = new BlinkCommand(Color.ORANGE);
-  private BlinkCommand After10SecondsCommand = new BlinkCommand(Color.RED);
+  private BlinkCommand After90SecondsCommand = new BlinkCommand(0.5);
+  private BlinkCommand After60SecondsCommand = new BlinkCommand(0.3);
+  private BlinkCommand After30SecondsCommand = new BlinkCommand(0.2);
+  private BlinkCommand After10SecondsCommand = new BlinkCommand(0.1);
 
   public LEDDuringMatchCommand() {
     addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);

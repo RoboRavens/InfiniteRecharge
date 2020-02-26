@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.awt.Color;
@@ -9,13 +10,16 @@ import java.awt.Color;
 import com.ctre.phoenix.CANifier;
 
 public class ProgrammableLEDSubsystem extends SubsystemBase {
-	private static CANifier _canifier;
+	//private static CANifier _canifier;
+	private static Jaguar blinkin;
 	DriverStation driverStation = DriverStation.getInstance();
 	private boolean _teleop = false;
 
 	public ProgrammableLEDSubsystem() {
 		this.initialize();
-		_canifier = new CANifier(0);
+		//_canifier = new CANifier(0);
+		blinkin = new Jaguar(0);
+		blinkin.setBounds(1990, 1900, 1875, 1850, 1800);
 	}
 
 	public void initialize() {
@@ -24,9 +28,9 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 
 	public void setColorToTeleop() {
 		if (Robot.isRedAlliance) {
-			this.SetLEDColor(Color.RED);
+			this.SetLEDColor(0.05);
 		} else {
-			this.SetLEDColor(Color.BLUE);
+			this.SetLEDColor(0.80);
 		}
 	}
 
@@ -64,27 +68,28 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 
 	public void setDisabledMode() {
 		_teleop = false;
-		this.SetLEDColor(Color.RED);
+		this.SetLEDColor(0.15);
 	}
 
 	public void setAutonomousMode() {
 		_teleop = false;
-		this.SetLEDColor(Color.WHITE);
+		this.SetLEDColor(.65);
 	}
 
 	public void setTestMode() {
 		_teleop = false;
-		this.SetLEDColor(Color.GRAY);
+		this.SetLEDColor(.75);
 	}
 
 	public void setGamePiecePosessedPattern() {
-		this.SetLEDColor(new Color(192, 0, 64));
+		this.SetLEDColor(.85);
 	}
 
 	public void off() {
-		this.SetLEDColor(Color.RED);
+		this.SetLEDColor(0.01);
 	}
 
+	/*
 	public void SetLEDColor(Color color) {
 		float red = (((float) color.getRed() / 256));
 		System.out.println(red);
@@ -99,5 +104,10 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 		_canifier.setLEDOutput(green, CANifier.LEDChannel.LEDChannelA);
 		_canifier.setLEDOutput(red, CANifier.LEDChannel.LEDChannelB);
 		_canifier.setLEDOutput(blue, CANifier.LEDChannel.LEDChannelC);
+	}*/
+
+	public void SetLEDColor(double color) {
+		blinkin.set(color);
 	}
+
 }

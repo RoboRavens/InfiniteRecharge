@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LEDBlinkCommand extends CommandBase {
     private Timer _timer = new Timer();
-    private Color _color;
+    private double _color;
     private float _duration;
     private double _timeOfLastColorChange;
     private boolean _lastColorChangeIsOff;
 
-    public LEDBlinkCommand(Color color, float duration) {
+    public LEDBlinkCommand(double color, float duration) {
         _color = color;
         _duration = duration;
     }
