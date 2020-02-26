@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -33,12 +34,17 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
+import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
+import frc.robot.commands.autonomous.RunShooterAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
-import frc.robot.commands.conveyance.ConveyanceShootCommand;
+import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
+import frc.robot.commands.drivetrain.DriveTrainTurnRelativeDegreesCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
@@ -47,12 +53,14 @@ import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
 import frc.robot.commands.powercells.RunShooterCommandGroup;
+import frc.robot.commands.powercells.RunShooterForDurationCommandGroup;
 import frc.robot.commands.powercells.ShootIfReadyCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.shooter.ShooterStopCommand;
+import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -103,7 +111,6 @@ public class Robot extends TimedRobot {
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
   // public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
   public StopConveyanceCommandGroup stopConveyance = new StopConveyanceCommandGroup();
-  public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
   public RevDownCommandGroup revDown = new RevDownCommandGroup();
   public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
   public HopperAgitateCommand hopperAgitate = new HopperAgitateCommand();
@@ -114,7 +121,7 @@ public class Robot extends TimedRobot {
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
 
-  public ConveyanceShootCommand conveyanceShoot = new ConveyanceShootCommand();
+  public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
@@ -225,56 +232,12 @@ public class Robot extends TimedRobot {
     return null;
   }
 
-  public Command GetAutonomousCommand(){
-    var trajectory1 = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(3.558, -2.404, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(
-        new Translation2d(4.219, -1.542)
-      ),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(5.2, -0.705, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
-
-    var trajectory2 = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(5.2, -0.705, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(7.588, -0.705, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
-
-    DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdemetry(trajectory1.getInitialPose());
-
-    var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory1);
-    var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory2);
-
-    return new SequentialCommandGroup(
-      new SequentialCommandGroup(new ShooterRevCommand(Calibrations.INITIATION_LINE_SHOT), new RunShooterCommandGroup(), new RevDownCommandGroup()),
-      autonomousCommand1,
-      new ParallelCommandGroup(
-        new SequentialCommandGroup(
-          autonomousCommand2,
-          new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM),
-          new IntakeRetractCommand()
-        ),
-        new IntakeExtendAndCollectCommand()
-      ),
-      new InstantCommand(()-> System.out.println("Drive Command Finished!")));
-  }
-
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    Command autonomousCommand = GetAutonomousCommand();
+    // Command autonomousCommand = SixBallCenteredAutonomousCommand.GenerateCommand();
+    // Command autonomousCommand = SixBallSideAutonomousCommand.GenerateCommand();
+    Command autonomousCommand = DriveAndShootAutonomousCommand.GenerateCommand();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -328,7 +291,7 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShoot);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShootWhileHeld);
   }
 
   private void setupDriveController() {

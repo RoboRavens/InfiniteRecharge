@@ -24,7 +24,7 @@ public class Calibrations {
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
 	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .01;
-	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .03;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .01;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
 	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 1;

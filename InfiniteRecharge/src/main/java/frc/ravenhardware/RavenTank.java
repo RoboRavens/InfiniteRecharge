@@ -609,6 +609,7 @@ public class RavenTank {
 		// Run path following command, then stop at the end.
 		return ramseteCommand.andThen(() -> {
 			this.tankDriveVolts(0, 0);
+			this.setGyroTargetHeadingToCurrentHeading();
 		});
 	}
 
@@ -670,7 +671,7 @@ public class RavenTank {
 	}
 
 	public void logPose(){
-		System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
+		// System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
 	}
 	  
 	public void currentLimting() {

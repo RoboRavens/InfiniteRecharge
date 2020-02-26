@@ -38,6 +38,6 @@ public class ShooterRevCommand extends CommandBase {
     }
     return isFinished;
   }*/
-  return false;
+  return true;
  }
 }
