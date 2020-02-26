@@ -37,7 +37,6 @@ public class ClimberSubsystem extends SubsystemBase {
 		//_climberMotor2.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
 
 		_climberMotor2.setInverted(true);
-		// climberMotor2.follow(_climberMotor);
 	}
 
 	public void extend() {
@@ -91,10 +90,11 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	public void holdPosition() {
 		_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 	}
 
 	public void defaultCommand() {
 		// setDefaultCommand(new ClimberHoldPositionCommand());
-		//this.holdPosition();
+		this.holdPosition();
 	}
 }
