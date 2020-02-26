@@ -17,11 +17,10 @@ import frc.robot.commands.shooter.CheckIfShooterAtRPMCommand;
 
 public class CheckIfReadyToShootCommandGroup extends SequentialCommandGroup {
 
-  // not finished
   public CheckIfReadyToShootCommandGroup() {
     super(new CheckIfTargetAlignedCommand(), 
           new CheckIfShooterAtRPMCommand(),
-          // new RunCommand(() -> System.out.println("LEFT BUMPER PRESSED")).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER)),
-          new RunCommand(() -> System.out.println("LEFT TRIGGER PRESSED")).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getAxisIsPressed(AxisCode.LEFTTRIGGER)));
+          // new RunCommand(() -> {}).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER)),
+          new RunCommand(() -> {}).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getAxisIsPressed(AxisCode.LEFTTRIGGER)));
   }
 }

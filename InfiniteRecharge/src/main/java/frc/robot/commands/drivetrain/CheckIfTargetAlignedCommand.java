@@ -34,10 +34,10 @@ public class CheckIfTargetAlignedCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isFinished = false;
+   /* boolean isFinished = false;
     if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
       isFinished = true;
-    }
-    return isFinished;
+    } */ // uncomment after testing
+    return true;
   }
 }

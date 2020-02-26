@@ -37,10 +37,10 @@ public class CheckIfShooterAtRPMCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isFinished = false;
+    /* boolean isFinished = false;
     if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Calibrations.TARGET_RANGE)){
       isFinished = true;
-    }
-    return isFinished;
+    } */ // uncomment after testing
+    return true;
   }
 }

@@ -10,8 +10,8 @@ package frc.robot.commands.conveyance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class ConveyanceShootCommand extends CommandBase {
-  public ConveyanceShootCommand() {
+public class ConveyanceShootWhileHeldCommand extends CommandBase {
+  public ConveyanceShootWhileHeldCommand() {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
