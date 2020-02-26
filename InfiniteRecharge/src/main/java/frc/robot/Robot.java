@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -76,7 +77,7 @@ import frc.util.OverrideSystem;
 public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "ReverseLine";
   private static final String kCustomAuto = "Curve";
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<Command> autonomousChooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -127,16 +128,13 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
     this.setupDriveController();
     this.setupOperationPanel();
+    this.setupAutonomousCommands();
   }
 
   private void setupDefaultCommands() {
@@ -206,8 +204,7 @@ public class Robot extends TimedRobot {
 
   public Trajectory GetPathweaverTrajectoryForAuto(){
     try {
-      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
+      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + "Line" + ".wpilib.json"));
       return DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
     } catch (IOException e) {
       e.printStackTrace();
@@ -218,7 +215,6 @@ public class Robot extends TimedRobot {
 
   public Command GetReversePathweaverTrajectoryTest(){
     try {
-      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
       var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/Line.wpilib.json"));
       var trajectoryToReverse = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/ReverseLine.wpilib.json"));
       var reverseTrajectory = DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory2(trajectoryToReverse);
@@ -235,9 +231,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    // Command autonomousCommand = SixBallCenteredAutonomousCommand.GenerateCommand();
-    // Command autonomousCommand = SixBallSideAutonomousCommand.GenerateCommand();
-    Command autonomousCommand = DriveAndShootAutonomousCommand.GenerateCommand();
+    Command autonomousCommand = autonomousChooser.getSelected();
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -303,5 +297,15 @@ public class Robot extends TimedRobot {
 
   public void disabledPeriodic() {
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().getName());
+  }
+
+  private void setupAutonomousCommands() {
+    autonomousChooser.setDefaultOption("Do Nothing", new InstantCommand());
+    autonomousChooser.addOption("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand());
+    autonomousChooser.addOption("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand());
+    autonomousChooser.addOption("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand());
+    
+    SmartDashboard.putData("Autonomous Choices", autonomousChooser);
   }
 }
