@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
-import frc.ravenhardware.IRavenTalon;
 import frc.ravenhardware.RavenTalonSRX;
 //import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
@@ -105,7 +104,13 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void defaultCommand() {
     //setDefaultCommand(new ConveyanceStopCommand());
-    this.stopBelt();
-    this.wheelStop();
+    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
+      this.feederWheelForward();
+      this.setBeltMaxForward();
+    }
+    else {
+      this.stopBelt();
+      this.wheelStop();
+    }
   }
 }

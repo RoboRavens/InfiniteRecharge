@@ -7,29 +7,15 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
@@ -37,7 +23,6 @@ import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
-import frc.robot.commands.autonomous.RunShooterAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
@@ -46,23 +31,16 @@ import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
-import frc.robot.commands.drivetrain.DriveTrainTurnRelativeDegreesCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
-import frc.robot.commands.intake.IntakeRetractCommand;
-import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
-import frc.robot.commands.powercells.RunShooterCommandGroup;
-import frc.robot.commands.powercells.RunShooterForDurationCommandGroup;
 import frc.robot.commands.powercells.ShootIfReadyCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
-import frc.robot.commands.shooter.ShooterStopCommand;
-import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -177,6 +155,13 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
+    System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
+    System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
+    System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
+    System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
+
+    System.out.println();
+
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
@@ -190,13 +175,14 @@ public class Robot extends TimedRobot {
     }
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
       Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
-      System.out.println("TURNING TO TARGET");
+      // System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
 
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootIfReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
   }
+
 
   public void setupOperationPanel() {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
@@ -227,6 +213,8 @@ public class Robot extends TimedRobot {
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
     SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
+
+    System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
   }
 
   private void setupAutonomousCommands() {

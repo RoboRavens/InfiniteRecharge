@@ -7,17 +7,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
-import frc.robot.commands.climber.ClimberHoldPositionCommand;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -40,11 +35,15 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void extend() {
-		this.set(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
+		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1) && Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
+			this.set(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
+		}
 	}
 
 	public void retract() {
-		this.set(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
+		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1) && Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
+			this.set(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
+		}
 	}
 
 	private void set(double magnitude) {

@@ -8,7 +8,6 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
 public class CheckIfShooterAtRPMCommand extends CommandBase {
@@ -20,7 +19,7 @@ public class CheckIfShooterAtRPMCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("CheckIfShooterAtRPMCommand init");
+    System.out.println("CheckIfShooterAtRPMCommand init@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

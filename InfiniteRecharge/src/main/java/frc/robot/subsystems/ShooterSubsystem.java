@@ -11,12 +11,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.util.NetworkTableDiagnostics;
@@ -159,6 +159,24 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void defaultCommand() {
     this.setVelocity(0);
+  }
+
+  public boolean getIsInInitiationLineRpmRange() {
+    // If RPM is within range, output true. Otherwise, output false
+    if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - Calibrations.INITIATION_LINE_SHOT)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  public boolean readyToShoot() {
+    boolean overrideIsFalse = Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE) == false;
+    boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
+    boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
+    boolean isAtRpm = this.getIsInInitiationLineRpmRange();
+
+    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
   }
 
   /*

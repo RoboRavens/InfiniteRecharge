@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
+import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
 
 /**
  * Add your docs here.
@@ -33,7 +34,7 @@ public class DriveAndShootAutonomousCommand {
       
           return new SequentialCommandGroup(
             new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
-            drive1FootCommand
+            new DriveTrainDriveInchesCommand(24, .3, Calibrations.DRIVING_FORWARD)
           );
     }
 }

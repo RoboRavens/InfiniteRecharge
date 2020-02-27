@@ -9,8 +9,8 @@ public class Calibrations {
 	// testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
-	public static final double SLEW_RATE_MINIMUM = .3;
-	public static final double SLEW_RATE_MAXIMUM = .35;
+	public static final double SLEW_RATE_MINIMUM = .2;
+	public static final double SLEW_RATE_MAXIMUM = .2;
 
 	// The safe slew rate changes based upon a few variables:
 	// - What gear we are in
@@ -91,16 +91,16 @@ public class Calibrations {
 	public static final double DRIVETRAIN_MAXPOWER_AT_MAX_ELEVEATOR_HEIGHT = .4;
 
 	// Robot characterization generated values
-	public static final double KS_VOLTS = 0.12;
-	public static final double KV_VOLT_SECONDS_PER_METER = 2.27;
-	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.09;
+	public static final double KS_VOLTS = 0.327;
+	public static final double KV_VOLT_SECONDS_PER_METER = 2.26;
+	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.25;
 	public static final double KP_DRIVE_VELOCITY = 0.00005;
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0.000178;
 
 	public static final double METERS_TO_INCHES = 39.37;
 
-	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
+	public static final double TRACK_WIDTH_METERS = 0.7723672633409093;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
 			Calibrations.TRACK_WIDTH_METERS);
 	public static final int ENCODER_CPR = 2048;
@@ -183,7 +183,7 @@ public class Calibrations {
 	public static final double TARGET_RPM_BUFFER = 100;
 
 	//Current Limiting
-	public static final int LIMIT_DRIVE_AMPS = 60;
+	public static final int LIMIT_DRIVE_AMPS = 10;
 	public static final int CONVEYANCE_FEEDER_LIMIT = 40;
 	public static final int TIMEOUT = 0;
 	
@@ -232,7 +232,7 @@ public class Calibrations {
 	public static final double MINIMUM_DISTANCE_FROM_LIMELIGHT = 46.0;
 	public static final double MAXIMUM_DISTANCE_FROM_LIMELIGHT = 240.0;
 	public static final double LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES = 6.25;
-	public static final int DESIRED_TARGET_BUFFER = 5;
+	public static final int DESIRED_TARGET_BUFFER = 3;
 
 	// LIGHTING
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;
