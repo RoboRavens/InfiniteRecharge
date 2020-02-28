@@ -26,6 +26,7 @@ public class ConveyanceSlowFeedCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.CONVEYANCE_SUBSYSTEM.slowFeedBelt();
+    Robot.CONVEYANCE_SUBSYSTEM.slowFeedWheelReverse();
     System.out.println("SLOWFEEDING_CONVEYOR!!!");
   }
 

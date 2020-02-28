@@ -86,6 +86,10 @@ public class ConveyanceSubsystem extends SubsystemBase {
     this.runBeltAtPercentPower(Calibrations.CONVEYANCE_FEEDER_SPEED_SLOW);
   }
 
+  public void slowFeedWheelReverse() {
+    this.runWheelAtPercentPower(Calibrations.CONVEYANCE_REVERSE_FEEDER_SLOW);
+  }
+
   public boolean getConveyanceSensor() {
     // Sysouts are for testing
     System.out.println("Got sensor");

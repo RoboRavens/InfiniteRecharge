@@ -106,6 +106,8 @@ public class Robot extends TimedRobot {
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
+  public String currentAutoName = "";
+
   @Override
   public void robotInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
@@ -169,7 +171,7 @@ public class Robot extends TimedRobot {
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
-			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
+			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
 				System.out.println("CUT POWER TRUE");
 			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(true);
 			}
@@ -219,7 +221,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
     SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
 
-    System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
+    // if (autonomousChooser.getSelected().Name.equals(this.currentAutoName))
+
+    // System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
   }
 
   private void setupAutonomousCommands() {
