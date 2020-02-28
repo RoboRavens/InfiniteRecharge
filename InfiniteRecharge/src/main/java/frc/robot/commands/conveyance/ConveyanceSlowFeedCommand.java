@@ -1,30 +1,32 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.Calibrations;
 
-public class DriveTrainTurnTargetCommand extends CommandBase {
+public class ConveyanceSlowFeedCommand extends CommandBase {
 
-  public DriveTrainTurnTargetCommand() {
-    addRequirements(Robot.LIMELIGHT_SUBSYSTEM);
+  public ConveyanceSlowFeedCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
-  // Called just before this Command runs the first time
+  // Called when the command is initially scheduled.
+  @Override
   public void initialize() {
-    // System.out.println("DriveTrainTurnTargetCommand init");
+    System.out.println("ConveyanceSlowFeedCommand initialized");
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
   public void execute() {
-    Robot.LIMELIGHT_SUBSYSTEM.turnToTarget();
+    Robot.CONVEYANCE_SUBSYSTEM.slowFeedBelt();
+    System.out.println("SLOWFEEDING_CONVEYOR!!!");
   }
 
   // Called once the command ends or is interrupted.
@@ -35,10 +37,6 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
-      isFinished = true;
-    }
-    return isFinished;
+    return false;
   }
 }

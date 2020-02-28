@@ -171,11 +171,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public boolean readyToShoot() {
-    boolean overrideIsFalse = Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE) == false;
+    boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
     boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
     boolean isAtRpm = this.getIsInInitiationLineRpmRange();
-
+    // boolean isAtRpm = true;
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
   }
 

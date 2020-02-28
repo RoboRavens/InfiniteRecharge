@@ -35,6 +35,7 @@ public class ShooterRevCommand extends CommandBase {
       // isFinished = true;
     } 
 
+    /*
 boolean isInRpmRange = true;
 boolean isAtAngle = true;
 
@@ -48,6 +49,7 @@ boolean isAtAngle = true;
       Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
       Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
     }
+    */
   }
 
   public boolean isFinished() {
@@ -63,8 +65,8 @@ boolean isAtAngle = true;
   // Called once the command ends or is interrupted.
   @Override
     public void end(boolean interrupted) {
-      Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
-      Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
-      Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
+      //Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+      //Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+      //Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
   }
 }

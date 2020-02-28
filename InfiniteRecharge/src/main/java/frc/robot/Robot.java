@@ -31,6 +31,7 @@ import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
+import frc.robot.commands.conveyance.ConveyanceSlowFeedCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
@@ -98,6 +99,7 @@ public class Robot extends TimedRobot {
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
+  public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
@@ -159,7 +161,8 @@ public class Robot extends TimedRobot {
     System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
     System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
     System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
-
+    System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
+    System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
     System.out.println();
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
@@ -179,8 +182,9 @@ public class Robot extends TimedRobot {
       turnTarget.schedule();
     }
 
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootIfReady);
+    // Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootIfReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
   }
 
 

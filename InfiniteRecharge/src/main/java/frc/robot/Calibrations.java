@@ -9,8 +9,8 @@ public class Calibrations {
 	// testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
-	public static final double SLEW_RATE_MINIMUM = .2;
-	public static final double SLEW_RATE_MAXIMUM = .2;
+	public static final double SLEW_RATE_MINIMUM = .08;
+	public static final double SLEW_RATE_MAXIMUM = .08;
 
 	// The safe slew rate changes based upon a few variables:
 	// - What gear we are in
@@ -23,8 +23,8 @@ public class Calibrations {
 
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
-	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .01;
-	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .01;
+	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .025;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .025;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
 	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 1;
@@ -172,15 +172,16 @@ public class Calibrations {
 	public static final double CONVEYANCE_REVERSE_FEEDER = -.25;
 	public static final double CONVEYANCE_STOP = 0;
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
+	public static final double CONVEYANCE_FEEDER_SPEED_SLOW = -.2;
 
 
 	// SHOOTER 
 	public static final double TARGET_RANGE = 100;
-	public static final double SHOOTER_KF = 0.00985;
+	public static final double SHOOTER_KF = 0.00785;
     public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RPM_BUFFER = 100;
+	public static final double TARGET_RPM_BUFFER = 400;
 
 	//Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;
@@ -198,8 +199,9 @@ public class Calibrations {
 
 	public static final double INIT_LINE_VELOCITY  = 57195;
 	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
-	public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY * VEL_TO_RPM;
-	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY * VEL_TO_RPM;
+	 // public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;
+	public static final double INIT_LINE_RPM = 4800;
+	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY / VEL_TO_RPM;
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;

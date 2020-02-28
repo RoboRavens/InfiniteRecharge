@@ -82,6 +82,10 @@ public class ConveyanceSubsystem extends SubsystemBase {
     this.runWheelAtPercentPower(Calibrations.CONVEYANCE_REVERSE_FEEDER);
   }
 
+  public void slowFeedBelt() {
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_FEEDER_SPEED_SLOW);
+  }
+
   public boolean getConveyanceSensor() {
     // Sysouts are for testing
     System.out.println("Got sensor");
@@ -105,6 +109,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   public void defaultCommand() {
     //setDefaultCommand(new ConveyanceStopCommand());
     if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
+      System.out.println("READY TO SHOOT!!!!");
       this.feederWheelForward();
       this.setBeltMaxForward();
     }
