@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
+import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnRelativeDegreesCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.intake.IntakeRetractCommand;
@@ -44,18 +45,18 @@ public class SixBallSideAutonomousCommand {
             var returnToStartReversedTrajectoryCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(returnToStartReversedTrajectory);
         
             return new SequentialCommandGroup(
-            new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
+            //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
             new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
-            new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5),
+            //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5),
             new ParallelDeadlineGroup(
-                getBallsFromTrenchCommand,
+                new DriveTrainDriveInchesCommand(200, .3, Calibrations.DRIVING_FORWARD),
                 new IntakeExtendAndCollectCommand()
             ),
             new IntakeRetractCommand(),
-            returnToStartReversedTrajectoryCommand,
-            new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
-            new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
-            new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5)
+            new DriveTrainDriveInchesCommand(200, .3, Calibrations.DRIVING_BACKWARD),
+            //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
+            new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3)
+            //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5)
         );
     }
 }
