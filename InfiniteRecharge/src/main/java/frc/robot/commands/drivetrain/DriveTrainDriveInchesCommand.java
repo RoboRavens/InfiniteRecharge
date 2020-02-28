@@ -65,11 +65,11 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 		PCDashboardDiagnostics.AdHocNumber("netInchesTraveledSoFar", _netInchesTraveledSoFar);
 		PCDashboardDiagnostics.AdHocNumber("totalInchesToTravel", _totalInchesToTravel);
 
-		if (_timeoutTimer.get() > _timeoutSeconds) {
+		/*if (_timeoutTimer.get() > _timeoutSeconds) {
 			hasTraveledTargetDistance = true;
 
 			System.out.println("TIMEOUT TIMEOUT TIMEOUT TIMEOUT");
-		}
+		}*/
 
 		return hasTraveledTargetDistance;
 	}

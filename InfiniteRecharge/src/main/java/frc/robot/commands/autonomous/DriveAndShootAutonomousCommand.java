@@ -34,7 +34,7 @@ public class DriveAndShootAutonomousCommand {
       
           return new SequentialCommandGroup(
             new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
-            new DriveTrainDriveInchesCommand(24, .3, Calibrations.DRIVING_FORWARD)
+            new DriveTrainDriveInchesCommand(24, .1, Calibrations.DRIVING_FORWARD)
           );
     }
 }
