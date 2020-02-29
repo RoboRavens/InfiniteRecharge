@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.controls.AxisCode;
 import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
@@ -31,8 +32,10 @@ import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
+import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceSlowFeedCommand;
+import frc.robot.commands.conveyance.ConveyanceStopCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
@@ -43,6 +46,7 @@ import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 //import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
@@ -195,7 +199,11 @@ public class Robot extends TimedRobot {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
     
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(shooterRev);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(
+      new SequentialCommandGroup(
+        new ConveyanceReverseForDurationCommand(.15),
+        new ConveyanceStopCommand(),
+        shooterRev));
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
