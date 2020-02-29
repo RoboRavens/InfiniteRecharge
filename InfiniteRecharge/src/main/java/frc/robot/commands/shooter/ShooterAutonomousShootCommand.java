@@ -38,7 +38,7 @@ public class ShooterAutonomousShootCommand extends CommandBase {
   @Override
   public void execute() {
     // Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INIT_LINE_RPM);
-    Robot.SHOOTER_SUBSYSTEM.setRPM(120);
+    Robot.SHOOTER_SUBSYSTEM.setRPM(500);
     // System.out.println("REVING_SHOOTER!!!");
 
     System.out.print("Angle: " + Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());

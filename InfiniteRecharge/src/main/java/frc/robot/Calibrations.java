@@ -198,8 +198,8 @@ public class Calibrations {
 	*/
 
 	public static final double VEL_TO_RPM = 8192 / 600;
-	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
-
+	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
+	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
 	public static final double INIT_LINE_VELOCITY  = 57195;
 	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
 	 // public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;

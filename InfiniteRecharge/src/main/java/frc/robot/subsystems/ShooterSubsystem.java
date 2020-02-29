@@ -70,6 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // System.out.println(this.getRPM());
+    printShooterSpeeds();
 
     if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SHOOTFURTHER)){
       _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
@@ -106,21 +107,20 @@ public class ShooterSubsystem extends SubsystemBase {
     return getRPM() * 60;
   }
 
-  public void setVelocityRaw(int velocity) {
+  public void setVelocityRaw(double velocity) {
     SmartDashboard.putNumber("Target Velocity", velocity);
-    printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
   public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
-    SmartDashboard.putNumber("Target Velocity", velocity);
+    SmartDashboard.putNumber("Target Velocity", targetVelocity_UnitsPer100ms);
     //printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
   }
 
   public void setRPM(double rpm) {
-    setVelocity(rpm * Calibrations.RPM_TO_VEL);
+    setVelocityRaw(rpm * Calibrations.VEL_TO_RPM);
   }
 
   public int secsTillRevved() {

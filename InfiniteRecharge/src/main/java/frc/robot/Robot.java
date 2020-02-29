@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(120); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(2000); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
   public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
@@ -160,12 +160,12 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
-    System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
-    System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
-    System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
-    System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
-    System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
-    System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
+    //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
+    //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
+    //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
+    //System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
+    //System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
+    //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
     System.out.println();
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
