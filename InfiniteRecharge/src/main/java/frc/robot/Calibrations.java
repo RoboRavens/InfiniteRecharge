@@ -184,9 +184,9 @@ public class Calibrations {
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 200;
-	public static final double INIT_LINE_RPM = 4700;
+	public static final double INIT_LINE_RPM = 4700; // actual is 4600
 
-	public static final double TRENCH_SHOT = 5365;
+	public static final double TRENCH_SHOT = 5450; // actual is 5140
 	
 	public static final double VEL_TO_RPM = 8192 / 600;
 	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
