@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(2000); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
+  public ShooterRevCommand shooterRev = new ShooterRevCommand(Calibrations.INIT_LINE_RPM); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
   public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
   public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();

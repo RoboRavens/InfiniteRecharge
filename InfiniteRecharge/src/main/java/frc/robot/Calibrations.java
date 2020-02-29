@@ -178,13 +178,26 @@ public class Calibrations {
 
 	// SHOOTER 
 	// public static final double TARGET_RANGE = 100;
-	public static final double SHOOTER_KF = 0.0075;
+	public static final double SHOOTER_KF = 0.0085;
 	public static final double SHOOTER_KF_FURTHER = 0.0083;
     public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 200;
-	public static final double INIT_LINE_RPM = 4950;
+	public static final double INIT_LINE_RPM = 4685;
+
+	public static final double TRENCH_SHOT = 5365;
+	
+	public static final double VEL_TO_RPM = 8192 / 600;
+	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
+	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
+	public static final double INIT_LINE_VELOCITY  = 57195;
+	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
+
+	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY / VEL_TO_RPM;
+
+	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
+	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 
 	//Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;
@@ -197,21 +210,14 @@ public class Calibrations {
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
 
-	public static final double VEL_TO_RPM = 8192 / 600;
-	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
-	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
-	public static final double INIT_LINE_VELOCITY  = 57195;
-	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
+
 	 // public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;
 	
-	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY / VEL_TO_RPM;
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;
 	public static final int FALCON_RPM_SOFT_MIN = 0;
 
-	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
-	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 	// Velocity 600 = about 45 RPM (measured empirically)
 	// 25 revolutions = 204661 encoder ticks (measured empirically)
 	// 1 rev = ~8186 ticks
