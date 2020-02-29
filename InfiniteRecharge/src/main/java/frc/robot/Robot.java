@@ -201,9 +201,9 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(
       new SequentialCommandGroup(
-        new ConveyanceReverseForDurationCommand(.15),
-        new ConveyanceStopCommand(),
+        new SleepCommand("delay rev", .15),
         shooterRev));
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(new ConveyanceReverseForDurationCommand(.15));
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);

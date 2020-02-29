@@ -184,7 +184,7 @@ public class Calibrations {
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
 	public static final double TARGET_RPM_BUFFER = 200;
-	public static final double INIT_LINE_RPM = 4685;
+	public static final double INIT_LINE_RPM = 4700;
 
 	public static final double TRENCH_SHOT = 5365;
 	

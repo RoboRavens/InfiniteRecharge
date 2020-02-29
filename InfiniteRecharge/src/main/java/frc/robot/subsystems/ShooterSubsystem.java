@@ -70,7 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // System.out.println(this.getRPM());
-    // printShooterSpeeds();
+    printShooterSpeeds();
 
     if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SHOOTFURTHER)){
       _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
