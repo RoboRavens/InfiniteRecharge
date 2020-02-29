@@ -70,6 +70,14 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // System.out.println(this.getRPM());
+
+    if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SHOOTFURTHER)){
+      _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
+      System.out.println("Setting!");
+    }
+    else {
+      _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
+    }
   }
 /*
   public void setVelocityByButton() {
@@ -174,6 +182,15 @@ public class ShooterSubsystem extends SubsystemBase {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
     boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
+    boolean isAtRpm = this.getIsInInitiationLineRpmRange();
+    // boolean isAtRpm = true;
+    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+  }
+
+  public boolean readyToShootAuto() {
+    boolean overrideIsFalse = true; // !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
+    boolean isAligned = true; // Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
+    boolean bumperHeld = true; // Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
     boolean isAtRpm = this.getIsInInitiationLineRpmRange();
     // boolean isAtRpm = true;
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;

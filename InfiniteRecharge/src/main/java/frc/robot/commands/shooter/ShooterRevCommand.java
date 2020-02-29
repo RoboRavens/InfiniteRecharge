@@ -31,9 +31,9 @@ public class ShooterRevCommand extends CommandBase {
     Robot.SHOOTER_SUBSYSTEM.setRPM(this._setRPM);
     System.out.println("REVING_SHOOTER!!!");
 
-    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Calibrations.TARGET_RANGE)){
+    // if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Calibrations.TARGET_RANGE)){
       // isFinished = true;
-    } 
+    // } 
 
     /*
 boolean isInRpmRange = true;

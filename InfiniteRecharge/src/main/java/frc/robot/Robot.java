@@ -44,7 +44,7 @@ import frc.robot.commands.shooter.SetShotControlPanelCommand;
 import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-import frc.robot.subsystems.CompressorSubsystem;
+//import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
   public static final OperationPanel2 OPERATION_PANEL_2 = new OperationPanel2(2);
   
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-  public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
+  //public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
@@ -228,8 +228,8 @@ public class Robot extends TimedRobot {
 
   private void setupAutonomousCommands() {
     autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
-    autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
-    autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
+    //autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
+    //autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Drive", new NamedAutonomousCommand("Drive", DriveAutonomousCommand.GenerateCommand()));
     

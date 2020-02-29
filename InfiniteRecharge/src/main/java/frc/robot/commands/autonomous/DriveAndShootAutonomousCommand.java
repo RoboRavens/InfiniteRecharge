@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
+import frc.robot.commands.shooter.ShooterAutonomousShootCommand;
 
 /**
  * Add your docs here.
@@ -33,8 +34,8 @@ public class DriveAndShootAutonomousCommand {
           var drive1FootCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(drive1FootTrajectory);
       
           return new SequentialCommandGroup(
-            new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
-            new DriveTrainDriveInchesCommand(24, .1, Calibrations.DRIVING_FORWARD)
+            new ShooterAutonomousShootCommand(),
+            new DriveTrainDriveInchesCommand(24, .25, Calibrations.DRIVING_FORWARD)
           );
     }
 }

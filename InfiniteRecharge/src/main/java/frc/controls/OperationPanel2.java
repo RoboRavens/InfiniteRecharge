@@ -22,6 +22,9 @@ public class OperationPanel2 {
 		int buttonNumber;
 
 		switch (button) {
+		case SHOOTFURTHER:
+			buttonNumber = 2;
+			break;
         case HOPPERAGITATE:
             buttonNumber = 3;
             break;
