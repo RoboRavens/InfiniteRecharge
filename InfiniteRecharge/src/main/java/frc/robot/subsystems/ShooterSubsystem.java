@@ -72,13 +72,13 @@ public class ShooterSubsystem extends SubsystemBase {
     // System.out.println(this.getRPM());
     printShooterSpeeds();
 
-    if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SHOOTFURTHER)){
+   /*  if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SHOOTFURTHER)){
       _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
       System.out.println("Setting!");
     }
     else {
       _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    }
+    } */
   }
 /*
   public void setVelocityByButton() {
