@@ -32,13 +32,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
-    var shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
+    var _shooterMotor2 = new VictorSPX(RobotMap.SHOOTER_MOTOR_2);
 
     _shooterMotor.configFactoryDefault();
-    shooterMotor2.configFactoryDefault();
+    _shooterMotor2.configFactoryDefault();
 
-    shooterMotor2.follow(_shooterMotor);
-    shooterMotor2.setInverted(true);
+    _shooterMotor2.follow(_shooterMotor);
+    _shooterMotor2.setInverted(true);
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
