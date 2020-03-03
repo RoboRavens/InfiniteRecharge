@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.Timer;
@@ -39,6 +40,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     _shooterMotor2.follow(_shooterMotor);
     _shooterMotor2.setInverted(true);
+    _shooterMotor2.setNeutralMode(NeutralMode.Coast);
 
     /* Config the Velocity closed loop gains in slot0 */
     _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
@@ -55,6 +57,8 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.configPeakOutputReverse(-1, TalonSRXConstants.kTimeoutMs);
     // VERY IMPORTANT, do not change "false"
     _shooterMotor.setSensorPhase(false);
+
+    _shooterMotor.setNeutralMode(NeutralMode.Coast);
 
     // Initialize must be at the bottom, with penalty of null pointer errors
     // this.initialize();
