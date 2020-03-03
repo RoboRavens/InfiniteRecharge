@@ -6,6 +6,7 @@ import frc.util.PCDashboardDiagnostics;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 public class RavenTalonFX implements IRavenTalon {
@@ -128,8 +129,17 @@ public class RavenTalonFX implements IRavenTalon {
 		// StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0, 0.0);
 		// _talonFX.configStatorCurrentLimit(currLimitCfg);
 
-		SupplyCurrentLimitConfiguration currentLimitObject = new SupplyCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 15, .01);
-		_talonFX.configSupplyCurrentLimit(currentLimitObject);
+
+		//TODO: CURRENT LIMITING
+		/* System.out.println("Configuring current--------------------------------------------------------");
+
+		TalonFXConfiguration as = new TalonFXConfiguration();
+
+		as.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 45, 45, 0);
+
+		_talonFX.configAllSettings(as);
+
+		_talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 15, .01)); */
 
 //		_talonFX.current
 
