@@ -7,13 +7,19 @@
 
 package frc.robot.commands.powercells;
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.drivetrain.IsTargetAlignedCommand;
+import frc.controls.AxisCode;
+import frc.robot.Robot;
+import frc.robot.commands.drivetrain.CheckIfTargetAlignedCommand;
+import frc.robot.commands.shooter.CheckIfShooterAtRPMCommand;
 
 public class CheckIfReadyToShootCommandGroup extends SequentialCommandGroup {
 
-  // not finished
   public CheckIfReadyToShootCommandGroup() {
-    super(new IsTargetAlignedCommand());
+    super(new CheckIfTargetAlignedCommand(), 
+          new CheckIfShooterAtRPMCommand(),
+          // new RunCommand(() -> {}).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER)),
+          new RunCommand(() -> {}).withInterrupt(() -> Robot.DRIVE_CONTROLLER.getAxisIsPressed(AxisCode.LEFTTRIGGER)));
   }
 }

@@ -6,7 +6,6 @@ import frc.controls.AxisCode;
 import frc.ravenhardware.RavenTank;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
-import frc.util.NetworkTableDiagnostics;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 	public RavenTank ravenTank;

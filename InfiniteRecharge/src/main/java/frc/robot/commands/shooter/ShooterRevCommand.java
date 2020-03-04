@@ -9,6 +9,8 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.controls.ButtonCode;
+import frc.robot.Calibrations;
 
 public class ShooterRevCommand extends CommandBase {
 
@@ -27,8 +29,37 @@ public class ShooterRevCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.setRPM(this._setRPM);
+    if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SETSHOTCONTROLPANEL)){
+      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.TRENCH_SHOT);
+      //_shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
+      //System.out.println("Setting!");
+    }
+    else {
+      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INITIATION_LINE_SHOT);
+      //_shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
+    }
+    
     System.out.println("REVING_SHOOTER!!!");
+
+    // if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Calibrations.TARGET_RANGE)){
+      // isFinished = true;
+    // } 
+
+    /*
+boolean isInRpmRange = true;
+boolean isAtAngle = true;
+
+    if (isInRpmRange && isAtAngle) {
+      Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
+      Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
+      Robot.HOPPER_SUBSYSTEM.feedFullSpeed();
+    }
+    else {
+      Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+      Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+      Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
+    }
+    */
   }
 
   public boolean isFinished() {
@@ -40,4 +71,12 @@ public class ShooterRevCommand extends CommandBase {
   }*/
   return false;
  }
+
+  // Called once the command ends or is interrupted.
+  @Override
+    public void end(boolean interrupted) {
+      //Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+      //Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+      //Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
+  }
 }

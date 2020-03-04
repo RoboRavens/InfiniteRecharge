@@ -7,12 +7,11 @@
 
 package frc.robot.commands.powercells;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
-import frc.robot.commands.hopper.HopperFeedFullCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class RunShooterCommandGroup extends ParallelCommandGroup {
-  public RunShooterCommandGroup() {
-    super(new HopperFeedFullCommand(), new ConveyanceShootWhileHeldCommand());
+public class ShootIfReadyCommandGroup extends SequentialCommandGroup {
+
+  public ShootIfReadyCommandGroup() {
+    super(new CheckIfReadyToShootCommandGroup(), new RunShooterCommandGroup());
   }
 }

@@ -22,8 +22,17 @@ public class OperationPanel {
 		int buttonNumber;
 
 		switch (button) {
+		case SHOOTING_MODE_OVERRIDE:
+			buttonNumber = 1;
+			break;
 		case SHOOTERREV:
 			buttonNumber = 2;
+			break;
+		case CLIMB_ENABLE_1:
+			buttonNumber = 3;
+			break;
+		case CLIMB_ENABLE_2:
+			buttonNumber = 4;
 			break;
 		case OVERRIDEREVERSECONVEYANCE:
 			buttonNumber = 5;

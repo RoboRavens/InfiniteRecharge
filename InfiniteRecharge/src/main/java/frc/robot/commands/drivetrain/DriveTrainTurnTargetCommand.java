@@ -9,6 +9,7 @@ package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.Calibrations;
 
 public class DriveTrainTurnTargetCommand extends CommandBase {
 
@@ -18,7 +19,7 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
 
   // Called just before this Command runs the first time
   public void initialize() {
-    System.out.println("DriveTrainTurnTargetCommand init");
+    // System.out.println("DriveTrainTurnTargetCommand init");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -35,7 +36,7 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= 5) {
+    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
       isFinished = true;
     }
     return isFinished;

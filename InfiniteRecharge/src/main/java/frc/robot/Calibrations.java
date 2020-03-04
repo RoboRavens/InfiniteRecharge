@@ -9,8 +9,8 @@ public class Calibrations {
 	// testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
-	public static final double SLEW_RATE_MINIMUM = .3;
-	public static final double SLEW_RATE_MAXIMUM = .35;
+	public static final double SLEW_RATE_MINIMUM = .08;
+	public static final double SLEW_RATE_MAXIMUM = .08;
 
 	// The safe slew rate changes based upon a few variables:
 	// - What gear we are in
@@ -23,11 +23,11 @@ public class Calibrations {
 
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
-	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .025;
-	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .03;
+	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .02;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .0015;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
-	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 1;
+	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 3;
 	public static final boolean DRIVE_TRAIN_STARTING_IS_IN_HIGH_GEAR = false;
 
 	public static final double TURN_FEED_FORWARD_MAGNITUDE = .18;
@@ -58,7 +58,7 @@ public class Calibrations {
 	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
 
 	// Deadband
-	public static final double DEAD_BAND_MAGNITUDE = .2;
+	public static final double DEAD_BAND_MAGNITUDE = .2; 
 
 	// Default drive and gyro modes
 	public static final int DEFAULT_DRIVE_MODE = Calibrations.FPS_TANK;
@@ -91,16 +91,16 @@ public class Calibrations {
 	public static final double DRIVETRAIN_MAXPOWER_AT_MAX_ELEVEATOR_HEIGHT = .4;
 
 	// Robot characterization generated values
-	public static final double KS_VOLTS = 0.12;
-	public static final double KV_VOLT_SECONDS_PER_METER = 2.27;
-	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.09;
-	public static final double KP_DRIVE_VELOCITY = 0.00005;
+	public static final double KS_VOLTS = 0.327;
+	public static final double KV_VOLT_SECONDS_PER_METER = 2.26;
+	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.25;
+	public static final double KP_DRIVE_VELOCITY = 0.01; //0.00005
 	public static final double KI_DRIVE_VELOCITY = 0;
-	public static final double KD_DRIVE_VELOCITY = 0.000178;
+	public static final double KD_DRIVE_VELOCITY = 0;
 
 	public static final double METERS_TO_INCHES = 39.37;
 
-	public static final double TRACK_WIDTH_METERS = 0.5761920811967401;
+	public static final double TRACK_WIDTH_METERS = 0.7723672633409093;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
 			Calibrations.TRACK_WIDTH_METERS);
 	public static final int ENCODER_CPR = 2048;
@@ -110,8 +110,8 @@ public class Calibrations {
 			// Assumes the encoders are directly mounted on the wheel shafts
 			((WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_CPR) / POST_ENCODER_GEARING;
 
-	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5;
-	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3;
+	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5; // 1.5
+	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3; // 3
 
 	// Reasonable baseline values for a RAMSETE follower in units of meters and
 	// seconds
@@ -119,9 +119,9 @@ public class Calibrations {
 	public static final double RAMSETE_ZETA = 0.7;
 
 	// CLIMBER
-	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = .13;
-	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = .1; // .66
-	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = .1; // .4
+	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; //.13
+	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = 1;
+	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = -.4;
 	public static final double CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE = .2;
 
 	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
@@ -149,7 +149,7 @@ public class Calibrations {
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	// INTAKE
-	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .1; // 1
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .5; // 1
 	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
@@ -163,27 +163,44 @@ public class Calibrations {
 	public static final double HOPPER_STOP = 0;
 
 	// CONVEYANCE
-	public static final double CONVEYANCE_FULL_SPEED = 1.0;
-	public static final double CONVEYANCE_FULL_SPEED_REVERSE = -1.0;
-	public static final double CONVEYANCE_NORMAL_SPEED = 0.5;
-	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = -0.5;
+	public static final double CONVEYANCE_FULL_SPEED = -.25;
+	public static final double CONVEYANCE_FULL_SPEED_REVERSE = 0.25; // 1;
+	public static final double CONVEYANCE_NORMAL_SPEED = -0.5;
+	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = 0.5;
 	public static final double CONVEYANCE_FEEDER_SPEED = .25;
 	public static final double CONVEYANCE_FEEDER_STOP = 0.0;
 	public static final double CONVEYANCE_REVERSE_FEEDER = -.25;
+	public static final double CONVEYANCE_REVERSE_FEEDER_SLOW = -.18;
 	public static final double CONVEYANCE_STOP = 0;
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
+	public static final double CONVEYANCE_FEEDER_SPEED_SLOW = -.2;
 
 
 	// SHOOTER 
-	public static final double TARGET_RANGE = 100;
-	public static final double SHOOTER_KF = 0.00985;
+	// public static final double TARGET_RANGE = 100;
+	public static final double SHOOTER_KF = 0.0085;
+	public static final double SHOOTER_KF_FURTHER = 0.0083;
     public static final double SHOOTER_KP = 0.004;
     public static final double SHOOTER_KI = 0.0;
 	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RPM_BUFFER = 100;
+	public static final double TARGET_RPM_BUFFER = 200;
+	public static final double INIT_LINE_RPM = 4725; // actual is 4600
+
+	public static final double TRENCH_SHOT = 5450; // actual is 5140
+	
+	public static final double VEL_TO_RPM = 8192 / 600;
+	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
+	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
+	public static final double INIT_LINE_VELOCITY  = 57195;
+	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
+
+	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY / VEL_TO_RPM;
+
+	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
+	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 
 	//Current Limiting
-	public static final int LIMIT_DRIVE_AMPS = 60;
+	public static final int LIMIT_DRIVE_AMPS = 10;
 	public static final int CONVEYANCE_FEEDER_LIMIT = 40;
 	public static final int TIMEOUT = 0;
 	
@@ -193,20 +210,14 @@ public class Calibrations {
 	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
 	*/
 
-	public static final double VEL_TO_RPM = 8192 / 600;
-	public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
 
-	public static final double INIT_LINE_VELOCITY  = 57195;
-	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
-	public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY * VEL_TO_RPM;
-	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY * VEL_TO_RPM;
+	 // public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;
+	
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;
 	public static final int FALCON_RPM_SOFT_MIN = 0;
 
-	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
-	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
 	// Velocity 600 = about 45 RPM (measured empirically)
 	// 25 revolutions = 204661 encoder ticks (measured empirically)
 	// 1 rev = ~8186 ticks
@@ -232,7 +243,7 @@ public class Calibrations {
 	public static final double MINIMUM_DISTANCE_FROM_LIMELIGHT = 46.0;
 	public static final double MAXIMUM_DISTANCE_FROM_LIMELIGHT = 240.0;
 	public static final double LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES = 6.25;
-	public static final int DESIRED_TARGET_BUFER = 16;
+	public static final int DESIRED_TARGET_BUFFER = 3;
 
 	// LIGHTING
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;

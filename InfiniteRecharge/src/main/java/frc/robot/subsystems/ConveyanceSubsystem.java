@@ -11,7 +11,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.ravenhardware.BufferedDigitalInput;
-import frc.ravenhardware.IRavenTalon;
 import frc.ravenhardware.RavenTalonSRX;
 //import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
@@ -22,7 +21,8 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   // 1 talon SRX will run two bag motors on robot
   private TalonSRX _conveyanceMotor;
-  private RavenTalonSRX _conveyanceWheel;
+  private RavenTalonSRX _feederWheelMotor;
+  //private TalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
 
   //private Solenoid _pistonBlock;
@@ -31,9 +31,11 @@ public class ConveyanceSubsystem extends SubsystemBase {
   public ConveyanceSubsystem() {
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
-    _conveyanceWheel = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, 0, null, 0, false);
+    _feederWheelMotor = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, "Conveyance Wheel", false);
+    //_conveyanceWheel = new TalonSRX(RobotMap.CONVEYANCE_WHEEL);
 
-    _conveyanceWheel.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
+    _feederWheelMotor.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
+    _feederWheelMotor.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
   }
 
   public void periodic() {
@@ -65,7 +67,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   private void runWheelAtPercentPower(double magnitude) {
-    _conveyanceWheel.set(magnitude);
+    _feederWheelMotor.set(magnitude);
   }
   
   public void feederWheelForward() {
@@ -78,6 +80,14 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void feederWheelReverse() {
     this.runWheelAtPercentPower(Calibrations.CONVEYANCE_REVERSE_FEEDER);
+  }
+
+  public void slowFeedBelt() {
+    this.runBeltAtPercentPower(Calibrations.CONVEYANCE_FEEDER_SPEED_SLOW);
+  }
+
+  public void slowFeedWheelReverse() {
+    this.runWheelAtPercentPower(Calibrations.CONVEYANCE_REVERSE_FEEDER_SLOW);
   }
 
   public boolean getConveyanceSensor() {
@@ -102,5 +112,14 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
   public void defaultCommand() {
     //setDefaultCommand(new ConveyanceStopCommand());
+    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
+      System.out.println("READY TO SHOOT!!!!");
+      this.feederWheelForward();
+      this.setBeltMaxForward();
+    }
+    else {
+      this.stopBelt();
+      this.wheelStop();
+    }
   }
 }
