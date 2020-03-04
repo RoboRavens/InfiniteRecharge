@@ -568,11 +568,14 @@ public class RavenTank {
 		this.resetOrientationGyro();
 		//_odometry.resetPosition(new Pose2d(new Translation2d(3, 0), Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
+		System.out.println("RESETTING ODOMETRY");
 	}
 
-	public void setOdemetry(Pose2d start) {
+	public void setOdometry(Pose2d start) {
 		// for now assume it starts at 0 rad heading
+		this.resetDriveEncoders();
 		_odometry.resetPosition(start, Rotation2d.fromDegrees(getHeading()));
+		System.out.println("SSSSSSSSSSSSSSSSSSSSETTING ODOMETRY");
 	}
 
 	public void tankDriveVolts(double left, double right) {
@@ -591,8 +594,8 @@ public class RavenTank {
 
 	public Command getCommandForTrajectory(Trajectory trajectory) {
 		// this code would only run when the command is generated, not when the command is used... so I'm commenting it out for now
-		// var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
-		// trajectory = trajectory.transformBy(transform);
+		/* var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
+		trajectory = trajectory.transformBy(transform); */
 
 		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, _odometry::getPoseMeters,
 				new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
@@ -671,7 +674,7 @@ public class RavenTank {
 	}
 
 	public void logPose(){
-		// System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
+		System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
 	}
 	  
 	public void currentLimting() {
