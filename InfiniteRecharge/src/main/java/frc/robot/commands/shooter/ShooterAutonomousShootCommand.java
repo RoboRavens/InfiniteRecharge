@@ -15,16 +15,8 @@ import frc.robot.Robot;
 public class ShooterAutonomousShootCommand extends CommandBase {
   Timer timer = new Timer();
   
-  /**
-   * 
-   * Creates a new ShooterAutonomousShootCommand.
-   */
   public ShooterAutonomousShootCommand() {
-    
     addRequirements(Robot.SHOOTER_SUBSYSTEM, Robot.CONVEYANCE_SUBSYSTEM, Robot.HOPPER_SUBSYSTEM);
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    
   }
 
   // Called when the command is initially scheduled.
@@ -37,9 +29,7 @@ public class ShooterAutonomousShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INIT_LINE_RPM);
     Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INIT_LINE_RPM);
-    // System.out.println("REVING_SHOOTER!!!");
 
     System.out.print("Angle: " + Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
     System.out.print(" RPM: " + Robot.SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());

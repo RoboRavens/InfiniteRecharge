@@ -45,7 +45,7 @@ public class SixBallSideAutonomousCommand {
         
             return new SequentialCommandGroup(
             //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
-            new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
+            new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
             //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5),
             new ParallelDeadlineGroup(
                 new DriveTrainDriveInchesCommand(200, .3, Calibrations.DRIVING_FORWARD),
@@ -54,7 +54,7 @@ public class SixBallSideAutonomousCommand {
             new IntakeRetractCommand(),
             new DriveTrainDriveInchesCommand(200, .3, Calibrations.DRIVING_BACKWARD),
             //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, -25.5),
-            new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3)
+            new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3)
             //new DriveTrainTurnRelativeDegreesCommand(Robot.DRIVE_TRAIN_SUBSYSTEM, 25.5)
         );
     }
