@@ -14,9 +14,7 @@ import frc.robot.Calibrations;
 
 public class ShooterRevCommand extends CommandBase {
 
-  private double _setRPM;
-  public ShooterRevCommand(double setRPM) {
-    this._setRPM = setRPM;
+  public ShooterRevCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM);
   }
 
@@ -29,54 +27,29 @@ public class ShooterRevCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SETSHOTCONTROLPANEL)){
-      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.TRENCH_SHOT);
-      //_shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF_FURTHER, TalonSRXConstants.kTimeoutMs);
-      //System.out.println("Setting!");
+    if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SETSHOTCLOSECONTROLPANEL)) {
+      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.CLOSE_TRENCH_SHOT_RPM);
+      Robot.SHOOTER_SUBSYSTEM.setPidCloseTrench();
+    } else if (Robot.OPERATION_PANEL_2.getButtonValue(ButtonCode.SETSHOTFARCONTROLPANEL)) {
+      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.FAR_TRENCH_SHOT_RPM);
+      Robot.SHOOTER_SUBSYSTEM.setPidFarTrench();
+    } else {
+      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INIT_LINE_RPM);
+      Robot.SHOOTER_SUBSYSTEM.setPidInit();
     }
-    else {
-      Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INITIATION_LINE_SHOT);
-      //_shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    }
-    
+
     System.out.println("REVING_SHOOTER!!!");
-
-    // if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Calibrations.TARGET_RANGE)){
-      // isFinished = true;
-    // } 
-
-    /*
-boolean isInRpmRange = true;
-boolean isAtAngle = true;
-
-    if (isInRpmRange && isAtAngle) {
-      Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
-      Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
-      Robot.HOPPER_SUBSYSTEM.feedFullSpeed();
-    }
-    else {
-      Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
-      Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
-      Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
-    }
-    */
   }
 
   public boolean isFinished() {
-  /*  boolean isFinished = false;
-    if (Robot.SHOOTER_SUBSYSTEM.getIsAtRpmRange(Robot.SHOOTER_SUBSYSTEM.getTargetRPM()) == true) {
-      isFinished = true;
-    }
-    return isFinished;
-  }*/
-  return false;
- }
+    return false;
+  }
 
   // Called once the command ends or is interrupted.
   @Override
-    public void end(boolean interrupted) {
-      //Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
-      //Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
-      //Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
+  public void end(boolean interrupted) {
+    // Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+    // Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+    // Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
   }
 }

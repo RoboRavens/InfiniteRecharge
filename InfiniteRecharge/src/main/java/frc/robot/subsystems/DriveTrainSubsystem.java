@@ -9,8 +9,6 @@ import frc.robot.Robot;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 	public RavenTank ravenTank;
-
-	private double _maxPower;
 	private double _slewRateFinal;
 
 	public DriveTrainSubsystem() {

@@ -28,7 +28,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void initialize() {
-    // setDefaultCommand(new IntakeStopCommand());
   }
 
   public void periodic() {

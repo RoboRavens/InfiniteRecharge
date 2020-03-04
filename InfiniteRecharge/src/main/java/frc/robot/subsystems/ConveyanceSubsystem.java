@@ -91,29 +91,12 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public boolean getConveyanceSensor() {
-    // Sysouts are for testing
     System.out.println("Got sensor");
     return _conveyanceSensor.get();
   }
 
-  public void pistonBlock() {
-    // Sysouts are for testing
-    System.out.println("Blocking");
-    //_pistonUnblock.set(false);
-    //_pistonBlock.set(true);
-  }
-
-  public void pistonUnblock() {
-    // Sysouts are for testing
-    System.out.println("Unblocking");
-    //_pistonUnblock.set(true);
-    //_pistonBlock.set(false);
-  }
-
   public void defaultCommand() {
-    //setDefaultCommand(new ConveyanceStopCommand());
     if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
-      System.out.println("READY TO SHOOT!!!!");
       this.feederWheelForward();
       this.setBeltMaxForward();
     }

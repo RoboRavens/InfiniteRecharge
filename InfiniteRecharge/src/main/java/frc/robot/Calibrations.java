@@ -177,27 +177,27 @@ public class Calibrations {
 
 
 	// SHOOTER 
-	// public static final double TARGET_RANGE = 100;
-	public static final double SHOOTER_KF = 0.0085;
-	public static final double SHOOTER_KF_FURTHER = 0.0083;
-    public static final double SHOOTER_KP = 0.004;
-    public static final double SHOOTER_KI = 0.0;
-	public static final double SHOOTER_KD = 0.0;
-	public static final double TARGET_RPM_BUFFER = 200;
-	public static final double INIT_LINE_RPM = 4725; // actual is 4600
+	public static final double INIT_LINE_RPM = 4600; // actual is 4600
+	public static final double I_SHOOTER_KF = 0.0085;
+    public static final double I_SHOOTER_KP = 0.06; 
+    public static final double I_SHOOTER_KI = 0.0;
+	public static final double I_SHOOTER_KD = 0.0;
 
-	public static final double TRENCH_SHOT = 5450; // actual is 5140
+	public static final double CLOSE_TRENCH_SHOT_RPM = 5140; // actual is 5140
+	public static final double C_SHOOTER_KF = 0.0085;
+    public static final double C_SHOOTER_KP = 0.06; 
+    public static final double C_SHOOTER_KI = 0.0;
+	public static final double C_SHOOTER_KD = 0.0;
+
+	public static final double FAR_TRENCH_SHOT_RPM = 0;
+	public static final double F_SHOOTER_KF = 0.0085;
+    public static final double F_SHOOTER_KP = 0.06; 
+    public static final double F_SHOOTER_KI = 0.0;
+	public static final double F_SHOOTER_KD = 0.0;
 	
 	public static final double VEL_TO_RPM = 8192 / 600;
-	// public static final double RPM_TO_VEL = Math.pow(VEL_TO_RPM, -1);
 	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
-	public static final double INIT_LINE_VELOCITY  = 57195;
-	public static final double CONTROL_PANEL_VELOCITY = 0; //dont know yet
-
-	public static final double CONTROL_PANEL_RPM = CONTROL_PANEL_VELOCITY / VEL_TO_RPM;
-
-	public static final double INITIATION_LINE_SHOT = INIT_LINE_RPM;
-	public static final double CONTROL_PANEL_SHOT = CONTROL_PANEL_RPM;
+	public static final double TARGET_RPM_BUFFER = 200;
 
 	//Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;

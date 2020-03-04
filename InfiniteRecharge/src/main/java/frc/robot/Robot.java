@@ -40,8 +40,6 @@ import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
 import frc.robot.commands.powercells.ShootIfReadyCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
-import frc.robot.commands.shooter.SetShotControlPanelCommand;
-import frc.robot.commands.shooter.SetShotInitiationLineCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -86,11 +84,8 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(Calibrations.INIT_LINE_RPM); //Robot.SHOOTER_SUBSYSTEM.getTargetRPM()
+  public ShooterRevCommand shooterRev = new ShooterRevCommand();
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
-  public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
-  public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
-  // public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
   public StopConveyanceCommandGroup stopConveyance = new StopConveyanceCommandGroup();
   public RevDownCommandGroup revDown = new RevDownCommandGroup();
   public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
@@ -167,7 +162,6 @@ public class Robot extends TimedRobot {
     //System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
     //System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
     //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
-    System.out.println();
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
@@ -185,8 +179,6 @@ public class Robot extends TimedRobot {
       // System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
-
-    // Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootIfReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
   }
@@ -208,8 +200,6 @@ public class Robot extends TimedRobot {
     // ^ May want to make a command group that retracts to latch after extending fully ^
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShootWhileHeld);
   }

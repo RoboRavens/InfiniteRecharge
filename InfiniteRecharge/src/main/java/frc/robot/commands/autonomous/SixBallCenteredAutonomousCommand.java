@@ -57,7 +57,7 @@ public class SixBallCenteredAutonomousCommand {
     var poseDtoAreverseCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseDtoAreverse);
 
     return new SequentialCommandGroup(
-      //new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
+      //new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
       poseAtoCcommand,
       new ParallelDeadlineGroup(
         poseCtoDcommand//,
@@ -65,7 +65,7 @@ public class SixBallCenteredAutonomousCommand {
       ),
       //new IntakeRetractCommand(),
       poseDtoAreverseCommand,
-      //new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
+      //new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
       new InstantCommand(()-> System.out.println("Drive Command Finished!"))
     );
   }

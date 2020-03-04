@@ -20,28 +20,34 @@ public class ClimberSubsystem extends SubsystemBase {
 	private TalonSRX _climberMotor2;
 
 	public ClimberSubsystem() {
-		
- 		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
+
+		_climberMotor = new TalonSRX(RobotMap.CLIMBER_MOTOR_1);
 		_climberMotor2 = new TalonSRX(RobotMap.CLIMBER_MOTOR_2);
 		_climberMotor.configFactoryDefault();
 		_climberMotor2.configFactoryDefault();
 
-		//_climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		//_climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		//_climberMotor2.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
-		//_climberMotor2.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyOpen);
+		// _climberMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX,
+		// LimitSwitchNormal.NormallyOpen);
+		// _climberMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX,
+		// LimitSwitchNormal.NormallyOpen);
+		// _climberMotor2.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX,
+		// LimitSwitchNormal.NormallyOpen);
+		// _climberMotor2.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX,
+		// LimitSwitchNormal.NormallyOpen);
 
 		_climberMotor2.setInverted(true);
 	}
 
 	public void extend() {
-		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1) && Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
+		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1)
+				&& Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
 			this.set(Calibrations.CLIMBER_EXTEND_POWER_MAGNITUDE);
 		}
 	}
 
 	public void retract() {
-		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1) && Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
+		if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_1)
+				&& Robot.OPERATION_PANEL.getButtonValue(ButtonCode.CLIMB_ENABLE_2)) {
 			this.set(Calibrations.CLIMBER_RETRACT_POWER_MAGNITUDE);
 		}
 	}
@@ -52,11 +58,16 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void periodic() {
-/* 		SmartDashboard.putBoolean("Left Climber Is At Extension Limit", this.leftMotorIsAtExtensionLimit());
-		SmartDashboard.putBoolean("Left Climber Is At Retraction Limit", this.leftMotorIsAtRetractionLimit());
-		SmartDashboard.putBoolean("Right Climber Is At Extension Limit", this.rightMotorIsAtExtensionLimit());
-		SmartDashboard.putBoolean("Right Climber Is At Retraction Limit", this.rightMotorIsAtRetractionLimit());
- */	}
+		/*
+		 * SmartDashboard.putBoolean("Left Climber Is At Extension Limit",
+		 * this.leftMotorIsAtExtensionLimit());
+		 * SmartDashboard.putBoolean("Left Climber Is At Retraction Limit",
+		 * this.leftMotorIsAtRetractionLimit());
+		 * SmartDashboard.putBoolean("Right Climber Is At Extension Limit",
+		 * this.rightMotorIsAtExtensionLimit());
+		 * SmartDashboard.putBoolean("Right Climber Is At Retraction Limit",
+		 * this.rightMotorIsAtRetractionLimit());
+		 */ }
 
 	public void stop() {
 		_climberMotor.set(ControlMode.PercentOutput, 0);
@@ -93,7 +104,6 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void defaultCommand() {
-		// setDefaultCommand(new ClimberHoldPositionCommand());
 		this.holdPosition();
 	}
 }
