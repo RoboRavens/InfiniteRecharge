@@ -94,9 +94,9 @@ public class Calibrations {
 	public static final double KS_VOLTS = 0.327;
 	public static final double KV_VOLT_SECONDS_PER_METER = 2.26;
 	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.25;
-	public static final double KP_DRIVE_VELOCITY = 0.00005;
+	public static final double KP_DRIVE_VELOCITY = 0.01; //0.00005
 	public static final double KI_DRIVE_VELOCITY = 0;
-	public static final double KD_DRIVE_VELOCITY = 0.000178;
+	public static final double KD_DRIVE_VELOCITY = 0;
 
 	public static final double METERS_TO_INCHES = 39.37;
 
@@ -110,8 +110,8 @@ public class Calibrations {
 			// Assumes the encoders are directly mounted on the wheel shafts
 			((WHEEL_DIAMETER_METERS * Math.PI) / (double) ENCODER_CPR) / POST_ENCODER_GEARING;
 
-	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5;
-	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3;
+	public static final double MAX_SPEED_METERS_PER_SECOND = 1.5; // 1.5
+	public static final double MAX_ACCELERATION_METERS_PER_SECOND = 3; // 3
 
 	// Reasonable baseline values for a RAMSETE follower in units of meters and
 	// seconds

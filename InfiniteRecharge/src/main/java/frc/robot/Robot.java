@@ -25,6 +25,8 @@ import frc.controls.OperationPanel2;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
@@ -223,8 +225,8 @@ public class Robot extends TimedRobot {
 
   private void setupAutonomousCommands() {
     autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
-    //autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
-    //autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Drive", new NamedAutonomousCommand("Drive", DriveAutonomousCommand.GenerateCommand()));
     

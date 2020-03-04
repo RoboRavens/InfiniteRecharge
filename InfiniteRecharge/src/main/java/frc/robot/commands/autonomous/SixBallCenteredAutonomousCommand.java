@@ -17,7 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
+import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
+import frc.robot.commands.intake.IntakeRetractCommand;
 
 public class SixBallCenteredAutonomousCommand {
 
@@ -50,22 +53,21 @@ public class SixBallCenteredAutonomousCommand {
       Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
     );
 
-    Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdemetry(poseAtoC.getInitialPose());
-
     var poseAtoCcommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseAtoC);
     var poseCtoDcommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseCtoD);
     var poseDtoAreverseCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseDtoAreverse);
 
     return new SequentialCommandGroup(
-      //new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
+      new InstantCommand(() -> Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdometry(poseAtoC.getInitialPose()), Robot.DRIVE_TRAIN_SUBSYSTEM),
+      new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
       poseAtoCcommand,
       new ParallelDeadlineGroup(
-        poseCtoDcommand//,
-        //new IntakeExtendAndCollectCommand()
+        poseCtoDcommand,
+        new IntakeExtendAndCollectCommand()
       ),
-      //new IntakeRetractCommand(),
+      new IntakeRetractCommand(),
       poseDtoAreverseCommand,
-      //new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
+      new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
       new InstantCommand(()-> System.out.println("Drive Command Finished!"))
     );
   }
