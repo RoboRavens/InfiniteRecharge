@@ -59,7 +59,7 @@ public class SixBallCenteredAutonomousCommand {
 
     return new SequentialCommandGroup(
       new InstantCommand(() -> Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdometry(poseAtoC.getInitialPose()), Robot.DRIVE_TRAIN_SUBSYSTEM),
-      new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
+      new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
       poseAtoCcommand,
       new ParallelDeadlineGroup(
         poseCtoDcommand,
@@ -67,7 +67,7 @@ public class SixBallCenteredAutonomousCommand {
       ),
       new IntakeRetractCommand(),
       poseDtoAreverseCommand,
-      new RunShooterAutonomousCommand(Calibrations.INITIATION_LINE_SHOT, 3),
+      new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
       new InstantCommand(()-> System.out.println("Drive Command Finished!"))
     );
   }

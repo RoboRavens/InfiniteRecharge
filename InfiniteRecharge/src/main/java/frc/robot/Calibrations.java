@@ -163,11 +163,11 @@ public class Calibrations {
 	public static final double HOPPER_STOP = 0;
 
 	// CONVEYANCE
-	public static final double CONVEYANCE_FULL_SPEED = -.25;
+	public static final double CONVEYANCE_FULL_SPEED = -0.65;
 	public static final double CONVEYANCE_FULL_SPEED_REVERSE = 0.25; // 1;
 	public static final double CONVEYANCE_NORMAL_SPEED = -0.5;
 	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = 0.5;
-	public static final double CONVEYANCE_FEEDER_SPEED = .25;
+	public static final double CONVEYANCE_FEEDER_SPEED = 0.65;
 	public static final double CONVEYANCE_FEEDER_STOP = 0.0;
 	public static final double CONVEYANCE_REVERSE_FEEDER = -.25;
 	public static final double CONVEYANCE_REVERSE_FEEDER_SLOW = -.18;
@@ -177,7 +177,7 @@ public class Calibrations {
 
 
 	// SHOOTER 
-	public static final double INIT_LINE_RPM = 4600; // actual is 4600
+	public static final double INIT_LINE_RPM = 4625; // actual is 4600
 	public static final double I_SHOOTER_KF = 0.0085;
     public static final double I_SHOOTER_KP = 0.06; 
     public static final double I_SHOOTER_KI = 0.0;
@@ -189,7 +189,7 @@ public class Calibrations {
     public static final double C_SHOOTER_KI = 0.0;
 	public static final double C_SHOOTER_KD = 0.0;
 
-	public static final double FAR_TRENCH_SHOT_RPM = 0;
+	public static final double FAR_TRENCH_SHOT_RPM = 6000;
 	public static final double F_SHOOTER_KF = 0.0085;
     public static final double F_SHOOTER_KP = 0.06; 
     public static final double F_SHOOTER_KI = 0.0;
