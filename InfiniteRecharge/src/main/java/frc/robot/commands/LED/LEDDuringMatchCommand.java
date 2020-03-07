@@ -50,13 +50,13 @@ public class LEDDuringMatchCommand extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
 
   public void execute() {
-    _matchSecond = Robot.PROGRAMMABLE_LED_SUBSYSTEM.getMatchSecond();
+    //_matchSecond = Robot.PROGRAMMABLE_LED_SUBSYSTEM.getMatchSecond();
     System.out.println(_matchSecond);
     _colorSelected = false;
 
-    if (Robot.PROGRAMMABLE_LED_SUBSYSTEM.isTeleopMode() == false) {
-      return;
-    }
+    //if (Robot.PROGRAMMABLE_LED_SUBSYSTEM.isTeleopMode() == false) {
+    //  return;
+    //}
 
     this.setColorWhenAfter(10, After10SecondsCommand);
     this.setColorWhenAfter(30, After30SecondsCommand);

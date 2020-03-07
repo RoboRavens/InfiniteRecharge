@@ -32,6 +32,14 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
+import frc.robot.commands.LED.LEDIncrement;
+import frc.robot.commands.LED.LEDSetGreen;
+import frc.robot.commands.LED.LEDSetRed;
+import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
+import frc.robot.commands.autonomous.DriveAutonomousCommand;
+import frc.robot.commands.autonomous.NamedAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
+import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
@@ -105,6 +113,14 @@ public class Robot extends TimedRobot {
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
+  public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
+  public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
+
+  public LEDSetRed ledRed = new LEDSetRed();
+  public LEDSetGreen ledGreen = new LEDSetGreen();
+  public LEDIncrement ledIncrement = new LEDIncrement();
+
+  public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
@@ -229,7 +245,16 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
-    DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
+    SmartDashboard.putNumber("Blinkin value", ProgrammableLEDSubsystem._blinkin.get());
+    //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
+    //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
+    //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
+    //System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
+    //System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
+    //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
+
+    // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
 				System.out.println("CUT POWER TRUE");
@@ -266,6 +291,9 @@ public class Robot extends TimedRobot {
 
   private void setupDriveController() {
     System.out.println("DRIVE CONTROLLER CONFIGURED");
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(ledRed);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(ledGreen);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(ledIncrement);
   }
 
   public void testPeriodic() {
