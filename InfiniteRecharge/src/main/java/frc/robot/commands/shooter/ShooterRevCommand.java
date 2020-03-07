@@ -33,12 +33,12 @@ public class ShooterRevCommand extends CommandBase {
   @Override
   public void execute() {
     Robot.SHOOTER_SUBSYSTEM.rev();
-    if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
+    if (Robot.SHOOTER_SUBSYSTEM.getIsInRpmRange()) {
       this._timeTakenToRev = this._timer.get();
       _timer.stop();
     }
     SmartDashboard.putNumber("secondsToRev", this._timeTakenToRev);
-    System.out.println("REVING_SHOOTER!!!");
+    // System.out.println("REVING_SHOOTER!!!");
   }
 
   public boolean isFinished() {

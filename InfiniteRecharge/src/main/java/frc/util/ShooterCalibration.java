@@ -10,7 +10,7 @@ package frc.util;
 public class ShooterCalibration {
 
     public String name;
-    public int rpm;
+    public int targetRpm;
     public double kF;
     public double kP;
     public double kI;
@@ -20,7 +20,7 @@ public class ShooterCalibration {
 
     public ShooterCalibration(String name, int RPM, double kF, double kP, double kI, double kD, int upperBoundBuffer, int lowerBoundBuffer) {
     this.name = name;
-    this.rpm = RPM;
+    this.targetRpm = RPM;
     this.kF = kF;
     this.kP = kP;
     this.kI = kI;
