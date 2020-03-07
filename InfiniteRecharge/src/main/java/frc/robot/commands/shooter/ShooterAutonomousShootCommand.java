@@ -9,7 +9,6 @@ package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
 public class ShooterAutonomousShootCommand extends CommandBase {
@@ -29,10 +28,9 @@ public class ShooterAutonomousShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.setRPM(Calibrations.INIT_LINE_RPM);
+    Robot.SHOOTER_SUBSYSTEM.rev();
 
     System.out.print("Angle: " + Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
-    System.out.print(" RPM: " + Robot.SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
     System.out.println(" RPM: " + Robot.SHOOTER_SUBSYSTEM.getRPM());
     System.out.println(" RTS: " + Robot.SHOOTER_SUBSYSTEM.readyToShoot());
     System.out.println();

@@ -40,8 +40,10 @@ import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
-import frc.robot.commands.powercells.ShootIfReadyCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
+import frc.robot.commands.shooter.SetShotCloseTrenchCommand;
+import frc.robot.commands.shooter.SetShotFarTrenchCommand;
+import frc.robot.commands.shooter.SetShotInitCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
 import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -97,8 +99,10 @@ public class Robot extends TimedRobot {
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
-  public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
   public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
+  public SetShotInitCommand setShotInit = new SetShotInitCommand();
+  public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
+  public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
@@ -166,6 +170,7 @@ public class Robot extends TimedRobot {
     //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
+
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
@@ -205,6 +210,9 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShootWhileHeld);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(hopperAgitate);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whileHeld(setShotInit);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCLOSECONTROLPANEL).whileHeld(setShotCloseTrench);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).whileHeld(setShotFarTrench);
   }
 
   private void setupDriveController() {

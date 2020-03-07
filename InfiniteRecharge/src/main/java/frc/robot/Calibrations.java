@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import frc.util.ShooterCalibration;
 
 public class Calibrations {
 
@@ -61,17 +62,17 @@ public class Calibrations {
 	public static final double DEAD_BAND_MAGNITUDE = .2; 
 
 	// Default drive and gyro modes
-	public static final int DEFAULT_DRIVE_MODE = Calibrations.FPS_TANK;
-	public static final int DEFAULT_GYRO_MODE = Calibrations.GYRO_ENABLED;
+	public static final int DEFAULT_DRIVE_MODE = FPS_TANK;
+	public static final int DEFAULT_GYRO_MODE = GYRO_ENABLED;
 
 	// DRIVE ENCODERS
 	public static final double ENCODER_CUI103_CYCLES_PER_REVOLUTION = 4096;
 	public static final double TALON_SRX_MOTOR_TICKS_PER_REVOLUTION = 8186;
 	public static final double TALON_FX_TICKS_PER_REVOLUTION = 2048;
 	public static final double WHEEL_DIAMETER_INCHES = 4;
-	public static final double WHEEL_CIRCUMFERENCE_INCHES = Calibrations.WHEEL_DIAMETER_INCHES * Math.PI;
+	public static final double WHEEL_CIRCUMFERENCE_INCHES = WHEEL_DIAMETER_INCHES * Math.PI;
 	public static final double WHEEL_DIAMETER_FEET = 1 / 3;
-	public static final double WHEEL_CIRCUMFERENCE_FEET = Calibrations.WHEEL_DIAMETER_FEET * Math.PI;
+	public static final double WHEEL_CIRCUMFERENCE_FEET = WHEEL_DIAMETER_FEET * Math.PI;
 
 	// We're using CUI 103 encoders on both sides of the drivetrain.
 	public static final double ENCODER_CYCLES_PER_REVOLUTION = TALON_SRX_MOTOR_TICKS_PER_REVOLUTION;
@@ -102,7 +103,7 @@ public class Calibrations {
 
 	public static final double TRACK_WIDTH_METERS = 0.7723672633409093;
 	public static final DifferentialDriveKinematics DRIVE_KINEMATICS = new DifferentialDriveKinematics(
-			Calibrations.TRACK_WIDTH_METERS);
+			TRACK_WIDTH_METERS);
 	public static final int ENCODER_CPR = 2048;
 	public static final double WHEEL_DIAMETER_METERS = 0.15621;
 	public static final double POST_ENCODER_GEARING = 9.77;
@@ -177,27 +178,37 @@ public class Calibrations {
 
 
 	// SHOOTER 
-	public static final double INIT_LINE_RPM = 4625; // actual is 4600
+	public static final int INIT_LINE_RPM = 4625; // actual is 4600
 	public static final double I_SHOOTER_KF = 0.0085;
     public static final double I_SHOOTER_KP = 0.06; 
     public static final double I_SHOOTER_KI = 0.0;
 	public static final double I_SHOOTER_KD = 0.0;
+	public static final int I_UPPER_BOUND_RPM_BUFFER = 20;
+	public static final int I_LOWER_BOUND_RPM_BUFFER = 20;
 
-	public static final double CLOSE_TRENCH_SHOT_RPM = 5140; // actual is 5140
+	public static final int CLOSE_TRENCH_SHOT_RPM = 5140; // actual is 5140
 	public static final double C_SHOOTER_KF = 0.0085;
     public static final double C_SHOOTER_KP = 0.06; 
     public static final double C_SHOOTER_KI = 0.0;
 	public static final double C_SHOOTER_KD = 0.0;
+	public static final int C_UPPER_BOUND_RPM_BUFFER = 20;
+	public static final int C_LOWER_BOUND_RPM_BUFFER = 20;
 
-	public static final double FAR_TRENCH_SHOT_RPM = 6000;
+	public static final int FAR_TRENCH_SHOT_RPM = 6000;
 	public static final double F_SHOOTER_KF = 0.0085;
     public static final double F_SHOOTER_KP = 0.06; 
     public static final double F_SHOOTER_KI = 0.0;
 	public static final double F_SHOOTER_KD = 0.0;
+	public static final int F_UPPER_BOUND_RPM_BUFFER = 20;
+	public static final int F_LOWER_BOUND_RPM_BUFFER = 20;
 	
 	public static final double VEL_TO_RPM = 8192 / 600;
 	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
-	public static final double TARGET_RPM_BUFFER = 200;
+
+	public static final ShooterCalibration INIT_LINE = new ShooterCalibration("Initiation Line", INIT_LINE_RPM, I_SHOOTER_KF, I_SHOOTER_KP, I_SHOOTER_KI, I_SHOOTER_KD, I_UPPER_BOUND_RPM_BUFFER, I_LOWER_BOUND_RPM_BUFFER);
+	public static final ShooterCalibration CLOSE_TRENCH = new ShooterCalibration("Close Trench", CLOSE_TRENCH_SHOT_RPM, C_SHOOTER_KF, C_SHOOTER_KP, C_SHOOTER_KI, C_SHOOTER_KD, C_UPPER_BOUND_RPM_BUFFER, C_LOWER_BOUND_RPM_BUFFER);
+	public static final ShooterCalibration FAR_TRENCH = new ShooterCalibration("Far Trench", FAR_TRENCH_SHOT_RPM, F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER);
+
 
 	//Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;

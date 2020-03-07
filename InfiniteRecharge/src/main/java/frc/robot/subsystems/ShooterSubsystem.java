@@ -12,6 +12,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
@@ -19,12 +21,15 @@ import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
-import frc.util.NetworkTableDiagnostics;
+import frc.util.ShooterCalibration;
 
 public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
-  private double targetVelocity_UnitsPer100ms = 0;
+  //private double targetVelocity_UnitsPer100ms = 0;
+  private Timer _timer = new Timer();
+  private double _timeTakenToRevUpShot = 0;
+  private ShooterCalibration _shot = Calibrations.INIT_LINE;
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -37,12 +42,6 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor2.setInverted(true);
     _shooterMotor2.setNeutralMode(NeutralMode.Coast);
 
-    /* Config the Velocity closed loop gains in slot0 */
-    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
-    _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
-
     _shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, TalonSRXConstants.kPIDLoopIdx,
         TalonSRXConstants.kTimeoutMs);
 
@@ -54,17 +53,24 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.setSensorPhase(false);
 
     _shooterMotor.setNeutralMode(NeutralMode.Coast);
+    this.setShot(Calibrations.INIT_LINE);
   }
 
   public void initialize() {
-    NetworkTableDiagnostics.SubsystemNumber("Shooter", "CurrentVelocity", () -> getVelocity());
-    NetworkTableDiagnostics.SubsystemNumber("Shooter", "RPM", () -> getRPM());
     System.out.println("ShooterSubsystem Setup!");
   }
 
   @Override
   public void periodic() {
-    printShooterSpeeds();
+    //printShooterSpeeds();
+  }
+
+  public void setShot(ShooterCalibration shot) {
+    this._shot = shot;
+    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _shot.kF, TalonSRXConstants.kTimeoutMs);
+    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
+    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
+    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
   }
 
   //RPS to FPS
@@ -81,53 +87,19 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
-  public void setVelocity(double velocity) {
+  /*public void setVelocity(double velocity) {
     targetVelocity_UnitsPer100ms = 7600 * velocity;
     SmartDashboard.putNumber("Target Velocity", targetVelocity_UnitsPer100ms);
     //printShooterSpeeds();
     _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
-  }
+  }*/
 
-  public void setRPM(double rpm) {
-    setVelocityRaw(rpm * Calibrations.VEL_TO_RPM);
-  }
-
-  public void setPidInit() {
-    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.I_SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
-  }
-
-  public void setPidCloseTrench() {
-    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.C_SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.C_SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.C_SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.C_SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
-  }
-
-  public void setPidFarTrench() {
-    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, Calibrations.F_SHOOTER_KF, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, Calibrations.F_SHOOTER_KP, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, Calibrations.F_SHOOTER_KI, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, Calibrations.F_SHOOTER_KD, TalonSRXConstants.kTimeoutMs);
-  }
-
-  public int secsTillRevved() {
-    //double lastTimestamp = Timer.getFPGATimestamp();
-    return 1;
-  }
-
-  public boolean getIsAtRpmRange(double target) {
-    // If RPM is within range, output true. Otherwise, output false
-    if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - target)) {
-      return true;
-    }
-    return false;
+  public void rev() {
+    setVelocityRaw(this._shot.rpm * Calibrations.VEL_TO_RPM);
   }
 
   public void stopShooter() {
-    this.setRPM(0);
+    this._shooterMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void printShooterSpeeds() {
@@ -143,23 +115,33 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void defaultCommand() {
-    this.setVelocity(0);
+    this.stopShooter();
   }
 
-  public boolean getIsInInitiationLineRpmRange() {
+  public boolean getIsRpmRange() {
     // If RPM is within range, output true. Otherwise, output false
-    if (Calibrations.TARGET_RPM_BUFFER > Math.abs(getRPM() - Calibrations.INIT_LINE_RPM)) {
+    if ((this._shot.upperBoundBuffer > Math.abs(this.getRPM() - this._shot.rpm)) && (this._shot.lowerBoundBuffer > Math.abs(this.getRPM() - this._shot.rpm))) {
       return true;
     }
-
     return false;
+  }
+
+  public void calculateSecondsToRevUpShot() {
+    if (this.getIsRpmRange()) {
+      this._timeTakenToRevUpShot = this._timer.get();
+      this._timer.stop();
+    }
+  }
+
+  public double getSecondsToRevUpShot() {
+    return this._timeTakenToRevUpShot;
   }
 
   public boolean readyToShoot() {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
     boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
-    boolean isAtRpm = this.getIsInInitiationLineRpmRange();
+    boolean isAtRpm = this.getIsRpmRange();
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
   }
 
@@ -167,7 +149,15 @@ public class ShooterSubsystem extends SubsystemBase {
     boolean overrideIsFalse = true;
     boolean isAligned = true;
     boolean bumperHeld = true;
-    boolean isAtRpm = this.getIsInInitiationLineRpmRange();
+    boolean isAtRpm = this.getIsRpmRange();
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+  }
+
+  public void resetTimer() {
+    this._timer.reset();
+  }
+
+  public void startTimer() {
+    this._timer.start();
   }
 }
