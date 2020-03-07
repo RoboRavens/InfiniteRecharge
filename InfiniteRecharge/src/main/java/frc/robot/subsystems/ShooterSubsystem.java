@@ -26,10 +26,11 @@ import frc.util.ShooterCalibration;
 public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
-  //private double targetVelocity_UnitsPer100ms = 0;
-  private Timer _timer = new Timer();
-  private double _timeTakenToRevUpShot = 0;
   private ShooterCalibration _shot = Calibrations.INIT_LINE;
+
+  private Timer _timer = new Timer();
+  private double _lowestRPM = 0;
+  private boolean _wasInRpmRangeLastCycle = false;
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -58,11 +59,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void initialize() {
     System.out.println("ShooterSubsystem Setup!");
+    _timer.start();
   }
 
   @Override
   public void periodic() {
-    //printShooterSpeeds();
+    printShooterSpeeds();
+    // this.calculateSecondsToRevUpShot();
   }
 
   public void setShot(ShooterCalibration shot) {
@@ -95,7 +98,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }*/
 
   public void rev() {
-    setVelocityRaw(this._shot.rpm * Calibrations.VEL_TO_RPM);
+    setVelocityRaw(this._shot.targetRpm * Calibrations.VEL_TO_RPM);
   }
 
   public void stopShooter() {
@@ -118,30 +121,44 @@ public class ShooterSubsystem extends SubsystemBase {
     this.stopShooter();
   }
 
-  public boolean getIsRpmRange() {
-    // If RPM is within range, output true. Otherwise, output false
-    if ((this._shot.upperBoundBuffer > Math.abs(this.getRPM() - this._shot.rpm)) && (this._shot.lowerBoundBuffer > Math.abs(this.getRPM() - this._shot.rpm))) {
-      return true;
+  // If RPM is within range, output true. Otherwise, output false
+  public boolean getIsInRpmRange() {
+    if (this.getRPM() > _shot.targetRpm + _shot.upperBoundBuffer) {
+      return false; // rpm is above target + buffer
     }
-    return false;
+
+    if (this.getRPM() < _shot.targetRpm - _shot.lowerBoundBuffer) {
+      return false; // rpm is below target - buffer
+    }
+
+    return true; // otherwise we are in range
   }
 
   public void calculateSecondsToRevUpShot() {
-    if (this.getIsRpmRange()) {
-      this._timeTakenToRevUpShot = this._timer.get();
-      this._timer.stop();
-    }
-  }
+    var rpm = this.getRPM();
+    if (this.getIsInRpmRange() == false) {
+      if (_wasInRpmRangeLastCycle) {
+        System.out.println(_timer.get()  + " RPM below target for first time at " + rpm);
+      }
+      
+      _lowestRPM = Math.min(rpm, _lowestRPM);
+      _wasInRpmRangeLastCycle = false;
+    } else {
+      if (_wasInRpmRangeLastCycle == false) {
+        System.out.println(_timer.get()  + " Above target for first time at " + rpm);
+        // System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after " + _timer.get() + " seconds");
+        _lowestRPM = this.getRPM();
+      }
 
-  public double getSecondsToRevUpShot() {
-    return this._timeTakenToRevUpShot;
+      _wasInRpmRangeLastCycle = true;
+    }
   }
 
   public boolean readyToShoot() {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
     boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
-    boolean isAtRpm = this.getIsRpmRange();
+    boolean isAtRpm = this.getIsInRpmRange();
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
   }
 
@@ -149,15 +166,7 @@ public class ShooterSubsystem extends SubsystemBase {
     boolean overrideIsFalse = true;
     boolean isAligned = true;
     boolean bumperHeld = true;
-    boolean isAtRpm = this.getIsRpmRange();
+    boolean isAtRpm = this.getIsInRpmRange();
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
-  }
-
-  public void resetTimer() {
-    this._timer.reset();
-  }
-
-  public void startTimer() {
-    this._timer.start();
   }
 }
