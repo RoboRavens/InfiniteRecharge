@@ -5,27 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.conveyance;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class PistonBlockCommand extends CommandBase {
+public class SetShotInitCommand extends CommandBase {
 
-  public PistonBlockCommand() {
-    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
+  public SetShotInitCommand() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("PistonBlockCommand initalized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    Robot.SHOOTER_SUBSYSTEM.setShot(Calibrations.INIT_LINE);
   }
 
   // Called once the command ends or is interrupted.

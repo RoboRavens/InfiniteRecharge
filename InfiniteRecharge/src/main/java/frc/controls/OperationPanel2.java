@@ -22,15 +22,24 @@ public class OperationPanel2 {
 		int buttonNumber;
 
 		switch (button) {
+		case SHOOTFURTHER:
+			buttonNumber = 2;
+			break;
         case HOPPERAGITATE:
             buttonNumber = 3;
-            break;
-        case SETSHOTCONTROLPANEL:
+			break;
+		case SETSHOTFARCONTROLPANEL:
+			buttonNumber = 4;
+			break;
+        case SETSHOTCLOSECONTROLPANEL:
             buttonNumber = 5;
             break;
         case SETSHOTINITIATIONLINE:
             buttonNumber = 6;
-            break;
+			break;
+		case CONVEYANCESHOOT:
+			buttonNumber = 7;
+			break;
 		default:
 			throw new IllegalArgumentException("Invalid Button Code: " + button);
 		}

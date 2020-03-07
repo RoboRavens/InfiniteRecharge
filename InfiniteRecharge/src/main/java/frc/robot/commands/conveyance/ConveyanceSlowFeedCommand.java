@@ -5,48 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.conveyance;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class ShooterRevCommand extends CommandBase {
+public class ConveyanceSlowFeedCommand extends CommandBase {
 
-  private Timer _timer = new Timer();
-  private double _timeTakenToRev = 0;
-
-  public ShooterRevCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  public ConveyanceSlowFeedCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterRevCommand Initialized!!");
-    this._timer.reset();
-    this._timer.start();
+    System.out.println("ConveyanceSlowFeedCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.rev();
-    if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
-      this._timeTakenToRev = this._timer.get();
-      _timer.stop();
-    }
-    SmartDashboard.putNumber("secondsToRev", this._timeTakenToRev);
-    System.out.println("REVING_SHOOTER!!!");
-  }
-
-  public boolean isFinished() {
-    return false;
+    Robot.CONVEYANCE_SUBSYSTEM.slowFeedBelt();
+    Robot.CONVEYANCE_SUBSYSTEM.slowFeedWheelReverse();
+    System.out.println("SLOWFEEDING_CONVEYOR!!!");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return false;
   }
 }

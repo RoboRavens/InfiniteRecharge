@@ -37,8 +37,8 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 	// Called just before this Command runs the first time
 	public void initialize() {
 		System.out.println("DriveTrainDriveInchesCommand init");
-		System.out.println("RT NIT:" + (double) 0);
-		_driveTrainNetInchesTraveledAtStart = (double) 0;
+		System.out.println("RT NIT:" + Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled());
+		_driveTrainNetInchesTraveledAtStart = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled();
 		_timeoutTimer.start();
 	}
 
@@ -47,9 +47,9 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.fpsTankManual(_powerMagnitude, 0);
 
 		if (_direction == Calibrations.DRIVING_BACKWARD) {
-			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - (double) 0;
+			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled();
 		} else {
-			_netInchesTraveledSoFar = (double) 0 - _driveTrainNetInchesTraveledAtStart;
+			_netInchesTraveledSoFar = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled() - _driveTrainNetInchesTraveledAtStart;
 		}
 	}
 
@@ -65,11 +65,11 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 		PCDashboardDiagnostics.AdHocNumber("netInchesTraveledSoFar", _netInchesTraveledSoFar);
 		PCDashboardDiagnostics.AdHocNumber("totalInchesToTravel", _totalInchesToTravel);
 
-		if (_timeoutTimer.get() > _timeoutSeconds) {
+		/*if (_timeoutTimer.get() > _timeoutSeconds) {
 			hasTraveledTargetDistance = true;
 
 			System.out.println("TIMEOUT TIMEOUT TIMEOUT TIMEOUT");
-		}
+		}*/
 
 		return hasTraveledTargetDistance;
 	}

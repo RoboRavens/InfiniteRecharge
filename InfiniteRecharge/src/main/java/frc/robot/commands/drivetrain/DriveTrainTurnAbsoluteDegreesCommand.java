@@ -10,33 +10,30 @@ package frc.robot.commands.drivetrain;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class IsTargetAlignedCommand extends CommandBase {
-
-  public IsTargetAlignedCommand() {
+/**
+ * Useful for fixing the angle of the robot after a path completes.
+ */
+public class DriveTrainTurnAbsoluteDegreesCommand extends CommandBase {
+  double _previousGyroScaleFactor;
+  public DriveTrainTurnAbsoluteDegreesCommand(double targetDegrees) {
+    addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
+    // TODO: finish command
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= 5) {
-      isFinished = true;
-    }
-    return isFinished;
+    return true;
   }
 }

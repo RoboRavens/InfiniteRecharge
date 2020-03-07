@@ -5,40 +5,51 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.conveyance;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class SetShotInitiationLineCommand extends CommandBase {
+public class ConveyanceShootDurationCommand extends CommandBase {
+  double _durationInSeconds;
+  Timer _timer;
   /**
-   * Creates a new SetShotInitiationLineCommand.
+   * Creates a new ConveyanceShootDurationCommand.
    */
-  public SetShotInitiationLineCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ConveyanceShootDurationCommand(double durationInSeconds) {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
+    _durationInSeconds = durationInSeconds;
+    _timer = new Timer();
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    _timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.setTargetShotRPM(Calibrations.INITIATION_LINE_SHOT);
-    System.out.println("SET_SHOT_INITIATION_LINE!!!");
+    Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
+    Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    if (_timer.get() > _durationInSeconds) {
+      return true;
+    }
+
+    return false;
   }
 }

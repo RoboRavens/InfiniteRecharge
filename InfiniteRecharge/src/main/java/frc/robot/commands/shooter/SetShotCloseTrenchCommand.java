@@ -8,27 +8,33 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class ShooterRumbleFeedbackCommand extends CommandBase {
+public class SetShotCloseTrenchCommand extends CommandBase {
 
-  public ShooterRumbleFeedbackCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  public SetShotCloseTrenchCommand() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterRumbleFeedbackCommand Initialized!!");
+    Robot.SHOOTER_SUBSYSTEM.setShot(Calibrations.CLOSE_TRENCH);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("SHOOTER REV COMMAND HAS BEEN CALLED");
-    Robot.SHOOTER_SUBSYSTEM.setRPM(1000.0);
+    Robot.SHOOTER_SUBSYSTEM.setShot(Calibrations.CLOSE_TRENCH);
   }
 
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {
+  }
+
+  // Returns true when the command should end.
+  @Override
   public boolean isFinished() {
     return true;
   }

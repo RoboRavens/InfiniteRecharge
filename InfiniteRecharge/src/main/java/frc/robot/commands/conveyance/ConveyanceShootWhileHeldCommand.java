@@ -5,38 +5,41 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.conveyance;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class SetShotControlPanelCommand extends CommandBase {
-
-  public SetShotControlPanelCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+public class ConveyanceShootWhileHeldCommand extends CommandBase {
+  public ConveyanceShootWhileHeldCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("ConveyanceShootCommand initialized");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.setTargetShotRPM(Calibrations.CONTROL_PANEL_SHOT);
-    System.out.println("SET_SHOT_CONTROL_PANEL!!!");
+    //Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
+    Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
+    Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
+    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -5,48 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.drivetrain;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 
-public class ShooterRevCommand extends CommandBase {
+public class CheckIfTargetAlignedCommand extends CommandBase {
 
-  private Timer _timer = new Timer();
-  private double _timeTakenToRev = 0;
-
-  public ShooterRevCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+  public CheckIfTargetAlignedCommand() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterRevCommand Initialized!!");
-    this._timer.reset();
-    this._timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.rev();
-    if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
-      this._timeTakenToRev = this._timer.get();
-      _timer.stop();
-    }
-    SmartDashboard.putNumber("secondsToRev", this._timeTakenToRev);
-    System.out.println("REVING_SHOOTER!!!");
-  }
-
-  public boolean isFinished() {
-    return false;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+   /* boolean isFinished = false;
+    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
+      isFinished = true;
+    } */ // uncomment after testing
+    return true;
   }
 }

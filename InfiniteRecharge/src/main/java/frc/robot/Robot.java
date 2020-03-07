@@ -7,24 +7,14 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.List;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.controls.AxisCode;
@@ -45,18 +35,22 @@ import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
+import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
+import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
+import frc.robot.commands.conveyance.ConveyanceSlowFeedCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
-import frc.robot.commands.powercells.IntakeToReadyCommandGroup;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
-import frc.robot.commands.powercells.RunShooterCommandGroup;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
-import frc.robot.commands.shooter.SetShotControlPanelCommand;
-import frc.robot.commands.shooter.SetShotInitiationLineCommand;
+import frc.robot.commands.shooter.SetShotCloseTrenchCommand;
+import frc.robot.commands.shooter.SetShotFarTrenchCommand;
+import frc.robot.commands.shooter.SetShotInitCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
+//import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -68,9 +62,7 @@ import frc.util.LoggerOverlord;
 import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
-  private static final String kDefaultAuto = "ReverseLine";
-  private static final String kCustomAuto = "Curve";
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<NamedAutonomousCommand> autonomousChooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -81,6 +73,7 @@ public class Robot extends TimedRobot {
   public static final OperationPanel2 OPERATION_PANEL_2 = new OperationPanel2(2);
   
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
+  //public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
@@ -98,13 +91,9 @@ public class Robot extends TimedRobot {
   public String positionFromDashboard;
 
   // COMMANDS
-  public ShooterRevCommand shooterRev = new ShooterRevCommand(Robot.SHOOTER_SUBSYSTEM.getTargetRPM());
+  public ShooterRevCommand shooterRev = new ShooterRevCommand();
   public ReadyToShootCommandGroup readyToShoot = new ReadyToShootCommandGroup();
-  public SetShotControlPanelCommand setShotControlPanel = new SetShotControlPanelCommand();
-  public SetShotInitiationLineCommand setShotInitiationLine = new SetShotInitiationLineCommand();
-  public IntakeToReadyCommandGroup intakeToReady = new IntakeToReadyCommandGroup();
   public StopConveyanceCommandGroup stopConveyance = new StopConveyanceCommandGroup();
-  public RunShooterCommandGroup runShooter = new RunShooterCommandGroup();
   public RevDownCommandGroup revDown = new RevDownCommandGroup();
   public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
   public HopperAgitateCommand hopperAgitate = new HopperAgitateCommand();
@@ -113,29 +102,29 @@ public class Robot extends TimedRobot {
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
-  public ShootIfReadyCommandGroup shootIfReady = new ShootIfReadyCommandGroup();
-  public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
-
   public LEDSetRed ledRed = new LEDSetRed();
   public LEDSetGreen ledGreen = new LEDSetGreen();
   public LEDIncrement ledIncrement = new LEDIncrement();
+  public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
+  public SetShotInitCommand setShotInit = new SetShotInitCommand();
+  public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
+  public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
 
+  public String currentAutoName = "";
+
   @Override
   public void robotInit() {
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
-
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     INTAKE_SUBSYSTEM.retract();
     LIMELIGHT_SUBSYSTEM.turnLEDOff();
     this.setupDefaultCommands();
-    //this.setupDriveController();
-    //this.setupOperationPanel();
+    this.setupDriveController();
+    this.setupOperationPanel();
+    this.setupAutonomousCommands();
   }
 
   private void setupDefaultCommands() {
@@ -155,78 +144,13 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.tankDriveVolts(0, 0);
-  }
-
-  private Command GetReverseTrajectoryTest(){
-    // An example trajectory to follow.  All units in meters.
-    var forwardTrajectory = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(
-        new Translation2d(1, 0),
-        new Translation2d(2, 1),
-        new Translation2d(3, 0)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(4, 0, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
-
-    var reverseTrajectory = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(4, 0, new Rotation2d(0)),
-      // Pass through these two interior waypoints, making an 's' curve path
-      // List.of(new Translation2d(1, 1), new Translation2d(2, 0)),
-      List.of(
-        new Translation2d(3, 0),
-        new Translation2d(2, 1),
-        new Translation2d(1, 0)),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(0, 0, new Rotation2d(0)),
-      // Pass config
-      DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
-    );
-
-    var autonomousCommand1 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(forwardTrajectory);
-    var autonomousCommand2 = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
-
-    return new SequentialCommandGroup(autonomousCommand1, autonomousCommand2, new InstantCommand(() -> DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading(), DRIVE_TRAIN_SUBSYSTEM), new InstantCommand(()-> System.out.println("Drive Command Finished!")));
-  }
-
-  public Trajectory GetPathweaverTrajectoryForAuto(){
-    try {
-      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + m_chooser.getSelected() + ".wpilib.json"));
-      return DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
-  }
-
-  public Command GetReversePathweaverTrajectoryTest(){
-    try {
-      SmartDashboard.putString("PathFollowed", m_chooser.getSelected());
-      var trajectory = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/Line.wpilib.json"));
-      var trajectoryToReverse = TrajectoryUtil.fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/ReverseLine.wpilib.json"));
-      var reverseTrajectory = DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory2(trajectoryToReverse);
-      var trajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
-      var reverseTrajectoryCommand = DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(reverseTrajectory);
-      return new SequentialCommandGroup(trajectoryCommand, reverseTrajectoryCommand);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-
-    return null;
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
   }
 
   @Override
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
-    Command autonomousCommand = GetReverseTrajectoryTest();
+    Command autonomousCommand = autonomousChooser.getSelected().Command;
 
     if (autonomousCommand != null) {
       autonomousCommand.schedule();
@@ -241,7 +165,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.setGyroTargetHeadingToCurrentHeading();
-
   }
 
   public void teleopPeriodic() {
@@ -256,7 +179,7 @@ public class Robot extends TimedRobot {
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
-			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25) {
+			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
 				System.out.println("CUT POWER TRUE");
 			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(true);
 			}
@@ -265,18 +188,24 @@ public class Robot extends TimedRobot {
 			}
     }
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
-      System.out.println("TURNING TO TARGET");
+      Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
+      // System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
-
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
   }
+
 
   public void setupOperationPanel() {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
     
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(shooterRev);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(
+      new SequentialCommandGroup(
+        new SleepCommand("delay rev", .15),
+        shooterRev));
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(new ConveyanceReverseForDurationCommand(.15));
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
@@ -284,9 +213,12 @@ public class Robot extends TimedRobot {
     // ^ May want to make a command group that retracts to latch after extending fully ^
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCONTROLPANEL).whenPressed(setShotControlPanel);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInitiationLine);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShootWhileHeld);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(hopperAgitate);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whileHeld(setShotInit);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCLOSECONTROLPANEL).whileHeld(setShotCloseTrench);
+    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).whileHeld(setShotFarTrench);
   }
 
   private void setupDriveController() {
@@ -297,5 +229,25 @@ public class Robot extends TimedRobot {
   }
 
   public void testPeriodic() {
+  }
+
+  public void disabledPeriodic() {
+    Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
+    SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
+
+    // if (autonomousChooser.getSelected().Name.equals(this.currentAutoName))
+
+    // System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
+  }
+
+  private void setupAutonomousCommands() {
+    autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
+    autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Drive", new NamedAutonomousCommand("Drive", DriveAutonomousCommand.GenerateCommand()));
+    
+    SmartDashboard.putData("Autonomous Choices", autonomousChooser);
   }
 }

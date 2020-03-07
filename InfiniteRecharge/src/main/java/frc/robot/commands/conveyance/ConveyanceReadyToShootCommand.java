@@ -31,7 +31,8 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("NOT TRIGGERED BY BALL YET");
-    Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    // Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
+    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
     Robot.CONVEYANCE_SUBSYSTEM.setBeltNormalSpeedForward();
   }
 

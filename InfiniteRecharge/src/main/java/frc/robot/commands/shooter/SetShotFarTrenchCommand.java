@@ -5,27 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.conveyance;
+package frc.robot.commands.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Calibrations;
 import frc.robot.Robot;
 
-public class PistonUnblockCommand extends CommandBase {
+public class SetShotFarTrenchCommand extends CommandBase {
 
-  public PistonUnblockCommand() {
-    addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
+  public SetShotFarTrenchCommand() {
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("PistonUnblockCommand initalized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
+    Robot.SHOOTER_SUBSYSTEM.setShot(Calibrations.FAR_TRENCH);
   }
 
   // Called once the command ends or is interrupted.
