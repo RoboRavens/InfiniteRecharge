@@ -31,6 +31,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private Timer _timer = new Timer();
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
+  private double _timeWhenNotInRangeDetected;
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -55,17 +56,13 @@ public class ShooterSubsystem extends SubsystemBase {
 
     _shooterMotor.setNeutralMode(NeutralMode.Coast);
     this.setShot(Calibrations.INIT_LINE);
-  }
-
-  public void initialize() {
-    System.out.println("ShooterSubsystem Setup!");
     _timer.start();
   }
 
   @Override
   public void periodic() {
-    printShooterSpeeds();
-    // this.calculateSecondsToRevUpShot();
+    //this.printShooterSpeeds();
+    this.calculateSecondsToRevUpShot();
   }
 
   public void setShot(ShooterCalibration shot) {
@@ -138,15 +135,16 @@ public class ShooterSubsystem extends SubsystemBase {
     var rpm = this.getRPM();
     if (this.getIsInRpmRange() == false) {
       if (_wasInRpmRangeLastCycle) {
-        System.out.println(_timer.get()  + " RPM below target for first time at " + rpm);
+        System.out.println(_timer.get()  + " RPM not in range for first time at " + rpm);
+        _timeWhenNotInRangeDetected = _timer.get();
       }
       
       _lowestRPM = Math.min(rpm, _lowestRPM);
       _wasInRpmRangeLastCycle = false;
     } else {
       if (_wasInRpmRangeLastCycle == false) {
-        System.out.println(_timer.get()  + " Above target for first time at " + rpm);
-        // System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after " + _timer.get() + " seconds");
+        //System.out.println(_timer.get()  + " Above target for first time at " + rpm);
+        System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after " + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
         _lowestRPM = this.getRPM();
       }
 

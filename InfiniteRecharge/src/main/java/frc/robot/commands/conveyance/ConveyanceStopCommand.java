@@ -19,7 +19,7 @@ public class ConveyanceStopCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ConveyanceStopCommand initialized");
+    //System.out.println("ConveyanceStopCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

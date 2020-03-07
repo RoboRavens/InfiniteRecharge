@@ -18,7 +18,7 @@ public class ConveyanceShootWhileHeldCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ConveyanceShootCommand initialized");
+    //System.out.println("ConveyanceShootCommand initialized");
 
   }
 
