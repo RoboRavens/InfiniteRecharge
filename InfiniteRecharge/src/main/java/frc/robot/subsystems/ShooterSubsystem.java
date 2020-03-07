@@ -126,6 +126,14 @@ public class ShooterSubsystem extends SubsystemBase {
     return false;
   }
 
+  public boolean getIsWideRpmRange() {
+    // If RPM is within range, output true. Otherwise, output false
+    if ((Calibrations.YELLOW_RPM_OFFSET > Math.abs(this.getRPM()))) {
+      return true;
+    }
+    return false;
+  }
+
   public void calculateSecondsToRevUpShot() {
     if (this.getIsRpmRange()) {
       this._timeTakenToRevUpShot = this._timer.get();

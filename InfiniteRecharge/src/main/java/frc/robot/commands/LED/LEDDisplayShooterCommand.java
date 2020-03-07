@@ -10,24 +10,36 @@ package frc.robot.commands.LED;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class LEDSetGreen extends CommandBase {
+public class LEDDisplayShooterCommand extends CommandBase {
   /**
-   * Creates a new LEDSetGreen.
+   * Creates a new LEDDisplayShooter.
    */
-  public LEDSetGreen() {
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
+  public LEDDisplayShooterCommand() {
+    addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM, Robot.SHOOTER_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Shooter LED display online!");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.PROGRAMMABLE_LED_SUBSYSTEM.setGreen();
+    if (Robot.SHOOTER_SUBSYSTEM.getRPM() < 3) {
+
+      Robot.PROGRAMMABLE_LED_SUBSYSTEM.setOff(); 
+
+    } else if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
+
+      Robot.PROGRAMMABLE_LED_SUBSYSTEM.setGreen(); 
+
+    } else if (Robot.SHOOTER_SUBSYSTEM.getIsWideRpmRange()) {
+
+    } else {
+      Robot.PROGRAMMABLE_LED_SUBSYSTEM.setRed();
+    }
   }
 
   // Called once the command ends or is interrupted.

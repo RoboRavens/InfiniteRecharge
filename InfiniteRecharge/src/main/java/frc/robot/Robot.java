@@ -22,9 +22,7 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
-import frc.robot.commands.LED.LEDIncrement;
-import frc.robot.commands.LED.LEDSetGreen;
-import frc.robot.commands.LED.LEDSetRed;
+import frc.robot.commands.LED.LEDDisplayShooterCommand;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
@@ -102,13 +100,11 @@ public class Robot extends TimedRobot {
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
-  public LEDSetRed ledRed = new LEDSetRed();
-  public LEDSetGreen ledGreen = new LEDSetGreen();
-  public LEDIncrement ledIncrement = new LEDIncrement();
   public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
   public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
   public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
+  public LEDDisplayShooterCommand shooterViaLED = new LEDDisplayShooterCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
@@ -134,6 +130,7 @@ public class Robot extends TimedRobot {
     HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
     INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
+    PROGRAMMABLE_LED_SUBSYSTEM.setDefaultCommand(new LEDDisplayShooterCommand());
   }
 
   @Override
@@ -223,9 +220,6 @@ public class Robot extends TimedRobot {
 
   private void setupDriveController() {
     System.out.println("DRIVE CONTROLLER CONFIGURED");
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.B).whileHeld(ledRed);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.A).whileHeld(ledGreen);
-    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(ledIncrement);
   }
 
   public void testPeriodic() {

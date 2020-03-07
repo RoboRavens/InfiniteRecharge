@@ -28,6 +28,10 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 		_blinkin.set(0.61);
 	}
 
+	public void setOff() {
+		_blinkin.set(0.99);
+	}
+
 	public void setRaw(double color) {
 		_blinkin.set(color);
 	}
@@ -39,6 +43,10 @@ public class ProgrammableLEDSubsystem extends SubsystemBase {
 	public void setGreen() {
 		_blinkin.set(0.73);
 	}
+
+	public void defaultCommand() {
+		
+	  }
 /*
 	public void setColorToTeleop() {
 		if (Robot.isRedAlliance) {
