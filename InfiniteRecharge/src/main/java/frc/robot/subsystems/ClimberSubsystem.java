@@ -82,6 +82,13 @@ public class ClimberSubsystem extends SubsystemBase {
 		return (leftMotorIsAtRetractionLimit() && rightMotorIsAtRetractionLimit());
 	}
 
+	public boolean isAtHookReleaseLimit() {
+		if ((_climberMotor.getSelectedSensorPosition() == Calibrations.CLIMBER_ENCODER_RELEASE_HOOKS_VALUE) && (_climberMotor2.getSelectedSensorPosition() == Calibrations.CLIMBER_ENCODER_RELEASE_HOOKS_VALUE)) {
+			return true;
+		}
+		return false;
+	}
+
 	private boolean leftMotorIsAtExtensionLimit() {
 		return _climberMotor.getSensorCollection().isRevLimitSwitchClosed();
 	}

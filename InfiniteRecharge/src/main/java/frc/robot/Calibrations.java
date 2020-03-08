@@ -128,6 +128,8 @@ public class Calibrations {
 	public static final int CLIMBER_ENCODER_MINIMUM_VALUE = 0;
 	public static final int CLIMBER_ENCODER_MAXIMUM_VALUE = 53000;
 
+	public static final int CLIMBER_ENCODER_RELEASE_HOOKS_VALUE = 100; // need values
+
 	// The safety margin is how far away from the end of travel the encoders will
 	// stop the lift.
 	// At low speeds (max of .3), and a lift max value of 30k, 1500 maxes out the

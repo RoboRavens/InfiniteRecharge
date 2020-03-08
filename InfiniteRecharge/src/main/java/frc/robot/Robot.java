@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +31,7 @@ import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
+import frc.robot.commands.climber.ClimberReleaseHooksCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
-
+  
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
@@ -99,6 +101,7 @@ public class Robot extends TimedRobot {
   public ClimberRetractFullyCommand climberRetractFully = new ClimberRetractFullyCommand();
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
+  public ClimberReleaseHooksCommand climberReleaseHooks = new ClimberReleaseHooksCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
@@ -166,7 +169,7 @@ public class Robot extends TimedRobot {
 
   public void teleopPeriodic() {
     SmartDashboard.putNumber("Blinkin value", ProgrammableLEDSubsystem._blinkin.get());
-    //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
+    //System.out.print("Angle " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
     //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
     //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
     //System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
@@ -175,6 +178,9 @@ public class Robot extends TimedRobot {
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
+    if (Timer.getMatchTime() == 29.0) {
+        climberReleaseHooks.schedule();
+    }
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
 				System.out.println("CUT POWER TRUE");
