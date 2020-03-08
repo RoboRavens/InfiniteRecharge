@@ -31,7 +31,7 @@ public class LEDDisplayShooterCommand extends CommandBase {
 
       Robot.PROGRAMMABLE_LED_SUBSYSTEM.setOff(); 
 
-    } else if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
+    } else if (Robot.SHOOTER_SUBSYSTEM.getIsInRpmRange()) {
 
       Robot.PROGRAMMABLE_LED_SUBSYSTEM.setGreen(); 
 
