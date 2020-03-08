@@ -201,6 +201,8 @@ public class Calibrations {
 	public static final double F_SHOOTER_KD = 0.0;
 	public static final int F_UPPER_BOUND_RPM_BUFFER = 20;
 	public static final int F_LOWER_BOUND_RPM_BUFFER = 20;
+
+	public static final int YELLOW_RPM_OFFSET = 1000;
 	
 	public static final double VEL_TO_RPM = 8192 / 600;
 	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;

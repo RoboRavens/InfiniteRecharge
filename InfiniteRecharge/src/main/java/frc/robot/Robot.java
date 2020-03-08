@@ -22,6 +22,7 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
+import frc.robot.commands.LED.LEDDisplayShooterCommand;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
@@ -103,6 +104,7 @@ public class Robot extends TimedRobot {
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
   public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
   public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
+  public LEDDisplayShooterCommand shooterViaLED = new LEDDisplayShooterCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
@@ -128,6 +130,7 @@ public class Robot extends TimedRobot {
     HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
     INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
+    PROGRAMMABLE_LED_SUBSYSTEM.setDefaultCommand(new LEDDisplayShooterCommand());
   }
 
   @Override
@@ -162,6 +165,7 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
+    SmartDashboard.putNumber("Blinkin value", ProgrammableLEDSubsystem._blinkin.get());
     //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
     //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
     //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
@@ -170,7 +174,6 @@ public class Robot extends TimedRobot {
     //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
 
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
-
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
 			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
