@@ -645,7 +645,7 @@ public class RavenTank {
 
 	// Change a trajectory so that the robot follows it but drives backwards
 	public Trajectory reverseTrajectory3(Trajectory trajectory) {
-		List<State> states = trajectory.getStates();
+		// List<State> states = trajectory.getStates();
 		var start = new Pose2d(3, 0, new Rotation2d(0));
 		var end = new Pose2d(0, 0, new Rotation2d(0));
 		// var waypoints = states.stream().map(state ->
