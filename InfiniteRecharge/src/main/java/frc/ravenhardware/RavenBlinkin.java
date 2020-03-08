@@ -9,16 +9,17 @@ package frc.ravenhardware;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Spark;
-import frc.robot.Calibrations;
 import frc.ravenhardware.BlinkinCalibrations;
 
 /**
- * "ButtonCode" but for colors of LEDs, mixed with acutal methods for setting
- * the color.
+ * "ButtonCode" but for colors of LEDs, mixed with acutal methods for setting the color.
+ * 
+ * IMPORTANT: ALL COLOR METHODS MUST BE CALLED USING periodic() OR A SIMILARILY FAST METHOD.
+ * 
  */
 public class RavenBlinkin {
     
-    private static Spark _blinkin = new Spark(Calibrations.BLINKIN_PWM);
+    private static Spark _blinkin = new Spark(BlinkinCalibrations.BLINKIN_PWM);
     private Timer ledDelayer = new Timer();
     private RavenBlinkinPatternCodes nextPatternState;
 

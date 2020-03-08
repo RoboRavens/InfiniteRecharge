@@ -8,7 +8,7 @@
 package frc.ravenhardware;
 
 /**
- * Add your docs here.
+ * Numbers to use for all Blinkin-related things (mostly colors to speeds)
  */
 public class BlinkinCalibrations {
     public static final double SOLID_GREEN = 0.77;
@@ -19,4 +19,5 @@ public class BlinkinCalibrations {
     public static final double SOLID_WHITE = 0.93;
 
     public static final double DELAY_TIME = 1.00;
+    public static final int BLINKIN_PWM = 0;
 }

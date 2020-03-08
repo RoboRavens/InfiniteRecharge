@@ -267,7 +267,4 @@ public class Calibrations {
 
 	// CONTROLLER RUMBLE
 	public static final double GAME_PIECE_COLLECTED_RUMBLE_SECONDS = .25;
-
-	// BLINKIN
-	public static final int BLINKIN_PWM = 0;
 }
