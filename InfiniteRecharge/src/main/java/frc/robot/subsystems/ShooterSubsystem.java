@@ -28,7 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
   private ShooterCalibration _shot = Calibrations.INIT_LINE;
-  private RavenBlinkin _blinkin = new RavenBlinkin();
+  private RavenBlinkin _blinkin = new RavenBlinkin(0);
 
   private Timer _timer = new Timer();
   private double _lowestRPM = 0;

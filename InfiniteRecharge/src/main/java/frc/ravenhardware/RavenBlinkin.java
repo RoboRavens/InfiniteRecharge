@@ -18,9 +18,9 @@ import frc.ravenhardware.BlinkinCalibrations;
  * 
  */
 public class RavenBlinkin {
-    
-    private static Spark _blinkin = new Spark(BlinkinCalibrations.BLINKIN_PWM);
-    private Timer ledDelayer = new Timer();
+
+    private static Spark _blinkin;
+    private Timer ledDelayer;
     private RavenBlinkinPatternCodes nextPatternState;
 
     // Non-color setters
@@ -33,6 +33,16 @@ public class RavenBlinkin {
             return true;
         }
         return false;
+    }
+
+    private void initializeBlinkin(int PWM) {
+        _blinkin = new Spark(PWM);
+        ledDelayer = new Timer();
+        nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+    }
+
+    public RavenBlinkin(int PWM) {
+        initializeBlinkin(PWM);
     }
 
     // Color methods

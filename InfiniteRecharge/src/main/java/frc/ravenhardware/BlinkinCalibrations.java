@@ -19,5 +19,4 @@ public class BlinkinCalibrations {
     public static final double SOLID_WHITE = 0.93;
 
     public static final double DELAY_TIME = 1.00;
-    public static final int BLINKIN_PWM = 0;
 }
