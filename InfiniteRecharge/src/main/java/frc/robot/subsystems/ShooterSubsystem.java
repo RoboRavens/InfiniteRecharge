@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
+import frc.ravenhardware.RavenBlinkin;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -27,6 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private TalonSRX _shooterMotor;
   private ShooterCalibration _shot = Calibrations.INIT_LINE;
+  private RavenBlinkin _blinkin = new RavenBlinkin();
 
   private Timer _timer = new Timer();
   private double _lowestRPM = 0;
@@ -63,6 +65,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     //this.printShooterSpeeds();
     this.calculateSecondsToRevUpShot();
+    this.setLEDs();
   }
 
   public void setShot(ShooterCalibration shot) {
@@ -178,5 +181,35 @@ public class ShooterSubsystem extends SubsystemBase {
     boolean bumperHeld = true;
     boolean isAtRpm = this.getIsInRpmRange();
     return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+  }
+
+  private void setLEDs() {
+    if (this.getIsInRpmRange()) {
+      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+        _blinkin.blinkGreen();
+      }
+      else {
+        _blinkin.solidGreen();
+      }    
+    }
+    else if (this.getIsWideRpmRange()) {
+      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+        _blinkin.blinkYellow();
+      }
+      else {
+        _blinkin.solidYellow();
+      }
+    }
+    else if (this.getRPM() > 0) {
+      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+        _blinkin.blinkRed();
+      }
+      else {
+        _blinkin.solidRed();
+      }
+    }
+    else {
+      _blinkin.solidOff();
+    }
   }
 }
