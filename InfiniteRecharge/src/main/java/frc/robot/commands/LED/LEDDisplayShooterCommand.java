@@ -28,17 +28,21 @@ public class LEDDisplayShooterCommand extends CommandBase {
   @Override
   public void execute() {
     if (Robot.SHOOTER_SUBSYSTEM.getRPM() < 3) {
-
+      //If shooter is off, turn off LED. Comparing to 3 to account for glitchy encoder signals
       Robot.PROGRAMMABLE_LED_SUBSYSTEM.setOff(); 
 
-    } else if (Robot.SHOOTER_SUBSYSTEM.getIsRpmRange()) {
-
+    } else if (Robot.SHOOTER_SUBSYSTEM.getIsInRpmRange()) {
+      //If shooter is ready to shoot, turn green.
       Robot.PROGRAMMABLE_LED_SUBSYSTEM.setGreen(); 
 
     } else if (Robot.SHOOTER_SUBSYSTEM.getIsWideRpmRange()) {
+      //If shooter is in the "almost range" (Calibrations.YELLOW_RPM_OFFSET)
+      Robot.PROGRAMMABLE_LED_SUBSYSTEM.setYellow(); 
 
     } else {
+      //If shooter isn't close, on target, or off, it has to be far from target, so show red.
       Robot.PROGRAMMABLE_LED_SUBSYSTEM.setRed();
+
     }
   }
 
