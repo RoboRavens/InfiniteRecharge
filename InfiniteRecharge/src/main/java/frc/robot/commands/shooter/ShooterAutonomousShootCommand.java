@@ -61,7 +61,7 @@ public class ShooterAutonomousShootCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (_timer.get() >= Calibrations.AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT) {
+    if (Robot.SHOOTER_SUBSYSTEM.getBallsShot() == 3 || _timer.get() > Calibrations.AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT) {
       return true;
     }
     return false;

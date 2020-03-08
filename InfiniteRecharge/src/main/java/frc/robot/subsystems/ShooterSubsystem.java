@@ -32,6 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
   private double _timeWhenNotInRangeDetected;
+  private int _ballsShot = 0;
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -63,6 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     //this.printShooterSpeeds();
     this.calculateSecondsToRevUpShot();
+    SmartDashboard.putNumber("Balls Shot", _ballsShot);
   }
 
   public void setShot(ShooterCalibration shot) {
@@ -149,6 +151,7 @@ public class ShooterSubsystem extends SubsystemBase {
       if (_wasInRpmRangeLastCycle) {
         System.out.println(_timer.get()  + " RPM not in range for first time at " + rpm);
         _timeWhenNotInRangeDetected = _timer.get();
+        _ballsShot++;
       }
       
       _lowestRPM = Math.min(rpm, _lowestRPM);
@@ -162,6 +165,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
       _wasInRpmRangeLastCycle = true;
     }
+  }
+  
+  public void resetBallsShot() {
+    _ballsShot = 0;
+  }
+
+  public int getBallsShot() {
+    return _ballsShot;
   }
 
   public boolean readyToShoot() {
