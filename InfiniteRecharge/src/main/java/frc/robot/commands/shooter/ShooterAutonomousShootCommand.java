@@ -14,7 +14,7 @@ import frc.robot.Robot;
 
 public class ShooterAutonomousShootCommand extends CommandBase {
   private Timer _timer = new Timer();
-  
+
   public ShooterAutonomousShootCommand() {
     addRequirements(Robot.SHOOTER_SUBSYSTEM, Robot.CONVEYANCE_SUBSYSTEM, Robot.HOPPER_SUBSYSTEM);
   }
@@ -40,13 +40,12 @@ public class ShooterAutonomousShootCommand extends CommandBase {
       Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
       Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
       Robot.HOPPER_SUBSYSTEM.fullForward();
-    }
-    else {
+    } else {
       Robot.CONVEYANCE_SUBSYSTEM.stopBelt();
       Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
       Robot.HOPPER_SUBSYSTEM.stopHopperMotor();
     }
-    
+
   }
 
   // Called once the command ends or is interrupted.

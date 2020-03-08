@@ -30,45 +30,25 @@ public class SixBallCenteredAutonomousCommand {
     var poseC = new Pose2d(5.2, -0.805, new Rotation2d(0));
     var poseD = new Pose2d(7.588, -0.805, new Rotation2d(0));
     var poseE = new Translation2d(4.558, -2);
-    var poseAtoC = TrajectoryGenerator.generateTrajectory(
-      poseA,
-      List.of(
-        poseB
-      ),
-      poseC,
-      Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
+    var poseAtoC = TrajectoryGenerator.generateTrajectory(poseA, List.of(poseB), poseC,
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig());
 
-    var poseCtoD = TrajectoryGenerator.generateTrajectory(
-      poseC,
-      List.of(),
-      poseD,
-      Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig()
-    );
+    var poseCtoD = TrajectoryGenerator.generateTrajectory(poseC, List.of(), poseD,
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig());
 
-    var poseDtoAreverse = TrajectoryGenerator.generateTrajectory(
-      poseD,
-      List.of(poseE),
-      poseA,
-      Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true)
-    );
+    var poseDtoAreverse = TrajectoryGenerator.generateTrajectory(poseD, List.of(poseE), poseA,
+        Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getTrajectoryConfig().setReversed(true));
 
     var poseAtoCcommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseAtoC);
     var poseCtoDcommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseCtoD);
     var poseDtoAreverseCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(poseDtoAreverse);
 
     return new SequentialCommandGroup(
-      new InstantCommand(() -> Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdometry(poseAtoC.getInitialPose()), Robot.DRIVE_TRAIN_SUBSYSTEM),
-      new ShooterAutonomousShootCommand(),
-      poseAtoCcommand,
-      new ParallelDeadlineGroup(
-        poseCtoDcommand,
-        new IntakeExtendAndCollectCommand()
-      ),
-      new IntakeRetractCommand(),
-      poseDtoAreverseCommand,
-      new ShooterAutonomousShootCommand(),
-      new InstantCommand(()-> System.out.println("Drive Command Finished!"))
-    );
+        new InstantCommand(() -> Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdometry(poseAtoC.getInitialPose()),
+            Robot.DRIVE_TRAIN_SUBSYSTEM),
+        new ShooterAutonomousShootCommand(), poseAtoCcommand,
+        new ParallelDeadlineGroup(poseCtoDcommand, new IntakeExtendAndCollectCommand()), new IntakeRetractCommand(),
+        poseDtoAreverseCommand, new ShooterAutonomousShootCommand(),
+        new InstantCommand(() -> System.out.println("Drive Command Finished!")));
   }
 }

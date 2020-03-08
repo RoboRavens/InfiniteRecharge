@@ -8,16 +8,14 @@
 package frc.ravenhardware;
 
 /**
- * "ButtonCode" but for colors of LEDs, mixed with acutal methods for setting the color.
+ * "ButtonCode" but for colors of LEDs, mixed with acutal methods for setting
+ * the color.
  */
 public class RavenBlinkin {
 
-// Dictionary of color codes
+    // Dictionary of color codes
 
-
-
-
-// Color methods
+    // Color methods
 
     public void blinkGreen() {
 

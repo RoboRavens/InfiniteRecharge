@@ -19,13 +19,13 @@ public class HopperAgitateCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //System.out.println("HopperAgitateCommand initialized");
+    // System.out.println("HopperAgitateCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("AGITATING_HOPPER");
+    // System.out.println("AGITATING_HOPPER");
     Robot.HOPPER_SUBSYSTEM.agitateHopperMotors();
   }
 

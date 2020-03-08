@@ -32,7 +32,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
   private double _timeWhenNotInRangeDetected;
-  private int _ballsShot = 0;
+  private int _ballsShot = -1; // think of this as a y intercept because it has to rev before shooting balls
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -62,7 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //this.printShooterSpeeds();
+    // this.printShooterSpeeds();
     this.calculateSecondsToRevUpShot();
     SmartDashboard.putNumber("Balls Shot", _ballsShot);
   }
@@ -75,7 +75,7 @@ public class ShooterSubsystem extends SubsystemBase {
     this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
   }
 
-  //RPS to FPS
+  // RPS to FPS
   public double RevolutionsToFeet() {
     return getRPS() * Calibrations.WHEEL_CIRCUMFERENCE_FEET;
   }
@@ -89,12 +89,12 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
-  /*public void setVelocity(double velocity) {
-    targetVelocity_UnitsPer100ms = 7600 * velocity;
-    SmartDashboard.putNumber("Target Velocity", targetVelocity_UnitsPer100ms);
-    //printShooterSpeeds();
-    _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
-  }*/
+  /*
+   * public void setVelocity(double velocity) { targetVelocity_UnitsPer100ms =
+   * 7600 * velocity; SmartDashboard.putNumber("Target Velocity",
+   * targetVelocity_UnitsPer100ms); //printShooterSpeeds();
+   * _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms); }
+   */
 
   public void rev() {
     setVelocityRaw(this._shot.targetRpm * Calibrations.VEL_TO_RPM);
@@ -132,7 +132,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     return true; // otherwise we are in range
   }
-  
+
   public boolean getIsWideRpmRange() {
     if (this.getRPM() > _shot.targetRpm + Calibrations.YELLOW_RPM_OFFSET) {
       return false; // rpm is above target + buffer
@@ -144,31 +144,32 @@ public class ShooterSubsystem extends SubsystemBase {
 
     return true; // otherwise we are in range
   }
-  
+
   public void calculateSecondsToRevUpShot() {
     var rpm = this.getRPM();
     if (this.getIsInRpmRange() == false) {
       if (_wasInRpmRangeLastCycle) {
-        System.out.println(_timer.get()  + " RPM not in range for first time at " + rpm);
+        System.out.println(_timer.get() + " RPM not in range for first time at " + rpm);
         _timeWhenNotInRangeDetected = _timer.get();
-        _ballsShot++;
       }
-      
+
       _lowestRPM = Math.min(rpm, _lowestRPM);
       _wasInRpmRangeLastCycle = false;
     } else {
       if (_wasInRpmRangeLastCycle == false) {
-        //System.out.println(_timer.get()  + " Above target for first time at " + rpm);
-        System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after " + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
+        // System.out.println(_timer.get() + " Above target for first time at " + rpm);
+        System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after "
+            + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
         _lowestRPM = this.getRPM();
+        _ballsShot++;
       }
 
       _wasInRpmRangeLastCycle = true;
     }
   }
-  
+
   public void resetBallsShot() {
-    _ballsShot = 0;
+    _ballsShot = -1;
   }
 
   public int getBallsShot() {

@@ -42,12 +42,14 @@ public class RavenTalonSRX implements IRavenTalon {
 			targetOutput = Math.signum(targetOutput) * _maxPower;
 		}
 
-		// apply deadband to compensate for controller joystick not returning to exactly 0
+		// apply deadband to compensate for controller joystick not returning to exactly
+		// 0
 		if (Math.abs(targetOutput) < this.deadband) {
 			targetOutput = 0;
 		}
 
-		//Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target output power " + targetOutput);
+		// Robot.LOGGER_OVERLORD.log(LoggerOverlordLogID.DriveTargetOutputPower, "target
+		// output power " + targetOutput);
 		this.setWithSlewRate(targetOutput);
 	}
 
@@ -81,7 +83,7 @@ public class RavenTalonSRX implements IRavenTalon {
 	}
 
 	public int getEncoderPosition() {
-		//what should SRX do?
+		// what should SRX do?
 		return 0;
 	}
 
@@ -93,19 +95,19 @@ public class RavenTalonSRX implements IRavenTalon {
 		// what should the SRX do?
 	}
 
-	  /**
-   * Get the distance the robot has driven since the last reset as scaled by the value from {@link
-   * #setDistancePerPulse(double)}.
-   *
-   * @return The distance driven since the last reset
-   */
+	/**
+	 * Get the distance the robot has driven since the last reset as scaled by the
+	 * value from {@link #setDistancePerPulse(double)}.
+	 *
+	 * @return The distance driven since the last reset
+	 */
 	public double getDistanceMeters() {
-		//what should SRX do?
+		// what should SRX do?
 		return 0.0;
 	}
 
 	public double getRateMeters() {
-		//what should SRX do?
+		// what should SRX do?
 		return 0.0;
 	}
 
@@ -113,11 +115,10 @@ public class RavenTalonSRX implements IRavenTalon {
 		_talonSRX.configPeakCurrentLimit(amps);
 		_talonSRX.enableCurrentLimit(true);
 		_talonSRX.configContinuousCurrentLimit(amps);
-	
-	   }
-	
-   public double getOutputCurrent() {
-	   return _talonSRX.getSupplyCurrent();
-   }
-}
 
+	}
+
+	public double getOutputCurrent() {
+		return _talonSRX.getSupplyCurrent();
+	}
+}
