@@ -61,6 +61,7 @@ import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
   private final SendableChooser<NamedAutonomousCommand> autonomousChooser = new SendableChooser<>();
+  private final SendableChooser<Integer> autonomousDelayChooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -148,9 +149,10 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     Command autonomousCommand = autonomousChooser.getSelected().Command;
+    SequentialCommandGroup autonomousWithDelayCommand = new SequentialCommandGroup(new SleepCommand("delay autonomous", autonomousDelayChooser.getSelected()), autonomousCommand);
 
     if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+      autonomousWithDelayCommand.schedule();
     }
   }
 
@@ -230,18 +232,25 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
     SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
 
-    // if (autonomousChooser.getSelected().Name.equals(this.currentAutoName))
-
-    // System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
+    SmartDashboard.putNumber("DB/String 1", autonomousDelayChooser.getSelected());
+    SmartDashboard.putNumber("Autonomous Delay", autonomousDelayChooser.getSelected());
   }
 
   private void setupAutonomousCommands() {
-    autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
+    autonomousChooser.setDefaultOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
-    autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
     autonomousChooser.addOption("Drive", new NamedAutonomousCommand("Drive", DriveAutonomousCommand.GenerateCommand()));
+
+    autonomousDelayChooser.setDefaultOption("No Delay", 0);
+    autonomousDelayChooser.addOption("1 Second", 1);
+    autonomousDelayChooser.addOption("2 Seconds", 2);
+    autonomousDelayChooser.addOption("3 Seconds", 3);
+    autonomousDelayChooser.addOption("4 Seconds", 4);
+    autonomousDelayChooser.addOption("5 Seconds", 5);
     
     SmartDashboard.putData("Autonomous Choices", autonomousChooser);
+    SmartDashboard.putData("Autonomous Delay", autonomousDelayChooser);
   }
 }

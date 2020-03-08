@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.intake.IntakeRetractCommand;
+import frc.robot.commands.shooter.ShooterAutonomousShootCommand;
 
 public class SixBallCenteredAutonomousCommand {
 
@@ -59,7 +59,7 @@ public class SixBallCenteredAutonomousCommand {
 
     return new SequentialCommandGroup(
       new InstantCommand(() -> Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.setOdometry(poseAtoC.getInitialPose()), Robot.DRIVE_TRAIN_SUBSYSTEM),
-      new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
+      new ShooterAutonomousShootCommand(),
       poseAtoCcommand,
       new ParallelDeadlineGroup(
         poseCtoDcommand,
@@ -67,7 +67,7 @@ public class SixBallCenteredAutonomousCommand {
       ),
       new IntakeRetractCommand(),
       poseDtoAreverseCommand,
-      new RunShooterAutonomousCommand(Calibrations.INIT_LINE_RPM, 3),
+      new ShooterAutonomousShootCommand(),
       new InstantCommand(()-> System.out.println("Drive Command Finished!"))
     );
   }

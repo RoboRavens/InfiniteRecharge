@@ -211,6 +211,8 @@ public class Calibrations {
 	public static final ShooterCalibration CLOSE_TRENCH = new ShooterCalibration("Close Trench", CLOSE_TRENCH_SHOT_RPM, C_SHOOTER_KF, C_SHOOTER_KP, C_SHOOTER_KI, C_SHOOTER_KD, C_UPPER_BOUND_RPM_BUFFER, C_LOWER_BOUND_RPM_BUFFER);
 	public static final ShooterCalibration FAR_TRENCH = new ShooterCalibration("Far Trench", FAR_TRENCH_SHOT_RPM, F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER);
 
+	public static final double AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT = 3;
+
 
 	//Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;

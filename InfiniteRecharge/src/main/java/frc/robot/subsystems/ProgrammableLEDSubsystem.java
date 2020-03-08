@@ -1,14 +1,8 @@
 package frc.robot.subsystems;
 
-import frc.robot.Robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.awt.Color;
-
-import com.ctre.phoenix.CANifier;
 
 public class ProgrammableLEDSubsystem extends SubsystemBase {
 	//private static CANifier _canifier;
