@@ -24,7 +24,7 @@ public class ConveyanceReverseForDurationCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ConveyanceReverseForDurationCommand initialized");
+    //System.out.println("ConveyanceReverseForDurationCommand initialized");
     _timer.start();
   }
 
@@ -33,7 +33,7 @@ public class ConveyanceReverseForDurationCommand extends CommandBase {
   public void execute() {
     Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxReverse();
     Robot.CONVEYANCE_SUBSYSTEM.feederWheelReverse();
-    System.out.println("REVERSING_CONVEYOR!!!");
+    //System.out.println("REVERSING_CONVEYOR!!!");
   }
 
   // Called once the command ends or is interrupted.
