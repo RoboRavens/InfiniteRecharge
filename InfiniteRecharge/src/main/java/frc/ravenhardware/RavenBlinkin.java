@@ -20,22 +20,15 @@ public class RavenBlinkin {
     
     private static Spark _blinkin = new Spark(Calibrations.BLINKIN_PWM);
     private Timer ledDelayer = new Timer();
-    private RavenBlinkinPatternCodes currentPatternState;
+    private RavenBlinkinPatternCodes nextPatternState;
 
     // Non-color setters
 
-    private boolean isChangedState (RavenBlinkinPatternCodes newState) {
-        if (currentPatternState.equals(newState)) {
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isDelayOver() {
+    private boolean isDelayOver() {        
         ledDelayer.start();
-        if (ledDelayer.get() >= 1) {
-            ledDelayer.reset();
+        if (ledDelayer.get() >= BlinkinCalibrations.DELAY_TIME) {
             ledDelayer.stop();
+            ledDelayer.reset();
             return true;
         }
         return false;
@@ -44,16 +37,39 @@ public class RavenBlinkin {
     // Color methods
 
     public void blinkGreen() {
-        solidGreen();
+        if (isDelayOver()) {
+            if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_GREEN)) {
+
+                solidGreen();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+
+            } else {
+
+                solidOff();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_GREEN;
+
+            }
+        }
     }
 
     public void solidGreen() {
         _blinkin.set(BlinkinCalibrations.SOLID_GREEN);
-
     }
 
     public void blinkYellow() {
+        if (isDelayOver()) {
+            if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_YELLOW)) {
 
+                solidYellow();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+
+            } else {
+
+                solidOff();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_YELLOW;
+
+            }
+        }
     }
 
     public void solidYellow() {
@@ -61,7 +77,19 @@ public class RavenBlinkin {
     }
 
     public void blinkRed() {
+        if (isDelayOver()) {
+            if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_RED)) {
 
+                solidRed();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+
+            } else {
+
+                solidOff();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_RED;
+
+            }
+        }
     }
 
     public void solidRed() {
@@ -69,7 +97,19 @@ public class RavenBlinkin {
     }
 
     public void blinkBlue() {
+        if (isDelayOver()) {
+            if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_BLUE)) {
 
+                solidBlue();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+
+            } else {
+
+                solidOff();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_BLUE;
+
+            }
+        }
     }
 
     public void solidBlue() {
@@ -85,6 +125,18 @@ public class RavenBlinkin {
     }
 
     public void blinkWhite() {
+        if (isDelayOver()) {
+            if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_WHITE)) {
 
+                solidWhite();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
+
+            } else {
+
+                solidOff();
+                nextPatternState = RavenBlinkinPatternCodes.SOLID_WHITE;
+
+            }
+        }
     }
 }

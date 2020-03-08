@@ -17,4 +17,6 @@ public class BlinkinCalibrations {
     public static final double SOLID_BLUE = 0.87;
     public static final double LED_OFF = 0.99;
     public static final double SOLID_WHITE = 0.93;
+
+    public static final double DELAY_TIME = 1.00;
 }
