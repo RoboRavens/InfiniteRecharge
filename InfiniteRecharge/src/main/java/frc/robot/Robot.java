@@ -54,7 +54,6 @@ import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.ProgrammableLEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.util.LoggerOverlord;
 import frc.util.OverrideSystem;
@@ -77,7 +76,6 @@ public class Robot extends TimedRobot {
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
   public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
   public static final LimelightSubsystem LIMELIGHT_SUBSYSTEM = new LimelightSubsystem();
-  public static final ProgrammableLEDSubsystem PROGRAMMABLE_LED_SUBSYSTEM = new ProgrammableLEDSubsystem();
   public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
 
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
@@ -130,7 +128,6 @@ public class Robot extends TimedRobot {
     HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
     INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
-    PROGRAMMABLE_LED_SUBSYSTEM.setDefaultCommand(new LEDDisplayShooterCommand());
   }
 
   @Override
@@ -165,7 +162,6 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
-    SmartDashboard.putNumber("Blinkin value", ProgrammableLEDSubsystem._blinkin.get());
     //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
     //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
     //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());

@@ -21,7 +21,7 @@ public class LEDBlinkCommand extends CommandBase {
 
     // Called just before this Command runs the first time
     public void initialize() {
-        addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
+        //addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
         System.out.println("LEDBlinkFor2SecondsCommand init");
         _timer.start();
         _timeOfLastColorChange = 0;

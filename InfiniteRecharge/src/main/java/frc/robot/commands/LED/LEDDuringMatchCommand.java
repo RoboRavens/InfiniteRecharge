@@ -39,7 +39,7 @@ public class LEDDuringMatchCommand extends CommandBase {
   private BlinkCommand After10SecondsCommand = new BlinkCommand(0.1);
 
   public LEDDuringMatchCommand() {
-    addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
+    //addRequirements(Robot.PROGRAMMABLE_LED_SUBSYSTEM);
   }
 
   // Called just before this Command runs the first time
