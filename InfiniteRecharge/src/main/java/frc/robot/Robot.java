@@ -175,7 +175,7 @@ public class Robot extends TimedRobot {
     // OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
     // System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
     // System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
-
+    
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {

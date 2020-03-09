@@ -26,8 +26,10 @@ public class RavenBlinkin {
     // Non-color setters
 
     private boolean isDelayOver() {        
-        ledDelayer.start();
-        if (ledDelayer.get() >= BlinkinCalibrations.DELAY_TIME) {
+        if (ledDelayer.get() == 0.0) {
+            ledDelayer.start();
+        }
+        if (ledDelayer.get() > BlinkinCalibrations.DELAY_TIME) {
             ledDelayer.stop();
             ledDelayer.reset();
             return true;
@@ -50,12 +52,10 @@ public class RavenBlinkin {
     public void blinkGreen() {
         if (isDelayOver()) {
             if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_GREEN)) {
-
                 solidGreen();
                 nextPatternState = RavenBlinkinPatternCodes.SOLID_OFF;
 
             } else {
-
                 solidOff();
                 nextPatternState = RavenBlinkinPatternCodes.SOLID_GREEN;
 
