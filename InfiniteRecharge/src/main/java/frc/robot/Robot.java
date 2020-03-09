@@ -22,7 +22,6 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
-import frc.robot.commands.LED.LEDDisplayShooterCommand;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
@@ -102,7 +101,6 @@ public class Robot extends TimedRobot {
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
   public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
   public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
-  public LEDDisplayShooterCommand shooterViaLED = new LEDDisplayShooterCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
