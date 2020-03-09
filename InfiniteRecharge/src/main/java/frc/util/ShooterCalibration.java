@@ -18,14 +18,15 @@ public class ShooterCalibration {
     public int upperBoundBuffer;
     public int lowerBoundBuffer;
 
-    public ShooterCalibration(String name, int RPM, double kF, double kP, double kI, double kD, int upperBoundBuffer, int lowerBoundBuffer) {
-    this.name = name;
-    this.targetRpm = RPM;
-    this.kF = kF;
-    this.kP = kP;
-    this.kI = kI;
-    this.kD = kD;
-    this.upperBoundBuffer = upperBoundBuffer;
-    this.lowerBoundBuffer = lowerBoundBuffer;
+    public ShooterCalibration(String name, int RPM, double kF, double kP, double kI, double kD, int upperBoundBuffer,
+            int lowerBoundBuffer) {
+        this.name = name;
+        this.targetRpm = RPM;
+        this.kF = kF;
+        this.kP = kP;
+        this.kI = kI;
+        this.kD = kD;
+        this.upperBoundBuffer = upperBoundBuffer;
+        this.lowerBoundBuffer = lowerBoundBuffer;
     }
 }

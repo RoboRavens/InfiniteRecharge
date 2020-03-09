@@ -16,6 +16,7 @@ import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
  */
 public class DriveAutonomousCommand {
     public static Command GenerateCommand() {
+
         return new DriveTrainDriveInchesCommand(24, .25, Calibrations.DRIVING_FORWARD);
     }
 }

@@ -15,6 +15,7 @@ import frc.robot.Robot;
  */
 public class DriveTrainTurnAbsoluteDegreesCommand extends CommandBase {
   double _previousGyroScaleFactor;
+
   public DriveTrainTurnAbsoluteDegreesCommand(double targetDegrees) {
     addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
     // TODO: finish command

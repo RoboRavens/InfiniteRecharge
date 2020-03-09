@@ -34,13 +34,17 @@ public class HopperSubsystem extends SubsystemBase {
     this.setHopperMotor(Calibrations.HOPPER_STOP, Calibrations.HOPPER_STOP);
   }
 
-  /* public void feedForward() {
-    this.setHopperMotor(Calibrations.HOPPER_LEFT_REVERSE, Calibrations.HOPPER_RIGHT_FORWARD);
-  } */
+  /*
+   * public void feedForward() {
+   * this.setHopperMotor(Calibrations.HOPPER_LEFT_REVERSE,
+   * Calibrations.HOPPER_RIGHT_FORWARD); }
+   */
 
-  /* public void feedReverse() {
-    this.setHopperMotor(Calibrations.HOPPER_LEFT_FORWARD, Calibrations.HOPPER_RIGHT_REVERSE);
-  } */
+  /*
+   * public void feedReverse() {
+   * this.setHopperMotor(Calibrations.HOPPER_LEFT_FORWARD,
+   * Calibrations.HOPPER_RIGHT_REVERSE); }
+   */
 
   public void feedFullSpeed() {
     this.setHopperMotor(Calibrations.HOPPER_FEED_FULL_SPEED_LEFT, Calibrations.HOPPER_FEED_FULL_SPEED_RIGHT);
@@ -65,8 +69,7 @@ public class HopperSubsystem extends SubsystemBase {
   public void defaultCommand() {
     if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
       this.fullForward();
-    }
-    else {
+    } else {
       this.stopHopperMotor();
     }
   }

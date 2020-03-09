@@ -25,7 +25,6 @@ public class RavenTalonFX implements IRavenTalon {
 		talonFX2.follow(_talonFX);
 		_encoderReversed = encoderReversed;
 
-
 		_name = name;
 		setSlewRate(slewRate);
 	}
@@ -118,34 +117,42 @@ public class RavenTalonFX implements IRavenTalon {
 				* 10 * (_encoderReversed ? -1 : 1);
 	}
 
-	/*public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration currLimitCfg, int timeoutMs) {
-		_talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs);
-	}*/
+	/*
+	 * public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration
+	 * currLimitCfg, int timeoutMs) {
+	 * _talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs); }
+	 */
 
 	public void setCurrentLimit(int amps) {
-		// StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0, 0.0);
+		// StatorCurrentLimitConfiguration currLimitCfg = new
+		// StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0,
+		// 0.0);
 		// _talonFX.configStatorCurrentLimit(currLimitCfg);
 
+		// TODO: CURRENT LIMITING
+		/*
+		 * System.out.
+		 * println("Configuring current--------------------------------------------------------"
+		 * );
+		 * 
+		 * TalonFXConfiguration as = new TalonFXConfiguration();
+		 * 
+		 * as.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 45, 45, 0);
+		 * 
+		 * _talonFX.configAllSettings(as);
+		 * 
+		 * _talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,
+		 * Calibrations.LIMIT_DRIVE_AMPS, 15, .01));
+		 */
 
-		//TODO: CURRENT LIMITING
-		/* System.out.println("Configuring current--------------------------------------------------------");
+		// _talonFX.current
 
-		TalonFXConfiguration as = new TalonFXConfiguration();
-
-		as.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 45, 45, 0);
-
-		_talonFX.configAllSettings(as);
-
-		_talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 15, .01)); */
-
-//		_talonFX.current
-
-//		_talonFX.configPeakCurrentLimit(amps);
-//		_talonFX.enableCurrentLimit(true);
-//		_talonFX.configContinuousCurrentLimit(amps);
+		// _talonFX.configPeakCurrentLimit(amps);
+		// _talonFX.enableCurrentLimit(true);
+		// _talonFX.configContinuousCurrentLimit(amps);
 	}
 
-    public double getOutputCurrent() {
+	public double getOutputCurrent() {
 		return _talonFX.getStatorCurrent();
-    }
+	}
 }

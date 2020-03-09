@@ -60,8 +60,10 @@ public class RavenTank {
 
 	public boolean userControlOfCutPower = true;
 
-	IRavenTalon driveLeft = new RavenTalonFX(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft", _slewRate, false);
-	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2, "MotorRight", _slewRate, true);
+	IRavenTalon driveLeft = new RavenTalonFX(RobotMap.LEFT_DRIVE_CHANNEL_1, RobotMap.LEFT_DRIVE_CHANNEL_2, "MotorLeft",
+			_slewRate, false);
+	IRavenTalon driveRight = new RavenTalonFX(RobotMap.RIGHT_DRIVE_CHANNEL_1, RobotMap.RIGHT_DRIVE_CHANNEL_2,
+			"MotorRight", _slewRate, true);
 
 	private DifferentialDriveOdometry _odometry;
 
@@ -101,7 +103,6 @@ public class RavenTank {
 		fpsTank(left, rightX);
 
 	}
-		
 
 	public void driveLeftSide(double magnitude) {
 		driveLeft.set(magnitude);
@@ -566,7 +567,8 @@ public class RavenTank {
 	public void resetOdometry() {
 		this.resetDriveEncoders();
 		this.resetOrientationGyro();
-		//_odometry.resetPosition(new Pose2d(new Translation2d(3, 0), Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
+		// _odometry.resetPosition(new Pose2d(new Translation2d(3, 0),
+		// Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
 		System.out.println("RESETTING ODOMETRY");
 	}
@@ -593,9 +595,12 @@ public class RavenTank {
 	}
 
 	public Command getCommandForTrajectory(Trajectory trajectory) {
-		// this code would only run when the command is generated, not when the command is used... so I'm commenting it out for now
-		/* var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
-		trajectory = trajectory.transformBy(transform); */
+		// this code would only run when the command is generated, not when the command
+		// is used... so I'm commenting it out for now
+		/*
+		 * var transform = _odometry.getPoseMeters().minus(trajectory.getInitialPose());
+		 * trajectory = trajectory.transformBy(transform);
+		 */
 
 		RamseteCommand ramseteCommand = new RamseteCommand(trajectory, _odometry::getPoseMeters,
 				new RamseteController(Calibrations.RAMSETE_B, Calibrations.RAMSETE_ZETA),
@@ -617,45 +622,42 @@ public class RavenTank {
 	}
 
 	// Change a trajectory so that the robot follows it but drives backwards
-	public Trajectory reverseTrajectory(Trajectory trajectory){
+	public Trajectory reverseTrajectory(Trajectory trajectory) {
 		final var flip = new Transform2d(new Translation2d(), Rotation2d.fromDegrees(180.0));
 		List<State> states = trajectory.getStates();
-		return new Trajectory(states.stream().map(state -> 
-		{
+		return new Trajectory(states.stream().map(state -> {
 			var newPose = state.poseMeters.transformBy(flip);
 			var newCurvatureRadPerMeter = state.curvatureRadPerMeter * -1;
-			return new State(state.timeSeconds,
-				state.velocityMetersPerSecond, state.accelerationMetersPerSecondSq,
-				newPose, newCurvatureRadPerMeter);
-		})
-        .collect(Collectors.toList()));
+			return new State(state.timeSeconds, state.velocityMetersPerSecond, state.accelerationMetersPerSecondSq,
+					newPose, newCurvatureRadPerMeter);
+		}).collect(Collectors.toList()));
 	}
 
 	// Change a trajectory so that the robot follows it but drives backwards
-	public Trajectory reverseTrajectory2(Trajectory trajectory){
+	public Trajectory reverseTrajectory2(Trajectory trajectory) {
 		List<State> states = trajectory.getStates();
-		var waypoints = states.stream().map(state -> 
-		{
+		var waypoints = states.stream().map(state -> {
 			return state.poseMeters;
-		})
-		.collect(Collectors.toList());
+		}).collect(Collectors.toList());
 
 		return TrajectoryGenerator.generateTrajectory(waypoints, this.getTrajectoryConfig().setReversed(true));
 	}
 
-		// Change a trajectory so that the robot follows it but drives backwards
-		public Trajectory reverseTrajectory3(Trajectory trajectory){
-			List<State> states = trajectory.getStates();
-			var start = new Pose2d(3, 0, new Rotation2d(0));
-			var end = new Pose2d(0, 0, new Rotation2d(0));
-			//var waypoints = states.stream().map(state -> 
-			//{
-			//	return new Translation2d(state.poseMeters.getTranslation().getX(), state.poseMeters.getTranslation().getY());
-			//})
-			//.collect(Collectors.toList());
-	
-			return TrajectoryGenerator.generateTrajectory(start, List.of(), end, this.getTrajectoryConfig().setReversed(true));
-		}
+	// Change a trajectory so that the robot follows it but drives backwards
+	public Trajectory reverseTrajectory3(Trajectory trajectory) {
+		// List<State> states = trajectory.getStates();
+		var start = new Pose2d(3, 0, new Rotation2d(0));
+		var end = new Pose2d(0, 0, new Rotation2d(0));
+		// var waypoints = states.stream().map(state ->
+		// {
+		// return new Translation2d(state.poseMeters.getTranslation().getX(),
+		// state.poseMeters.getTranslation().getY());
+		// })
+		// .collect(Collectors.toList());
+
+		return TrajectoryGenerator.generateTrajectory(start, List.of(), end,
+				this.getTrajectoryConfig().setReversed(true));
+	}
 
 	public TrajectoryConfig getTrajectoryConfig() {
 		// Create a voltage constraint to ensure we don't accelerate too fast
@@ -673,12 +675,13 @@ public class RavenTank {
 						.addConstraint(autoVoltageConstraint).setReversed(false);
 	}
 
-	public void logPose(){
-		System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||" + getPose().getTranslation().getY() + "||" + getHeading());
+	public void logPose() {
+		System.out.println("pose X||Y||ActualDegrees = " + getPose().getTranslation().getX() + "||"
+				+ getPose().getTranslation().getY() + "||" + getHeading());
 	}
-	  
+
 	public void currentLimting() {
-		//This is the FalconFX current limting
+		// This is the FalconFX current limting
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
 	}
