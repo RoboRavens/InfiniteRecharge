@@ -184,6 +184,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   private void setLEDs() {
+    SmartDashboard.putBoolean("Limelight targeted", Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
     if (this.getIsInRpmRange()) {
       if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
         _blinkin.blinkGreen();
