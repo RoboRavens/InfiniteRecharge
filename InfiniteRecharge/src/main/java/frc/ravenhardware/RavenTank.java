@@ -554,7 +554,7 @@ public class RavenTank {
 	 *
 	 * @return the robot's heading in degrees, from 180 to 180
 	 */
-	private double getHeading() {
+	public double getHeading() {
 		return Math.IEEEremainder(orientationGyro.getAngle(), 360) * -1;
 	}
 

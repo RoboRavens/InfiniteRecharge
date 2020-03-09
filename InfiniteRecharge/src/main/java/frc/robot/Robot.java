@@ -38,6 +38,7 @@ import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceSlowFeedCommand;
+import frc.robot.commands.drivetrain.DriveTrainTurnPIDCommand;
 import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
@@ -196,7 +197,10 @@ public class Robot extends TimedRobot {
       turnTarget.schedule();
     }
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
+
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
+
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.X).whenPressed(new DriveTrainTurnPIDCommand(90, DRIVE_TRAIN_SUBSYSTEM));
   }
 
 

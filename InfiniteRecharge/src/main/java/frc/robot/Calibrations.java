@@ -98,6 +98,9 @@ public class Calibrations {
 	public static final double KP_DRIVE_VELOCITY = 0.01; //0.00005
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0;
+	public static final double KP_TURN = 0;
+	public static final double KI_TURN = 0;
+	public static final double KD_TURN = 0;
 
 	public static final double METERS_TO_INCHES = 39.37;
 
