@@ -26,7 +26,7 @@ public class ShooterTuneCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("SHOOTER TUNE COMMAND HAS BEEN CALLED");
-    //Robot.SHOOTER_SUBSYSTEM.setVelocityBySlider();
+    // Robot.SHOOTER_SUBSYSTEM.setVelocityBySlider();
     System.out.println("The current RPM is: " + Robot.SHOOTER_SUBSYSTEM.getRPM());
   }
 

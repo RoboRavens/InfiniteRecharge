@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class NamedAutonomousCommand {
     public Command Command;
     public String Name;
-    
+
     public NamedAutonomousCommand(String name, Command command) {
         this.Name = name;
         this.Command = command;

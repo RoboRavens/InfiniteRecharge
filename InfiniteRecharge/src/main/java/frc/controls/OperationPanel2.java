@@ -25,17 +25,17 @@ public class OperationPanel2 {
 		case SHOOTFURTHER:
 			buttonNumber = 2;
 			break;
-        case HOPPERAGITATE:
-            buttonNumber = 3;
+		case HOPPERAGITATE:
+			buttonNumber = 3;
 			break;
 		case SETSHOTFARCONTROLPANEL:
 			buttonNumber = 4;
 			break;
-        case SETSHOTCLOSECONTROLPANEL:
-            buttonNumber = 5;
-            break;
-        case SETSHOTINITIATIONLINE:
-            buttonNumber = 6;
+		case SETSHOTCLOSECONTROLPANEL:
+			buttonNumber = 5;
+			break;
+		case SETSHOTINITIATIONLINE:
+			buttonNumber = 6;
 			break;
 		case CONVEYANCESHOOT:
 			buttonNumber = 7;

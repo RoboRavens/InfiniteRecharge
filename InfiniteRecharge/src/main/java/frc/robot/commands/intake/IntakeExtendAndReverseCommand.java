@@ -11,9 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class IntakeExtendAndReverseCommand extends CommandBase {
-  /**
-   * Creates a new IntakeExtendAndReverseCommand.
-   */
+
   public IntakeExtendAndReverseCommand() {
     addRequirements(Robot.INTAKE_SUBSYSTEM);
   }

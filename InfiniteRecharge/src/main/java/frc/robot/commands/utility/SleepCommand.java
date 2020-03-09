@@ -11,16 +11,18 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
-  SleepCommand is a useful dummy (genius) command for testing command groups.
-*/
+ * SleepCommand is a useful dummy (genius) command for testing command groups.
+ */
 public class SleepCommand extends CommandBase {
   String _name;
   double _durationInSeconds;
   Timer _timer;
 
   /**
-   * Given a name this command will announce it has started and then after the duration it will
-   * announce it has been stopped. It will also display if it was interrupted.
+   * Given a name this command will announce it has started and then after the
+   * duration it will announce it has been stopped. It will also display if it was
+   * interrupted.
+   * 
    * @param name
    * @param durationInSeconds
    */
