@@ -38,7 +38,7 @@ public class ShooterRevCommand extends CommandBase {
       _timer.stop();
     }
     SmartDashboard.putNumber("secondsToRev", this._timeTakenToRev);
-    // System.out.println("REVING_SHOOTER!!!");
+    // System.out.println("REVVING_SHOOTER!!!");
   }
 
   public boolean isFinished() {
@@ -48,5 +48,6 @@ public class ShooterRevCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    Robot.SHOOTER_SUBSYSTEM.resetBallsShot();
   }
 }

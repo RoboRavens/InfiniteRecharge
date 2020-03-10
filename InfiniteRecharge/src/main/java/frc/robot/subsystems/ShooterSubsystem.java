@@ -142,7 +142,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // If we are in the RPM range, reset the timer tracking how long it has been since we were in range
     if (inRange) {
-        this._rpmReadyTimer.restart();
+        this._rpmReadyTimer.reset();
     }
 
     // If we were very recently in range, return true, so as to not stop the conveyance.
