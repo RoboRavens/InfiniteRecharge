@@ -24,15 +24,6 @@ public class CompressorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    if (_isShooting == false) {
-      if (RobotController.getBatteryVoltage() < 11.0) {
-        stop();
-      }
-
-      if (RobotController.getBatteryVoltage() > 11.5) {
-        start();
-      }
-    }
   }
 
   // enable/disable the auto function
