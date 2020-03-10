@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,7 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
+import frc.ravenhardware.RavenBlinkin;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
@@ -46,9 +48,10 @@ import frc.robot.commands.shooter.SetShotCloseTrenchCommand;
 import frc.robot.commands.shooter.SetShotFarTrenchCommand;
 import frc.robot.commands.shooter.SetShotInitCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.utility.CompressorTurnOffWhileShootingCommand;
 import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-//import frc.robot.subsystems.CompressorSubsystem;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -64,6 +67,7 @@ public class Robot extends TimedRobot {
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
+  public RavenBlinkin ravenBlinkin;
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
@@ -71,8 +75,7 @@ public class Robot extends TimedRobot {
   public static final OperationPanel2 OPERATION_PANEL_2 = new OperationPanel2(2);
 
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-  // public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new
-  // CompressorSubsystem();
+  public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
@@ -109,6 +112,8 @@ public class Robot extends TimedRobot {
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
+
+  public CompressorTurnOffWhileShootingCommand compressorOffWhenShooting = new CompressorTurnOffWhileShootingCommand();
 
   public String currentAutoName = "";
 
@@ -198,6 +203,14 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootWhenReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
+
+    if (Timer.getMatchTime() == 60) {
+      ravenBlinkin.flashGreen();
+    } else if (Timer.getMatchTime() == 30) {
+      ravenBlinkin.flashYellow();
+    } else if (Timer.getMatchTime() == 15) {
+      ravenBlinkin.flashRed();
+    }
   }
 
   public void setupOperationPanel() {

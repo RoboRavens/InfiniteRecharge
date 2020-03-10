@@ -106,6 +106,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void rev() {
     setVelocityRaw(this._shot.targetRpm * Calibrations.VEL_TO_RPM);
+    // probably want to do this better 
+    Robot.COMPRESSOR_SUBSYSTEM.stop();
   }
 
   public void stopShooter() {
