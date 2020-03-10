@@ -40,6 +40,7 @@ import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
+import frc.robot.commands.powercells.ShooterShootWhenReadyCommand;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotCloseTrenchCommand;
 import frc.robot.commands.shooter.SetShotFarTrenchCommand;
@@ -103,6 +104,7 @@ public class Robot extends TimedRobot {
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
   public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
   public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
+  public ShooterShootWhenReadyCommand shootWhenReady = new ShooterShootWhenReadyCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
@@ -192,6 +194,8 @@ public class Robot extends TimedRobot {
       // System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
+    
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootWhenReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
   }

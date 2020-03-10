@@ -64,7 +64,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // this.printShooterSpeeds();
+    this.printShooterSpeeds();
     this.calculateSecondsToRevUpShot();
     SmartDashboard.putNumber("Balls Shot", _ballsShot);
     this.setLEDs();
@@ -182,43 +182,48 @@ public class ShooterSubsystem extends SubsystemBase {
   public boolean readyToShoot() {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
-    boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
     boolean isAtRpm = this.getIsInRpmRange();
-    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+    return overrideIsFalse && isAligned && isAtRpm;
   }
 
   public boolean readyToShootAuto() {
     boolean overrideIsFalse = true;
     boolean isAligned = true;
-    boolean bumperHeld = true;
     boolean isAtRpm = this.getIsInRpmRange();
-    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+    return overrideIsFalse && isAligned && isAtRpm;
   }
 
   private void setLEDs() {
-    SmartDashboard.putBoolean("Limelight targeted", Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
-    if (this.getIsInRpmRange()) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkGreen();
+    if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTERREV)) {
+      if (this.getRPM() > _shot.targetRpm + _shot.upperBoundBuffer ) {
+        _blinkin.solidBlue();
+      }
+      else if (this.getIsInRpmRange()) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkGreen();
+        }
+        else {
+          _blinkin.solidGreen();
+        }    
+      }
+      else if (this.getIsWideRpmRange()) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkYellow();
+        }
+        else {
+          _blinkin.solidYellow();
+        }
+      }
+      else if (this.getRPM() > 0) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkRed();
+        }
+        else {
+          _blinkin.solidRed();
+        }
       }
       else {
-        _blinkin.solidGreen();
-      }    
-    }
-    else if (this.getIsWideRpmRange()) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkYellow();
-      }
-      else {
-        _blinkin.solidYellow();
-      }
-    }
-    else if (this.getRPM() > 0) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkRed();
-      }
-      else {
-        _blinkin.solidRed();
+        _blinkin.solidOff();
       }
     }
     else {
