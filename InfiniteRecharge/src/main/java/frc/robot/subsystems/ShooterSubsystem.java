@@ -30,6 +30,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterCalibration _shot = Calibrations.INIT_LINE;
   private RavenBlinkin _blinkin = new RavenBlinkin(0);
 
+  private Timer _rpmReadyTimer = new Timer();
+  
   private Timer _timer = new Timer();
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
@@ -60,6 +62,7 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.setNeutralMode(NeutralMode.Coast);
     this.setShot(Calibrations.INIT_LINE);
     _timer.start();
+    _rpmReadyTimer.start();
   }
 
   @Override
@@ -76,6 +79,8 @@ public class ShooterSubsystem extends SubsystemBase {
     this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
     this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
     this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
+
+    Robot.CONVEYANCE_SUBSYSTEM.setSynchronizedFeedPowerMagnitude(_shot.conveyanceMagnitude);
   }
 
   // RPS to FPS
@@ -125,15 +130,27 @@ public class ShooterSubsystem extends SubsystemBase {
 
   // If RPM is within range, output true. Otherwise, output false
   public boolean getIsInRpmRange() {
+    boolean inRange = true;
+
     if (this.getRPM() > _shot.targetRpm + _shot.upperBoundBuffer) {
-      return false; // rpm is above target + buffer
+      inRange = false; // rpm is above target + buffer
     }
 
     if (this.getRPM() < _shot.targetRpm - _shot.lowerBoundBuffer) {
-      return false; // rpm is below target - buffer
+        inRange = false; // rpm is below target - buffer
     }
 
-    return true; // otherwise we are in range
+    // If we are in the RPM range, reset the timer tracking how long it has been since we were in range
+    if (inRange) {
+        this._rpmReadyTimer.restart();
+    }
+
+    // If we were very recently in range, return true, so as to not stop the conveyance.
+    if (this._rpmReadyTimer.get() < _shot.rpmReadyTimerDuration) {
+        inRange = true;
+    }
+
+    return inRange;
   }
 
   public boolean getIsWideRpmRange() {
