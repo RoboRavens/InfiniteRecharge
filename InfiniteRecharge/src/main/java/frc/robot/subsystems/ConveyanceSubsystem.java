@@ -24,6 +24,8 @@ public class ConveyanceSubsystem extends SubsystemBase {
   private RavenTalonSRX _feederWheelMotor;
   // private TalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
+  
+  private double _synchronizedForwardPowerMagnitude;
 
   // private Solenoid _pistonBlock;
   // private Solenoid _pistonUnblock;
@@ -36,10 +38,25 @@ public class ConveyanceSubsystem extends SubsystemBase {
 
     _feederWheelMotor.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
     _feederWheelMotor.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
+    
+    _synchronizedForwardPowerMagnitude = Calibrations.CONVEYANCE_FULL_SPEED;
   }
 
   public void periodic() {
 
+  }
+  
+  public void setSynchronizedFeedPowerMagnitude(double magnitude) {
+    this._synchronizedForwardPowerMagnitude = magnitude;
+  }
+
+  public void setBeltSynchronizedForward() {
+    this.runBeltAtPercentPower(this._synchronizedForwardPowerMagnitude);
+  }
+
+  public void feedSynchronized() {
+      this.setBeltSynchronizedForward();
+      this.feederWheelForward();
   }
 
   public void setBeltMaxReverse() {
