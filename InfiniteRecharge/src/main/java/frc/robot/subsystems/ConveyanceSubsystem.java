@@ -39,7 +39,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
     _feederWheelMotor.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
     _feederWheelMotor.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
     
-    _synchronizedForwardPowerMagnitude = Calibrations.CONVEYANCE_FULL_SPEED;
+    _synchronizedForwardPowerMagnitude = Calibrations.CONVEYANCE_FEEDER_SPEED;
   }
 
   public void periodic() {
