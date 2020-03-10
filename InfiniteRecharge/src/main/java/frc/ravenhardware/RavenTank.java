@@ -83,6 +83,8 @@ public class RavenTank {
 
 		setGyroMode(Calibrations.DEFAULT_GYRO_MODE);
 		gyroTargetHeading = setGyroTargetHeadingToCurrentHeading();
+
+		currentlimitDrive();
 	}
 
 	public double deadband(double input) {
@@ -680,7 +682,7 @@ public class RavenTank {
 				+ getPose().getTranslation().getY() + "||" + getHeading());
 	}
 
-	public void currentLimting() {
+	public void currentlimitDrive() {
 		// This is the FalconFX current limting
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveLeft.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.driveRight.setCurrentLimit(Calibrations.LIMIT_DRIVE_AMPS);
