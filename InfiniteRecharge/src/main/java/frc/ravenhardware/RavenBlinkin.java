@@ -49,6 +49,10 @@ public class RavenBlinkin {
 
     // Color methods
 
+    public void solidOff() {
+        _blinkin.set(BlinkinCalibrations.LED_OFF);
+    }
+
     public void blinkGreen() {
         if (isDelayOver()) {
             if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_GREEN)) {
@@ -65,6 +69,10 @@ public class RavenBlinkin {
 
     public void solidGreen() {
         _blinkin.set(BlinkinCalibrations.SOLID_GREEN);
+    }
+
+    public void flashGreen() {
+        // erik magic
     }
 
     public void blinkYellow() {
@@ -87,6 +95,10 @@ public class RavenBlinkin {
         _blinkin.set(BlinkinCalibrations.SOLID_YELLOW);
     }
 
+    public void flashYellow() {
+        // erik magic
+    }
+
     public void blinkRed() {
         if (isDelayOver()) {
             if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_RED)) {
@@ -105,6 +117,10 @@ public class RavenBlinkin {
 
     public void solidRed() {
         _blinkin.set(BlinkinCalibrations.SOLID_RED);
+    }
+
+    public void flashRed() {
+        // erik magic
     }
 
     public void blinkBlue() {
@@ -127,12 +143,8 @@ public class RavenBlinkin {
         _blinkin.set(BlinkinCalibrations.SOLID_BLUE);
     }
 
-    public void solidOff() {
-        _blinkin.set(BlinkinCalibrations.LED_OFF);
-    }
-
-    public void solidWhite() {
-        _blinkin.set(BlinkinCalibrations.SOLID_WHITE);
+    public void flashBlue() {
+        // eric magic
     }
 
     public void blinkWhite() {
@@ -149,5 +161,13 @@ public class RavenBlinkin {
 
             }
         }
+    }
+    
+    public void solidWhite() {
+        _blinkin.set(BlinkinCalibrations.SOLID_WHITE);
+    }
+
+    public void flashWhite() {
+        // eric magic
     }
 }
