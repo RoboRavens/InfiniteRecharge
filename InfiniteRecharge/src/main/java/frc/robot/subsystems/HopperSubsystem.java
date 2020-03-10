@@ -67,10 +67,6 @@ public class HopperSubsystem extends SubsystemBase {
   }
 
   public void defaultCommand() {
-    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
-      this.fullForward();
-    } else {
-      this.stopHopperMotor();
-    }
+    this.stopHopperMotor();
   }
 }

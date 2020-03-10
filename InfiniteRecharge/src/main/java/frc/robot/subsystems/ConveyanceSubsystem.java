@@ -96,12 +96,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void defaultCommand() {
-    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
-      this.feederWheelForward();
-      this.setBeltMaxForward();
-    } else {
-      this.stopBelt();
-      this.wheelStop();
-    }
+    this.stopBelt();
+    this.wheelStop();
   }
 }
