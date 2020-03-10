@@ -25,8 +25,7 @@ public class ShooterShootWhenReadyCommand extends CommandBase {
   @Override
   public void execute() {
     if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
-      Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
-      Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
+      Robot.CONVEYANCE_SUBSYSTEM.feedSynchronized();
       Robot.HOPPER_SUBSYSTEM.fullForward();
     }
   }

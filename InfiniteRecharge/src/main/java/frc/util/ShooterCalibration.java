@@ -17,9 +17,11 @@ public class ShooterCalibration {
     public double kD;
     public int upperBoundBuffer;
     public int lowerBoundBuffer;
+    public double rpmReadyTimerDuration;
+    public double conveyanceMagnitude;
 
     public ShooterCalibration(String name, int RPM, double kF, double kP, double kI, double kD, int upperBoundBuffer,
-            int lowerBoundBuffer) {
+            int lowerBoundBuffer, double rpmReadyTimerDuration, double conveyanceMagnitude) {
         this.name = name;
         this.targetRpm = RPM;
         this.kF = kF;
@@ -28,5 +30,7 @@ public class ShooterCalibration {
         this.kD = kD;
         this.upperBoundBuffer = upperBoundBuffer;
         this.lowerBoundBuffer = lowerBoundBuffer;
+        this.rpmReadyTimerDuration = rpmReadyTimerDuration;
+        this.conveyanceMagnitude = conveyanceMagnitude;
     }
 }
