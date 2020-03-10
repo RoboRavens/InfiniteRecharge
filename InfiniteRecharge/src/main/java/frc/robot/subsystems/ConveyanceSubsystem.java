@@ -43,7 +43,6 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-
   }
   
   public void setSynchronizedFeedPowerMagnitude(double magnitude) {
@@ -51,12 +50,13 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void setBeltSynchronizedForward() {
-    this.runBeltAtPercentPower(this._synchronizedForwardPowerMagnitude);
+    this.runBeltAtPercentPower(this._synchronizedForwardPowerMagnitude * - 1);
   }
 
   public void feedSynchronized() {
       this.setBeltSynchronizedForward();
       this.feederWheelForward();
+      // System.out.println(this._synchronizedForwardPowerMagnitude);
   }
 
   public void setBeltMaxReverse() {
