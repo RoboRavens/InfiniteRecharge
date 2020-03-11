@@ -121,4 +121,8 @@ public class RavenTalonSRX implements IRavenTalon {
 	public double getOutputCurrent() {
 		return _talonSRX.getSupplyCurrent();
 	}
+
+	public double getInputCurrent() {
+		return _talonSRX.getStatorCurrent();
+	}
 }

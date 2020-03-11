@@ -127,20 +127,20 @@ public class RavenTalonFX implements IRavenTalon {
 	 */
 
 	public void setCurrentLimit(int amps) {
-		StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0,0.0);
-		_talonFX.configStatorCurrentLimit(currLimitCfg);
+		  StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0, 0.0);
+
+		  _talonFX.configStatorCurrentLimit(currLimitCfg);
 		
-		  
 		  TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
 		  
 		  talonFXConfiguration.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, amps, amps, 0);
 		  
+		  _talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 0, 0));
+
 		  _talonFX.configAllSettings(talonFXConfiguration);
-		  
-		  _talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,Calibrations.LIMIT_DRIVE_AMPS, 15, .01));
 		 
 
-		// _talonFX.current
+		  //_talonFX.current
 
 		// _talonFX.configPeakCurrentLimit(amps);
 		// _talonFX.enableCurrentLimit(true);
@@ -149,5 +149,9 @@ public class RavenTalonFX implements IRavenTalon {
 
 	public double getOutputCurrent() {
 		return _talonFX.getStatorCurrent();
+	}
+
+	public double getInputCurrent() {
+		return _talonFX.getSupplyCurrent();
 	}
 }
