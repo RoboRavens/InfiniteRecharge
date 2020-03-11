@@ -189,13 +189,7 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
 
-    if (Timer.getMatchTime() == 60) {
-      timeBlinkin.flashGreen();
-    } else if (Timer.getMatchTime() == 30) {
-      timeBlinkin.flashYellow();
-    } else if (Timer.getMatchTime() == 15) {
-      timeBlinkin.flashRed();
-    }
+    timeBlinkin.checkTime(Timer.getMatchTime());
   }
 
 
