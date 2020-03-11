@@ -24,7 +24,7 @@ public class Calibrations {
 
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
-	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .02;
+	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .015;
 	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .0015;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
@@ -201,7 +201,7 @@ public class Calibrations {
     public static final double TRENCH_RPM_READY_TIMER_DURATION = 0.35;
     public static final double TRENCH_CONVEYANCE_MAGNITUDE = 0.55;
 
-	public static final int FAR_TRENCH_SHOT_RPM = 6000;
+	public static final int FAR_TRENCH_SHOT_RPM = 7200;
 	public static final double F_SHOOTER_KF = 0.0085;
 	public static final double F_SHOOTER_KP = 0.06;
 	public static final double F_SHOOTER_KI = 0.0;
