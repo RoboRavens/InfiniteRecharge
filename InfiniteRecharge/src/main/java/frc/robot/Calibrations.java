@@ -59,7 +59,7 @@ public class Calibrations {
 	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
 
 	// Deadband
-	public static final double DEAD_BAND_MAGNITUDE = .2; 
+	public static final double DEAD_BAND_MAGNITUDE = .2;
 
 	// Default drive and gyro modes
 	public static final int DEFAULT_DRIVE_MODE = FPS_TANK;
@@ -95,7 +95,7 @@ public class Calibrations {
 	public static final double KS_VOLTS = 0.327;
 	public static final double KV_VOLT_SECONDS_PER_METER = 2.26;
 	public static final double KA_VOLT_SECONDS_SQUARED_PER_METER = 0.25;
-	public static final double KP_DRIVE_VELOCITY = 0.01; //0.00005
+	public static final double KP_DRIVE_VELOCITY = 0.01; // 0.00005
 	public static final double KI_DRIVE_VELOCITY = 0;
 	public static final double KD_DRIVE_VELOCITY = 0;
 
@@ -120,7 +120,7 @@ public class Calibrations {
 	public static final double RAMSETE_ZETA = 0.7;
 
 	// CLIMBER
-	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; //.13
+	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; // .13
 	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = 1;
 	public static final double CLIMBER_RETRACT_POWER_MAGNITUDE = -.4;
 	public static final double CLIMBER_RETRACT_TO_LATCH_POWER_MAGNITUDE = .2;
@@ -168,7 +168,7 @@ public class Calibrations {
 	public static final double CONVEYANCE_FULL_SPEED_REVERSE = 0.25; // 1;
 	public static final double CONVEYANCE_NORMAL_SPEED = -0.5;
 	public static final double CONVEYANCE_NORMAL_REVERSE_SPEED = 0.5;
-	public static final double CONVEYANCE_FEEDER_SPEED = 0.65;
+	public static final double CONVEYANCE_FEEDER_SPEED = 0.55;
 	public static final double CONVEYANCE_FEEDER_STOP = 0.0;
 	public static final double CONVEYANCE_REVERSE_FEEDER = -.25;
 	public static final double CONVEYANCE_REVERSE_FEEDER_SLOW = -.18;
@@ -176,56 +176,71 @@ public class Calibrations {
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
 	public static final double CONVEYANCE_FEEDER_SPEED_SLOW = -.2;
 
-
-	// SHOOTER 
+	// SHOOTER
 	public static final int INIT_LINE_RPM = 4625; // actual is 4600
-	public static final double I_SHOOTER_KF = 0.0085;
-    public static final double I_SHOOTER_KP = 0.06; 
-    public static final double I_SHOOTER_KI = 0.0;
+	/* public static final double I_SHOOTER_KF = 0.0085;
+	public static final double I_SHOOTER_KP = 0.06;
+	public static final double I_SHOOTER_KI = 0.0;
+	public static final double I_SHOOTER_KD = 0.0; */
+	public static final double I_SHOOTER_KF = 0.0087;
+	public static final double I_SHOOTER_KP = 0.11;
+	public static final double I_SHOOTER_KI = 0.0;
 	public static final double I_SHOOTER_KD = 0.0;
 	public static final int I_UPPER_BOUND_RPM_BUFFER = 20;
-	public static final int I_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final int I_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final double INIT_LINE_RPM_READY_TIMER_DURATION = 0.25;
+    public static final double INIT_LINE_CONVEYANCE_MAGNITUDE = 0.65;
 
-	public static final int CLOSE_TRENCH_SHOT_RPM = 5140; // actual is 5140
-	public static final double C_SHOOTER_KF = 0.0085;
-    public static final double C_SHOOTER_KP = 0.06; 
-    public static final double C_SHOOTER_KI = 0.0;
+	public static final int CLOSE_TRENCH_SHOT_RPM = 5130; // actual is 5140
+	public static final double C_SHOOTER_KF = 0.0082;
+	public static final double C_SHOOTER_KP = 0.15;
+	public static final double C_SHOOTER_KI = 0.0;
 	public static final double C_SHOOTER_KD = 0.0;
 	public static final int C_UPPER_BOUND_RPM_BUFFER = 20;
-	public static final int C_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final int C_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final double TRENCH_RPM_READY_TIMER_DURATION = 0.35;
+    public static final double TRENCH_CONVEYANCE_MAGNITUDE = 0.55;
 
 	public static final int FAR_TRENCH_SHOT_RPM = 6000;
 	public static final double F_SHOOTER_KF = 0.0085;
-    public static final double F_SHOOTER_KP = 0.06; 
-    public static final double F_SHOOTER_KI = 0.0;
+	public static final double F_SHOOTER_KP = 0.06;
+	public static final double F_SHOOTER_KI = 0.0;
 	public static final double F_SHOOTER_KD = 0.0;
 	public static final int F_UPPER_BOUND_RPM_BUFFER = 20;
-	public static final int F_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final int F_LOWER_BOUND_RPM_BUFFER = 20;
+    public static final double DJ_BOOTH_RPM_READY_TIMER_DURATION = 0.0;
+    public static final double DJ_BOOTH_CONVEYANCE_MAGNITUDE = 1.0;
 
 	public static final int YELLOW_RPM_OFFSET = 1000;
-	
+
 	public static final double VEL_TO_RPM = 8192 / 600;
 	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
 
-	public static final ShooterCalibration INIT_LINE = new ShooterCalibration("Initiation Line", INIT_LINE_RPM, I_SHOOTER_KF, I_SHOOTER_KP, I_SHOOTER_KI, I_SHOOTER_KD, I_UPPER_BOUND_RPM_BUFFER, I_LOWER_BOUND_RPM_BUFFER);
-	public static final ShooterCalibration CLOSE_TRENCH = new ShooterCalibration("Close Trench", CLOSE_TRENCH_SHOT_RPM, C_SHOOTER_KF, C_SHOOTER_KP, C_SHOOTER_KI, C_SHOOTER_KD, C_UPPER_BOUND_RPM_BUFFER, C_LOWER_BOUND_RPM_BUFFER);
-	public static final ShooterCalibration FAR_TRENCH = new ShooterCalibration("Far Trench", FAR_TRENCH_SHOT_RPM, F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER);
+	public static final ShooterCalibration INIT_LINE = new ShooterCalibration("Initiation Line", INIT_LINE_RPM,
+			I_SHOOTER_KF, I_SHOOTER_KP, I_SHOOTER_KI, I_SHOOTER_KD, I_UPPER_BOUND_RPM_BUFFER, I_LOWER_BOUND_RPM_BUFFER, INIT_LINE_RPM_READY_TIMER_DURATION, INIT_LINE_CONVEYANCE_MAGNITUDE);
+	public static final ShooterCalibration CLOSE_TRENCH = new ShooterCalibration("Close Trench", CLOSE_TRENCH_SHOT_RPM,
+			C_SHOOTER_KF, C_SHOOTER_KP, C_SHOOTER_KI, C_SHOOTER_KD, C_UPPER_BOUND_RPM_BUFFER, C_LOWER_BOUND_RPM_BUFFER, TRENCH_RPM_READY_TIMER_DURATION, TRENCH_CONVEYANCE_MAGNITUDE);
+	public static final ShooterCalibration FAR_TRENCH = new ShooterCalibration("Far Trench", FAR_TRENCH_SHOT_RPM,
+			F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER, DJ_BOOTH_RPM_READY_TIMER_DURATION, DJ_BOOTH_CONVEYANCE_MAGNITUDE);
 
+	public static final double AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT = 3;
 
-	//Current Limiting
+	public static final int RPM_BALL_COUNT_LIST_SIZE = 10;
+	public static final int ACCEPTABLE_RPM_DROP_TO_COUNT_SHOT = 250; // TODO: test this
+
+	// Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;
 	public static final int CONVEYANCE_FEEDER_LIMIT = 40;
 	public static final int TIMEOUT = 0;
-	
+
 	/*
+	 * 
+	 * sets soft and hard limits for Falcon Motor RPM THE SOFT VALUES NEED TO BE
+	 * CHANGED, they are placeholders and will not opperate
+	 */
 
-	sets soft and hard limits for Falcon Motor RPM
-	THE SOFT VALUES NEED TO BE CHANGED, they are placeholders and will not opperate
-	*/
+	// public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;
 
-
-	 // public static final double INIT_LINE_RPM = INIT_LINE_VELOCITY / VEL_TO_RPM;
-	
 	public static final int FALCON_RPM_HARD_MAX = 6380;
 	public static final int FALCON_RPM_HARD_MIN = 0;
 	public static final int FALCON_RPM_SOFT_MAX = 0;

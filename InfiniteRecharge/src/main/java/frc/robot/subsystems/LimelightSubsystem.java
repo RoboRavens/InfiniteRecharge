@@ -105,13 +105,13 @@ public class LimelightSubsystem extends SubsystemBase {
 
 	public boolean isAlignedToTarget() {
 		double angle = angleOffHorizontal();
-		//System.out.print(" LL Angle: " + Math.round(angle));
-		if(this.hasTarget()) {
+		// System.out.print(" LL Angle: " + Math.round(angle));
+		if (this.hasTarget()) {
 			if (angle > -Calibrations.DESIRED_TARGET_BUFFER && angle < Calibrations.DESIRED_TARGET_BUFFER) {
 				return true;
 			} else {
 				return false;
-			} 
+			}
 		} else {
 			return false;
 		}

@@ -23,6 +23,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.util.ShooterCalibration;
+import frc.util.ShooterRpmManager;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -30,10 +31,13 @@ public class ShooterSubsystem extends SubsystemBase {
   private ShooterCalibration _shot = Calibrations.INIT_LINE;
   private RavenBlinkin _blinkin = new RavenBlinkin(0);
 
-  private Timer _timer = new Timer();
+  private Timer _rpmReadyTimer = new Timer();
+
+  public ShooterRpmManager rpmManager = new ShooterRpmManager(Calibrations.RPM_BALL_COUNT_LIST_SIZE);
+  /* private Timer _timer = new Timer();
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
-  private double _timeWhenNotInRangeDetected;
+  private double _timeWhenNotInRangeDetected; */
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -58,25 +62,35 @@ public class ShooterSubsystem extends SubsystemBase {
 
     _shooterMotor.setNeutralMode(NeutralMode.Coast);
     this.setShot(Calibrations.INIT_LINE);
-    _timer.start();
+    // _timer.start();
+    _rpmReadyTimer.start();
   }
 
   @Override
   public void periodic() {
-    //this.printShooterSpeeds();
-    this.calculateSecondsToRevUpShot();
+    this.printShooterSpeeds();
+    // this.calculateSecondsToRevUpShot();
     this.setLEDs();
+    SmartDashboard.putNumber("Ball Count", this.rpmManager.getBallCount());
+    this.rpmManager.updateRpms(this.getRPM());
+    this.rpmManager.calculateSecondsToRevUpShot();
   }
 
   public void setShot(ShooterCalibration shot) {
-    this._shot = shot;
-    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _shot.kF, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
+    _shot = shot;
+    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _shot.kF, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
+
+    Robot.CONVEYANCE_SUBSYSTEM.setSynchronizedFeedPowerMagnitude(_shot.conveyanceMagnitude);
   }
 
-  //RPS to FPS
+  public ShooterCalibration getShot() {
+    return _shot;
+  }
+
+  // RPS to FPS
   public double RevolutionsToFeet() {
     return getRPS() * Calibrations.WHEEL_CIRCUMFERENCE_FEET;
   }
@@ -90,19 +104,21 @@ public class ShooterSubsystem extends SubsystemBase {
     _shooterMotor.set(ControlMode.Velocity, velocity);
   }
 
-  /*public void setVelocity(double velocity) {
-    targetVelocity_UnitsPer100ms = 7600 * velocity;
-    SmartDashboard.putNumber("Target Velocity", targetVelocity_UnitsPer100ms);
-    //printShooterSpeeds();
-    _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms);
-  }*/
+  /*
+   * public void setVelocity(double velocity) { targetVelocity_UnitsPer100ms =
+   * 7600 * velocity; SmartDashboard.putNumber("Target Velocity",
+   * targetVelocity_UnitsPer100ms); //printShooterSpeeds();
+   * _shooterMotor.set(ControlMode.Velocity, targetVelocity_UnitsPer100ms); }
+   */
 
   public void rev() {
     setVelocityRaw(this._shot.targetRpm * Calibrations.VEL_TO_RPM);
+    // probably want to do this better 
+    Robot.COMPRESSOR_SUBSYSTEM.stop();
   }
 
   public void stopShooter() {
-    this._shooterMotor.set(ControlMode.PercentOutput, 0);
+    _shooterMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void printShooterSpeeds() {
@@ -123,17 +139,29 @@ public class ShooterSubsystem extends SubsystemBase {
 
   // If RPM is within range, output true. Otherwise, output false
   public boolean getIsInRpmRange() {
+    boolean inRange = true;
+
     if (this.getRPM() > _shot.targetRpm + _shot.upperBoundBuffer) {
-      return false; // rpm is above target + buffer
+      inRange = false; // rpm is above target + buffer
     }
 
     if (this.getRPM() < _shot.targetRpm - _shot.lowerBoundBuffer) {
-      return false; // rpm is below target - buffer
+        inRange = false; // rpm is below target - buffer
     }
 
-    return true; // otherwise we are in range
+    // If we are in the RPM range, reset the timer tracking how long it has been since we were in range
+    if (inRange) {
+        _rpmReadyTimer.reset();
+    }
+
+    // If we were very recently in range, return true, so as to not stop the conveyance.
+    if (_rpmReadyTimer.get() < _shot.rpmReadyTimerDuration) {
+        inRange = true;
+    }
+
+    return inRange;
   }
-  
+
   public boolean getIsWideRpmRange() {
     if (this.getRPM() > _shot.targetRpm + Calibrations.YELLOW_RPM_OFFSET) {
       return false; // rpm is above target + buffer
@@ -145,68 +173,74 @@ public class ShooterSubsystem extends SubsystemBase {
 
     return true; // otherwise we are in range
   }
-  
-  public void calculateSecondsToRevUpShot() {
+
+  /* public void calculateSecondsToRevUpShot() {
     var rpm = this.getRPM();
     if (this.getIsInRpmRange() == false) {
       if (_wasInRpmRangeLastCycle) {
-        System.out.println(_timer.get()  + " RPM not in range for first time at " + rpm);
+        System.out.println(_timer.get() + " RPM not in range for first time at " + rpm);
         _timeWhenNotInRangeDetected = _timer.get();
       }
-      
+
       _lowestRPM = Math.min(rpm, _lowestRPM);
       _wasInRpmRangeLastCycle = false;
     } else {
       if (_wasInRpmRangeLastCycle == false) {
-        //System.out.println(_timer.get()  + " Above target for first time at " + rpm);
-        System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after " + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
+        // System.out.println(_timer.get() + " Above target for first time at " + rpm);
+        System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after "
+            + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
         _lowestRPM = this.getRPM();
       }
 
       _wasInRpmRangeLastCycle = true;
     }
-  }
+  } */
 
   public boolean readyToShoot() {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);
     boolean isAligned = Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget();
-    boolean bumperHeld = Robot.DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER);
     boolean isAtRpm = this.getIsInRpmRange();
-    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+    return overrideIsFalse && isAligned && isAtRpm;
   }
 
   public boolean readyToShootAuto() {
     boolean overrideIsFalse = true;
     boolean isAligned = true;
-    boolean bumperHeld = true;
     boolean isAtRpm = this.getIsInRpmRange();
-    return overrideIsFalse && isAligned && bumperHeld && isAtRpm;
+    return overrideIsFalse && isAligned && isAtRpm;
   }
 
   private void setLEDs() {
-    SmartDashboard.putBoolean("Limelight targeted", Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
-    if (this.getIsInRpmRange()) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkGreen();
+    if (Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTERREV)) {
+      if (this.getRPM() > _shot.targetRpm + _shot.upperBoundBuffer ) {
+        _blinkin.solidBlue();
+      }
+      else if (this.getIsInRpmRange()) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkGreen();
+        }
+        else {
+          _blinkin.solidGreen();
+        }    
+      }
+      else if (this.getIsWideRpmRange()) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkYellow();
+        }
+        else {
+          _blinkin.solidYellow();
+        }
+      }
+      else if (this.getRPM() > 0) {
+        if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
+          _blinkin.blinkRed();
+        }
+        else {
+          _blinkin.solidRed();
+        }
       }
       else {
-        _blinkin.solidGreen();
-      }    
-    }
-    else if (this.getIsWideRpmRange()) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkYellow();
-      }
-      else {
-        _blinkin.solidYellow();
-      }
-    }
-    else if (this.getRPM() > 0) {
-      if (Robot.LIMELIGHT_SUBSYSTEM.isAlignedToTarget()) {
-        _blinkin.blinkRed();
-      }
-      else {
-        _blinkin.solidRed();
+        _blinkin.solidOff();
       }
     }
     else {

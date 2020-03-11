@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Calibrations;
 import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
 
-/**
- * Add your docs here.
- */
 public class DriveAutonomousCommand {
     public static Command GenerateCommand() {
+
         return new DriveTrainDriveInchesCommand(24, .25, Calibrations.DRIVING_FORWARD);
     }
 }

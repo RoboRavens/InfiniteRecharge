@@ -7,9 +7,6 @@
 
 package frc.ravenhardware;
 
-/**
- * Add your docs here.
- */
 public enum RavenBlinkinPatternCodes {
     SOLID_GREEN,
     SOLID_YELLOW,

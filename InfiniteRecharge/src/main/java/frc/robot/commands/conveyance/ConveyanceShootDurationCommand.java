@@ -14,9 +14,7 @@ import frc.robot.Robot;
 public class ConveyanceShootDurationCommand extends CommandBase {
   double _durationInSeconds;
   Timer _timer;
-  /**
-   * Creates a new ConveyanceShootDurationCommand.
-   */
+
   public ConveyanceShootDurationCommand(double durationInSeconds) {
     addRequirements(Robot.CONVEYANCE_SUBSYSTEM);
     _durationInSeconds = durationInSeconds;

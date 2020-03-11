@@ -18,14 +18,14 @@ public class ConveyanceShootWhileHeldCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //System.out.println("ConveyanceShootCommand initialized");
+    // System.out.println("ConveyanceShootCommand initialized");
 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
+    // Robot.CONVEYANCE_SUBSYSTEM.pistonUnblock();
     Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
     Robot.CONVEYANCE_SUBSYSTEM.setBeltMaxForward();
   }
