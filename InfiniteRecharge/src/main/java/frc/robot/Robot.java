@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,6 +23,7 @@ import frc.controls.ButtonCode;
 import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
+import frc.ravenhardware.RavenBlinkin;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
@@ -62,6 +64,7 @@ public class Robot extends TimedRobot {
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
+  public RavenBlinkin timeBlinkin = new RavenBlinkin(1);
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
@@ -185,6 +188,14 @@ public class Robot extends TimedRobot {
     }
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
+
+    if (Timer.getMatchTime() == 60) {
+      timeBlinkin.flashGreen();
+    } else if (Timer.getMatchTime() == 30) {
+      timeBlinkin.flashYellow();
+    } else if (Timer.getMatchTime() == 15) {
+      timeBlinkin.flashRed();
+    }
   }
 
 

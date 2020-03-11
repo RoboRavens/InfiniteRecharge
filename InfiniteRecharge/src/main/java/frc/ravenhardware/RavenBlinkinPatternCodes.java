@@ -16,5 +16,10 @@ public enum RavenBlinkinPatternCodes {
     SOLID_RED,
     SOLID_BLUE,
     SOLID_WHITE,
-    SOLID_OFF
+    SOLID_OFF,
+    FLASH_GREEN,
+    FLASH_YELLOW,
+    FLASH_RED,
+    FLASH_BLUE,
+    FLASH_WHITE
 }
