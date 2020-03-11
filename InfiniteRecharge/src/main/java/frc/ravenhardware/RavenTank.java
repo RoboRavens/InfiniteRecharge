@@ -399,7 +399,7 @@ public class RavenTank {
 	}
 
 	private boolean adjustGyroDueToTimer() {
-		double time = this._gyroCooldownTimer.get();
+		double time = _gyroCooldownTimer.get();
 
 		boolean adjust = false;
 
@@ -422,8 +422,8 @@ public class RavenTank {
 			this.setGyroTargetHeadingToCurrentHeading();
 
 			if (Math.abs(turn) > 0) {
-				this._gyroCooldownTimer.reset();
-				this._gyroCooldownTimer.start();
+				_gyroCooldownTimer.reset();
+				_gyroCooldownTimer.start();
 			}
 		}
 

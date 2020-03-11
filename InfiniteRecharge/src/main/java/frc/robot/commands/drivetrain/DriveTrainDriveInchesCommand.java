@@ -18,20 +18,20 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
-		this._totalInchesToTravel = inchesToTravel;
-		this._powerMagnitude = powerMagnitude *= direction;
-		this._direction = direction;
-		this._timeoutTimer = new Timer();
+		_totalInchesToTravel = inchesToTravel;
+		_powerMagnitude = powerMagnitude *= direction;
+		_direction = direction;
+		_timeoutTimer = new Timer();
 	}
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction,
 			double timeoutSeconds) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
-		this._totalInchesToTravel = inchesToTravel;
-		this._powerMagnitude = powerMagnitude *= direction;
-		this._direction = direction;
-		this._timeoutTimer = new Timer();
-		this._timeoutSeconds = timeoutSeconds;
+		_totalInchesToTravel = inchesToTravel;
+		_powerMagnitude = powerMagnitude *= direction;
+		_direction = direction;
+		_timeoutTimer = new Timer();
+		_timeoutSeconds = timeoutSeconds;
 	}
 
 	// Called just before this Command runs the first time

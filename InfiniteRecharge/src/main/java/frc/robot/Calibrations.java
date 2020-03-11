@@ -225,6 +225,9 @@ public class Calibrations {
 
 	public static final double AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT = 3;
 
+	public static final int RPM_BALL_COUNT_LIST_SIZE = 10;
+	public static final int ACCEPTABLE_RPM_DROP_TO_COUNT_SHOT = 250; // TODO: test this
+
 	// Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;
 	public static final int CONVEYANCE_FEEDER_LIMIT = 40;

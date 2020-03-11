@@ -14,7 +14,6 @@ import frc.ravenhardware.BufferedDigitalInput;
 import frc.ravenhardware.RavenTalonSRX;
 //import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ConveyanceSubsystem extends SubsystemBase {
@@ -43,20 +42,20 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void periodic() {
-
   }
   
   public void setSynchronizedFeedPowerMagnitude(double magnitude) {
-    this._synchronizedForwardPowerMagnitude = magnitude;
+    _synchronizedForwardPowerMagnitude = magnitude;
   }
 
   public void setBeltSynchronizedForward() {
-    this.runBeltAtPercentPower(this._synchronizedForwardPowerMagnitude);
+    this.runBeltAtPercentPower(_synchronizedForwardPowerMagnitude * - 1);
   }
 
   public void feedSynchronized() {
       this.setBeltSynchronizedForward();
       this.feederWheelForward();
+      // System.out.println(_synchronizedForwardPowerMagnitude);
   }
 
   public void setBeltMaxReverse() {

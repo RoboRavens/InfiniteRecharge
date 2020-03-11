@@ -5,49 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.utility;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class ShooterRevCommand extends CommandBase {
-
-  private Timer _timer = new Timer();
-  private double _timeTakenToRev = 0;
-
-  public ShooterRevCommand() {
-    addRequirements(Robot.SHOOTER_SUBSYSTEM);
+public class CompressorTurnOffWhileShootingCommand extends CommandBase {
+  /**
+   * Creates a new CompressorTurnOffWhileShootingCommand.
+   */
+  public CompressorTurnOffWhileShootingCommand() {
+    addRequirements(Robot.COMPRESSOR_SUBSYSTEM);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("ShooterRevCommand Initialized!!");
-    _timer.reset();
-    _timer.start();
+    System.out.println("CompressorTurnOffWhileShootingCommand init");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Robot.SHOOTER_SUBSYSTEM.rev();
-    if (Robot.SHOOTER_SUBSYSTEM.getIsInRpmRange()) {
-      _timeTakenToRev = _timer.get();
-      _timer.stop();
-    }
-    SmartDashboard.putNumber("secondsToRev", _timeTakenToRev);
-    // System.out.println("REVVING_SHOOTER!!!");
-  }
-
-  public boolean isFinished() {
-    return false;
+    Robot.COMPRESSOR_SUBSYSTEM.setIsShooting(true);
+    Robot.COMPRESSOR_SUBSYSTEM.stop();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.SHOOTER_SUBSYSTEM.rpmManager.resetBallCount();
+  }
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return true;
   }
 }

@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void runAtPower(double magnitude) {
-    this._intakeMotor.set(ControlMode.PercentOutput, magnitude);
+    _intakeMotor.set(ControlMode.PercentOutput, magnitude);
   }
 
   public void stop() {
@@ -51,13 +51,13 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void extend() {
-    this._intakeRetract.set(false);
-    this._intakeExtend.set(true);
+    _intakeRetract.set(false);
+    _intakeExtend.set(true);
   }
 
   public void retract() {
-    this._intakeRetract.set(true);
-    this._intakeExtend.set(false);
+    _intakeRetract.set(true);
+    _intakeExtend.set(false);
   }
 
   public void stopAndRetract() {
