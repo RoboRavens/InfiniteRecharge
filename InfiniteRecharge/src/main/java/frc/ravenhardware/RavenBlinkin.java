@@ -10,6 +10,7 @@ package frc.ravenhardware;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Spark;
 import frc.ravenhardware.BlinkinCalibrations;
+import frc.robot.commands.LED.CheckFlashCommand;
 
 /**
  * "ButtonCode" but for colors of LEDs, mixed with acutal methods for setting the color.
@@ -20,18 +21,32 @@ import frc.ravenhardware.BlinkinCalibrations;
 public class RavenBlinkin {
 
     private static Spark _blinkin;
-    private Timer ledDelayer;
-    private RavenBlinkinPatternCodes nextPatternState;
+    private static Timer ledDelayer;
+    public static Timer flashTimer;
+    private static RavenBlinkinPatternCodes nextPatternState;
+    private static CheckFlashCommand CheckFlash;
 
     // Non-color setters
 
-    private boolean isDelayOver() {        
+    private static boolean isDelayOver() {        
         if (ledDelayer.get() == 0.0) {
             ledDelayer.start();
         }
         if (ledDelayer.get() > BlinkinCalibrations.DELAY_TIME) {
             ledDelayer.stop();
             ledDelayer.reset();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isFlashOver() {        
+        if (flashTimer.get() == 0.0) {
+            flashTimer.start();
+        }
+        if (flashTimer.get() > BlinkinCalibrations.FLASH_TIME) {
+            flashTimer.stop();
+            flashTimer.reset();
             return true;
         }
         return false;
@@ -67,12 +82,13 @@ public class RavenBlinkin {
         }
     }
 
-    public void solidGreen() {
+    public static void solidGreen() {
         _blinkin.set(BlinkinCalibrations.SOLID_GREEN);
     }
 
     public void flashGreen() {
         // erik magic
+        CheckFlash = new CheckFlashCommand(RavenBlinkinPatternCodes.FLASH_GREEN, this);
     }
 
     public void blinkYellow() {
@@ -91,12 +107,13 @@ public class RavenBlinkin {
         }
     }
 
-    public void solidYellow() {
+    public static void solidYellow() {
         _blinkin.set(BlinkinCalibrations.SOLID_YELLOW);
     }
 
     public void flashYellow() {
         // erik magic
+        CheckFlash = new CheckFlashCommand(RavenBlinkinPatternCodes.FLASH_YELLOW, this);
     }
 
     public void blinkRed() {
@@ -115,12 +132,13 @@ public class RavenBlinkin {
         }
     }
 
-    public void solidRed() {
+    public static void solidRed() {
         _blinkin.set(BlinkinCalibrations.SOLID_RED);
     }
 
     public void flashRed() {
         // erik magic
+        CheckFlash = new CheckFlashCommand(RavenBlinkinPatternCodes.FLASH_RED, this);
     }
 
     public void blinkBlue() {
@@ -139,12 +157,21 @@ public class RavenBlinkin {
         }
     }
 
-    public void solidBlue() {
+    public static void solidBlue() {
         _blinkin.set(BlinkinCalibrations.SOLID_BLUE);
     }
 
     public void flashBlue() {
-        // eric magic
+        // erik magic
+        CheckFlash = new CheckFlashCommand(RavenBlinkinPatternCodes.FLASH_BLUE, this);
+    }
+
+    public void solidOff() {
+        _blinkin.set(BlinkinCalibrations.LED_OFF);
+    }
+
+    public void solidWhite() {
+        _blinkin.set(BlinkinCalibrations.SOLID_WHITE);
     }
 
     public void blinkWhite() {
@@ -161,10 +188,6 @@ public class RavenBlinkin {
 
             }
         }
-    }
-    
-    public void solidWhite() {
-        _blinkin.set(BlinkinCalibrations.SOLID_WHITE);
     }
 
     public void flashWhite() {

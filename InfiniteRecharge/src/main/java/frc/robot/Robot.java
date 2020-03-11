@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
-  public RavenBlinkin ravenBlinkin;
+  public RavenBlinkin timeBlinkin = new RavenBlinkin(1);
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
@@ -203,6 +203,15 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootWhenReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
+    
+    if (Timer.getMatchTime() == 60) {
+      timeBlinkin.flashGreen();
+    } else if (Timer.getMatchTime() == 30) {
+      timeBlinkin.flashYellow();
+    } else if (Timer.getMatchTime() == 15) {
+      timeBlinkin.flashRed();
+    }
+  }
 
     if (Timer.getMatchTime() == 60) {
       ravenBlinkin.flashGreen();
