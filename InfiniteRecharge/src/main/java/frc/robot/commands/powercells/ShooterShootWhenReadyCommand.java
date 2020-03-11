@@ -5,36 +5,39 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.powercells;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-/**
- * Useful for fixing the angle of the robot after a path completes.
- */
-public class DriveTrainTurnAbsoluteDegreesCommand extends CommandBase {
-  double _previousGyroScaleFactor;
-
-  public DriveTrainTurnAbsoluteDegreesCommand(double targetDegrees) {
-    addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
-    // TODO: finish command
+public class ShooterShootWhenReadyCommand extends CommandBase {
+  public ShooterShootWhenReadyCommand() {
+    addRequirements(Robot.CONVEYANCE_SUBSYSTEM, Robot.HOPPER_SUBSYSTEM);
   }
 
+  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("ShooterShootWhenReadyCommand init");
   }
 
+  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
+      Robot.CONVEYANCE_SUBSYSTEM.feedSynchronized();
+      Robot.HOPPER_SUBSYSTEM.fullForward();
+    }
   }
 
+  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
   }
 
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

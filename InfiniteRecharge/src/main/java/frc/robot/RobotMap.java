@@ -23,8 +23,8 @@ public class RobotMap {
 	// PCM
 	public static final int INTAKE_EXTEND_SOLENOID = 0;
 	public static final int INTAKE_RETRACT_SOLENOID = 1;
-	//public static final int PISTON_BLOCK_SOLENOID = 2;
-	//public static final int PISTON_UNBLOCK_SOLENOID = 3;
+	// public static final int PISTON_BLOCK_SOLENOID = 2;
+	// public static final int PISTON_UNBLOCK_SOLENOID = 3;
 
 	// DIO PORTS
 	public static final int CONVEYANCE_SENSOR = 0;

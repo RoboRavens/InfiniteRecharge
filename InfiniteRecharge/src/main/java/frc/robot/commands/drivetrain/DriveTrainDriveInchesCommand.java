@@ -18,20 +18,20 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
-		this._totalInchesToTravel = inchesToTravel;
-		this._powerMagnitude = powerMagnitude *= direction;
-		this._direction = direction;
-		this._timeoutTimer = new Timer();
+		_totalInchesToTravel = inchesToTravel;
+		_powerMagnitude = powerMagnitude *= direction;
+		_direction = direction;
+		_timeoutTimer = new Timer();
 	}
 
 	public DriveTrainDriveInchesCommand(double inchesToTravel, double powerMagnitude, int direction,
 			double timeoutSeconds) {
 		addRequirements(Robot.DRIVE_TRAIN_SUBSYSTEM);
-		this._totalInchesToTravel = inchesToTravel;
-		this._powerMagnitude = powerMagnitude *= direction;
-		this._direction = direction;
-		this._timeoutTimer = new Timer();
-		this._timeoutSeconds = timeoutSeconds;
+		_totalInchesToTravel = inchesToTravel;
+		_powerMagnitude = powerMagnitude *= direction;
+		_direction = direction;
+		_timeoutTimer = new Timer();
+		_timeoutSeconds = timeoutSeconds;
 	}
 
 	// Called just before this Command runs the first time
@@ -47,9 +47,11 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.fpsTankManual(_powerMagnitude, 0);
 
 		if (_direction == Calibrations.DRIVING_BACKWARD) {
-			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart - Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled();
+			_netInchesTraveledSoFar = _driveTrainNetInchesTraveledAtStart
+					- Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled();
 		} else {
-			_netInchesTraveledSoFar = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled() - _driveTrainNetInchesTraveledAtStart;
+			_netInchesTraveledSoFar = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled()
+					- _driveTrainNetInchesTraveledAtStart;
 		}
 	}
 
@@ -65,11 +67,9 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 		PCDashboardDiagnostics.AdHocNumber("netInchesTraveledSoFar", _netInchesTraveledSoFar);
 		PCDashboardDiagnostics.AdHocNumber("totalInchesToTravel", _totalInchesToTravel);
 
-		/*if (_timeoutTimer.get() > _timeoutSeconds) {
+		if (_timeoutTimer.get() > _timeoutSeconds) {
 			hasTraveledTargetDistance = true;
-
-			System.out.println("TIMEOUT TIMEOUT TIMEOUT TIMEOUT");
-		}*/
+		}
 
 		return hasTraveledTargetDistance;
 	}

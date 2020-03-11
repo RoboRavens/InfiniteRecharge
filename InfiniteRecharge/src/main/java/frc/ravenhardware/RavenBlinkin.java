@@ -64,6 +64,10 @@ public class RavenBlinkin {
 
     // Color methods
 
+    public void solidOff() {
+        _blinkin.set(BlinkinCalibrations.LED_OFF);
+    }
+
     public void blinkGreen() {
         if (isDelayOver()) {
             if (nextPatternState.equals(RavenBlinkinPatternCodes.SOLID_GREEN)) {

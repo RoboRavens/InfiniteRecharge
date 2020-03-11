@@ -16,6 +16,5 @@ public class RevDownCommandGroup extends ParallelCommandGroup {
 
   public RevDownCommandGroup() {
     super(new HopperStopCommand(), new ConveyanceStopCommand(), new ShooterStopCommand());
-    // System.out.println("REVING_DOWN!!!");
   }
 }

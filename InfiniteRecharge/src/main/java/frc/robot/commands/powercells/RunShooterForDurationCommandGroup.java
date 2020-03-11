@@ -11,9 +11,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.conveyance.ConveyanceShootDurationCommand;
 import frc.robot.commands.hopper.HopperFeedFullCommand;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class RunShooterForDurationCommandGroup extends ParallelCommandGroup {
   public RunShooterForDurationCommandGroup(double durationInSeconds) {
     super(new HopperFeedFullCommand(), new ConveyanceShootDurationCommand(durationInSeconds));

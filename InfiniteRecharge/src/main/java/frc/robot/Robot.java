@@ -42,14 +42,16 @@ import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
 import frc.robot.commands.powercells.RevDownCommandGroup;
+import frc.robot.commands.powercells.ShooterShootWhenReadyCommand;
 import frc.robot.commands.powercells.StopConveyanceCommandGroup;
 import frc.robot.commands.shooter.SetShotCloseTrenchCommand;
 import frc.robot.commands.shooter.SetShotFarTrenchCommand;
 import frc.robot.commands.shooter.SetShotInitCommand;
 import frc.robot.commands.shooter.ShooterRevCommand;
+import frc.robot.commands.utility.CompressorTurnOffWhileShootingCommand;
 import frc.robot.commands.utility.SleepCommand;
 import frc.robot.subsystems.ClimberSubsystem;
-//import frc.robot.subsystems.CompressorSubsystem;
+import frc.robot.subsystems.CompressorSubsystem;
 import frc.robot.subsystems.ConveyanceSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -61,6 +63,7 @@ import frc.util.OverrideSystem;
 
 public class Robot extends TimedRobot {
   private final SendableChooser<NamedAutonomousCommand> autonomousChooser = new SendableChooser<>();
+  private final SendableChooser<Integer> autonomousDelayChooser = new SendableChooser<>();
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
@@ -70,9 +73,9 @@ public class Robot extends TimedRobot {
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
   public static final OperationPanel OPERATION_PANEL = new OperationPanel(1);
   public static final OperationPanel2 OPERATION_PANEL_2 = new OperationPanel2(2);
-  
+
   public static final ClimberSubsystem CLIMBER_SUBSYSTEM = new ClimberSubsystem();
-  //public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
+  public static final CompressorSubsystem COMPRESSOR_SUBSYSTEM = new CompressorSubsystem();
   public static final ConveyanceSubsystem CONVEYANCE_SUBSYSTEM = new ConveyanceSubsystem();
   public static final DriveTrainSubsystem DRIVE_TRAIN_SUBSYSTEM = new DriveTrainSubsystem();
   public static final HopperSubsystem HOPPER_SUBSYSTEM = new HopperSubsystem();
@@ -104,10 +107,13 @@ public class Robot extends TimedRobot {
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
   public SetShotCloseTrenchCommand setShotCloseTrench = new SetShotCloseTrenchCommand();
   public SetShotFarTrenchCommand setShotFarTrench = new SetShotFarTrenchCommand();
+  public ShooterShootWhenReadyCommand shootWhenReady = new ShooterShootWhenReadyCommand();
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
   public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
+
+  public CompressorTurnOffWhileShootingCommand compressorOffWhenShooting = new CompressorTurnOffWhileShootingCommand();
 
   public String currentAutoName = "";
 
@@ -124,8 +130,10 @@ public class Robot extends TimedRobot {
 
   private void setupDefaultCommands() {
     CLIMBER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CLIMBER_SUBSYSTEM.defaultCommand(), CLIMBER_SUBSYSTEM));
-    CONVEYANCE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
-    DRIVE_TRAIN_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
+    CONVEYANCE_SUBSYSTEM
+        .setDefaultCommand(new RunCommand(() -> CONVEYANCE_SUBSYSTEM.defaultCommand(), CONVEYANCE_SUBSYSTEM));
+    DRIVE_TRAIN_SUBSYSTEM
+        .setDefaultCommand(new RunCommand(() -> DRIVE_TRAIN_SUBSYSTEM.defaultCommand(), DRIVE_TRAIN_SUBSYSTEM));
     HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
     INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
@@ -146,9 +154,11 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     DRIVE_TRAIN_SUBSYSTEM.ravenTank.resetOdometry();
     Command autonomousCommand = autonomousChooser.getSelected().Command;
+    SequentialCommandGroup autonomousWithDelayCommand = new SequentialCommandGroup(
+        new SleepCommand("delay autonomous", autonomousDelayChooser.getSelected()), autonomousCommand);
 
     if (autonomousCommand != null) {
-      autonomousCommand.schedule();
+      autonomousWithDelayCommand.schedule();
     }
   }
 
@@ -163,32 +173,37 @@ public class Robot extends TimedRobot {
   }
 
   public void teleopPeriodic() {
-    //System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
-    //System.out.print(" Button: " + DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
-    //System.out.print(" RPM: " + SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
-    //System.out.print(" Override Off: " + OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
-    //System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
-    //System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
-
+    // System.out.print("Angle: " + LIMELIGHT_SUBSYSTEM.isAlignedToTarget());
+    // System.out.print(" Button: " +
+    // DRIVE_CONTROLLER.getButtonValue(ButtonCode.LEFTBUMPER));
+    // System.out.print(" RPM: " +
+    // SHOOTER_SUBSYSTEM.getIsInInitiationLineRpmRange());
+    // System.out.print(" Override Off: " +
+    // OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
+    // System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
+    // System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
+    
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
     if (DRIVE_TRAIN_SUBSYSTEM.ravenTank.userControlOfCutPower) {
-			if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25 || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
-				System.out.println("CUT POWER TRUE");
-			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(true);
-			}
-			else {
-			  DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(false);
-			}
+      if (DRIVE_CONTROLLER.getAxis(AxisCode.RIGHTTRIGGER) > .25
+          || DRIVE_CONTROLLER.getButtonValue(ButtonCode.RIGHTBUMPER)) {
+        System.out.println("CUT POWER TRUE");
+        DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(true);
+      } else {
+        DRIVE_TRAIN_SUBSYSTEM.ravenTank.setCutPower(false);
+      }
     }
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
       Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
       // System.out.println("TURNING TO TARGET");
       turnTarget.schedule();
     }
+    
+    Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootWhenReady);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
-
+    
     if (Timer.getMatchTime() == 60) {
       timeBlinkin.flashGreen();
     } else if (Timer.getMatchTime() == 30) {
@@ -198,21 +213,28 @@ public class Robot extends TimedRobot {
     }
   }
 
+    if (Timer.getMatchTime() == 60) {
+      ravenBlinkin.flashGreen();
+    } else if (Timer.getMatchTime() == 30) {
+      ravenBlinkin.flashYellow();
+    } else if (Timer.getMatchTime() == 15) {
+      ravenBlinkin.flashRed();
+    }
+  }
 
   public void setupOperationPanel() {
     System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
-    
+
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whileHeld(
-      new SequentialCommandGroup(
-        new SleepCommand("delay rev", .15),
-        shooterRev));
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV)
+        .whileHeld(new SequentialCommandGroup(new SleepCommand("delay rev", .15), shooterRev));
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenPressed(new ConveyanceReverseForDurationCommand(.15));
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTOPOSITION).whenPressed(climberExtendFully);
-    // ^ May want to make a command group that retracts to latch after extending fully ^
+    // ^ May want to make a command group that retracts to latch after extending
+    // fully ^
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
@@ -235,18 +257,28 @@ public class Robot extends TimedRobot {
     SmartDashboard.putString("DB/String 0", autonomousChooser.getSelected().Name);
     SmartDashboard.putString("Autonomous Mode", autonomousChooser.getSelected().Name);
 
-    // if (autonomousChooser.getSelected().Name.equals(this.currentAutoName))
-
-    // System.out.println("Net Inches Traveled: " + DRIVE_TRAIN_SUBSYSTEM.ravenTank.getRightNetInchesTraveled());
+    SmartDashboard.putNumber("DB/String 1", autonomousDelayChooser.getSelected());
+    SmartDashboard.putNumber("Autonomous Delay", autonomousDelayChooser.getSelected());
   }
 
   private void setupAutonomousCommands() {
-    autonomousChooser.setDefaultOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
-    autonomousChooser.addOption("Six Ball Centered", new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
-    autonomousChooser.addOption("Six Ball Side", new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
-    autonomousChooser.addOption("Drive and Shoot", new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
+    autonomousChooser.setDefaultOption("Drive and Shoot",
+        new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Centered",
+        new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Six Ball Side",
+        new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));
+    autonomousChooser.addOption("Do Nothing", new NamedAutonomousCommand("Do Nothing", new InstantCommand()));
     autonomousChooser.addOption("Drive", new NamedAutonomousCommand("Drive", DriveAutonomousCommand.GenerateCommand()));
-    
+
+    autonomousDelayChooser.setDefaultOption("No Delay", 0);
+    autonomousDelayChooser.addOption("1 Second", 1);
+    autonomousDelayChooser.addOption("2 Seconds", 2);
+    autonomousDelayChooser.addOption("3 Seconds", 3);
+    autonomousDelayChooser.addOption("4 Seconds", 4);
+    autonomousDelayChooser.addOption("5 Seconds", 5);
+
     SmartDashboard.putData("Autonomous Choices", autonomousChooser);
+    SmartDashboard.putData("Autonomous Delay", autonomousDelayChooser);
   }
 }

@@ -14,7 +14,6 @@ import frc.ravenhardware.BufferedDigitalInput;
 import frc.ravenhardware.RavenTalonSRX;
 //import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Calibrations;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 public class ConveyanceSubsystem extends SubsystemBase {
@@ -22,24 +21,41 @@ public class ConveyanceSubsystem extends SubsystemBase {
   // 1 talon SRX will run two bag motors on robot
   private TalonSRX _conveyanceMotor;
   private RavenTalonSRX _feederWheelMotor;
-  //private TalonSRX _conveyanceWheel;
+  // private TalonSRX _conveyanceWheel;
   private BufferedDigitalInput _conveyanceSensor;
+  
+  private double _synchronizedForwardPowerMagnitude;
 
-  //private Solenoid _pistonBlock;
-  //private Solenoid _pistonUnblock;
+  // private Solenoid _pistonBlock;
+  // private Solenoid _pistonUnblock;
 
   public ConveyanceSubsystem() {
     _conveyanceMotor = new TalonSRX(RobotMap.CONVEYANCE_MOTOR);
     _conveyanceSensor = new BufferedDigitalInput(RobotMap.CONVEYANCE_SENSOR);
     _feederWheelMotor = new RavenTalonSRX(RobotMap.CONVEYANCE_WHEEL, "Conveyance Wheel", false);
-    //_conveyanceWheel = new TalonSRX(RobotMap.CONVEYANCE_WHEEL);
+    // _conveyanceWheel = new TalonSRX(RobotMap.CONVEYANCE_WHEEL);
 
     _feederWheelMotor.setMaxPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
     _feederWheelMotor.setCurrentLimit(Calibrations.CONVEYANCE_FEEDER_LIMIT);
+    
+    _synchronizedForwardPowerMagnitude = Calibrations.CONVEYANCE_FEEDER_SPEED;
   }
 
   public void periodic() {
+  }
+  
+  public void setSynchronizedFeedPowerMagnitude(double magnitude) {
+    _synchronizedForwardPowerMagnitude = magnitude;
+  }
 
+  public void setBeltSynchronizedForward() {
+    this.runBeltAtPercentPower(_synchronizedForwardPowerMagnitude * - 1);
+  }
+
+  public void feedSynchronized() {
+      this.setBeltSynchronizedForward();
+      this.feederWheelForward();
+      // System.out.println(_synchronizedForwardPowerMagnitude);
   }
 
   public void setBeltMaxReverse() {
@@ -69,7 +85,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   private void runWheelAtPercentPower(double magnitude) {
     _feederWheelMotor.set(magnitude);
   }
-  
+
   public void feederWheelForward() {
     this.runWheelAtPercentPower(Calibrations.CONVEYANCE_FEEDER_SPEED);
   }
@@ -96,13 +112,7 @@ public class ConveyanceSubsystem extends SubsystemBase {
   }
 
   public void defaultCommand() {
-    if (Robot.SHOOTER_SUBSYSTEM.readyToShoot()) {
-      this.feederWheelForward();
-      this.setBeltMaxForward();
-    }
-    else {
-      this.stopBelt();
-      this.wheelStop();
-    }
+    this.stopBelt();
+    this.wheelStop();
   }
 }
