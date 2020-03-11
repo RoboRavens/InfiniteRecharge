@@ -25,13 +25,9 @@ public interface IRavenTalon {
 
 	public double getRateMeters();
 
-	/*
-	 * public void configSupplyCurrentLimit(SupplyCurrentLimitConfiguration
-	 * currLimitCfg, int timeoutMs) {
-	 * _talonFX.configSupplyCurrentLimit(currLimitCfg, timeoutMs); }
-	 */
-
 	public void setCurrentLimit(int amps);
 
 	public double getOutputCurrent();
+
+	public double getInputCurrent();
 }

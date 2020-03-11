@@ -1,6 +1,9 @@
 package frc.ravenhardware;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import frc.robot.Calibrations;
@@ -124,28 +127,20 @@ public class RavenTalonFX implements IRavenTalon {
 	 */
 
 	public void setCurrentLimit(int amps) {
-		// StatorCurrentLimitConfiguration currLimitCfg = new
-		// StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0,
-		// 0.0);
-		// _talonFX.configStatorCurrentLimit(currLimitCfg);
+		  StatorCurrentLimitConfiguration currLimitCfg = new StatorCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 1.0, 0.0);
 
-		// TODO: CURRENT LIMITING
-		/*
-		 * System.out.
-		 * println("Configuring current--------------------------------------------------------"
-		 * );
-		 * 
-		 * TalonFXConfiguration as = new TalonFXConfiguration();
-		 * 
-		 * as.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, 45, 45, 0);
-		 * 
-		 * _talonFX.configAllSettings(as);
-		 * 
-		 * _talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,
-		 * Calibrations.LIMIT_DRIVE_AMPS, 15, .01));
-		 */
+		  _talonFX.configStatorCurrentLimit(currLimitCfg);
+		
+		  TalonFXConfiguration talonFXConfiguration = new TalonFXConfiguration();
+		  
+		  talonFXConfiguration.supplyCurrLimit = new SupplyCurrentLimitConfiguration(true, amps, amps, 0);
+		  
+		  _talonFX.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true, Calibrations.LIMIT_DRIVE_AMPS, 0, 0));
 
-		// _talonFX.current
+		  _talonFX.configAllSettings(talonFXConfiguration);
+		 
+
+		  //_talonFX.current
 
 		// _talonFX.configPeakCurrentLimit(amps);
 		// _talonFX.enableCurrentLimit(true);
@@ -154,5 +149,9 @@ public class RavenTalonFX implements IRavenTalon {
 
 	public double getOutputCurrent() {
 		return _talonFX.getStatorCurrent();
+	}
+
+	public double getInputCurrent() {
+		return _talonFX.getSupplyCurrent();
 	}
 }
