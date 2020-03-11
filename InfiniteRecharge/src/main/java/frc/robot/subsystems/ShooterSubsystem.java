@@ -23,6 +23,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.TalonSRXConstants;
 import frc.util.ShooterCalibration;
+import frc.util.ShooterRpmManager;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -31,12 +32,12 @@ public class ShooterSubsystem extends SubsystemBase {
   private RavenBlinkin _blinkin = new RavenBlinkin(0);
 
   private Timer _rpmReadyTimer = new Timer();
-  
-  private Timer _timer = new Timer();
+
+  public ShooterRpmManager rpmManager = new ShooterRpmManager(Calibrations.RPM_BALL_COUNT_LIST_SIZE);
+  /* private Timer _timer = new Timer();
   private double _lowestRPM = 0;
   private boolean _wasInRpmRangeLastCycle = false;
-  private double _timeWhenNotInRangeDetected;
-  private int _ballsShot = -1; // think of this as a y intercept because it has to rev before shooting balls
+  private double _timeWhenNotInRangeDetected; */
 
   public ShooterSubsystem() {
     _shooterMotor = new TalonSRX(RobotMap.SHOOTER_MOTOR_1);
@@ -61,26 +62,32 @@ public class ShooterSubsystem extends SubsystemBase {
 
     _shooterMotor.setNeutralMode(NeutralMode.Coast);
     this.setShot(Calibrations.INIT_LINE);
-    _timer.start();
+    // _timer.start();
     _rpmReadyTimer.start();
   }
 
   @Override
   public void periodic() {
     this.printShooterSpeeds();
-    this.calculateSecondsToRevUpShot();
-    SmartDashboard.putNumber("Balls Shot", _ballsShot);
+    // this.calculateSecondsToRevUpShot();
     this.setLEDs();
+    SmartDashboard.putNumber("Ball Count", this.rpmManager.getBallCount());
+    this.rpmManager.updateRpms(this.getRPM());
+    this.rpmManager.calculateSecondsToRevUpShot();
   }
 
   public void setShot(ShooterCalibration shot) {
-    this._shot = shot;
-    this._shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _shot.kF, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
-    this._shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
+    _shot = shot;
+    _shooterMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _shot.kF, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _shot.kP, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _shot.kI, TalonSRXConstants.kTimeoutMs);
+    _shooterMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _shot.kD, TalonSRXConstants.kTimeoutMs);
 
     Robot.CONVEYANCE_SUBSYSTEM.setSynchronizedFeedPowerMagnitude(_shot.conveyanceMagnitude);
+  }
+
+  public ShooterCalibration getShot() {
+    return _shot;
   }
 
   // RPS to FPS
@@ -111,7 +118,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stopShooter() {
-    this._shooterMotor.set(ControlMode.PercentOutput, 0);
+    _shooterMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void printShooterSpeeds() {
@@ -144,11 +151,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // If we are in the RPM range, reset the timer tracking how long it has been since we were in range
     if (inRange) {
-        this._rpmReadyTimer.reset();
+        _rpmReadyTimer.reset();
     }
 
     // If we were very recently in range, return true, so as to not stop the conveyance.
-    if (this._rpmReadyTimer.get() < _shot.rpmReadyTimerDuration) {
+    if (_rpmReadyTimer.get() < _shot.rpmReadyTimerDuration) {
         inRange = true;
     }
 
@@ -167,7 +174,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return true; // otherwise we are in range
   }
 
-  public void calculateSecondsToRevUpShot() {
+  /* public void calculateSecondsToRevUpShot() {
     var rpm = this.getRPM();
     if (this.getIsInRpmRange() == false) {
       if (_wasInRpmRangeLastCycle) {
@@ -183,20 +190,11 @@ public class ShooterSubsystem extends SubsystemBase {
         System.out.println("Reached " + _shot.name + " RPM of " + _shot.targetRpm + " from " + _lowestRPM + " after "
             + (_timer.get() - _timeWhenNotInRangeDetected) + " seconds");
         _lowestRPM = this.getRPM();
-        _ballsShot++;
       }
 
       _wasInRpmRangeLastCycle = true;
     }
-  }
-
-  public void resetBallsShot() {
-    _ballsShot = -1;
-  }
-
-  public int getBallsShot() {
-    return _ballsShot;
-  }
+  } */
 
   public boolean readyToShoot() {
     boolean overrideIsFalse = !Robot.OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE);

@@ -25,8 +25,8 @@ public class ShooterRevCommand extends CommandBase {
   @Override
   public void initialize() {
     System.out.println("ShooterRevCommand Initialized!!");
-    this._timer.reset();
-    this._timer.start();
+    _timer.reset();
+    _timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -34,10 +34,10 @@ public class ShooterRevCommand extends CommandBase {
   public void execute() {
     Robot.SHOOTER_SUBSYSTEM.rev();
     if (Robot.SHOOTER_SUBSYSTEM.getIsInRpmRange()) {
-      this._timeTakenToRev = this._timer.get();
+      _timeTakenToRev = _timer.get();
       _timer.stop();
     }
-    SmartDashboard.putNumber("secondsToRev", this._timeTakenToRev);
+    SmartDashboard.putNumber("secondsToRev", _timeTakenToRev);
     // System.out.println("REVVING_SHOOTER!!!");
   }
 
@@ -48,6 +48,6 @@ public class ShooterRevCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Robot.SHOOTER_SUBSYSTEM.resetBallsShot();
+    Robot.SHOOTER_SUBSYSTEM.rpmManager.resetBallCount();
   }
 }
