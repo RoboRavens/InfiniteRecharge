@@ -119,6 +119,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopShooter() {
     _shooterMotor.set(ControlMode.PercentOutput, 0);
+    Robot.COMPRESSOR_SUBSYSTEM.start();
   }
 
   public void printShooterSpeeds() {
