@@ -23,7 +23,7 @@ public class Calibrations {
 	// normal operation.
 
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
-	public static final double CUT_POWER_MODE_TURN_RATIO = .5;
+	public static final double CUT_POWER_MODE_TURN_RATIO = .4;
 	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .015;
 	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .0015;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
@@ -31,7 +31,7 @@ public class Calibrations {
 	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 3;
 	public static final boolean DRIVE_TRAIN_STARTING_IS_IN_HIGH_GEAR = false;
 
-	public static final double TURN_FEED_FORWARD_MAGNITUDE = .18;
+	public static final double TURN_FEED_FORWARD_MAGNITUDE = .14;
 	public static final double TRANSLATION_FEED_FORWARD_MAGNITUDE = .1;
 
 	// .35 is for minibot
@@ -271,7 +271,8 @@ public class Calibrations {
 	public static final double MINIMUM_DISTANCE_FROM_LIMELIGHT = 46.0;
 	public static final double MAXIMUM_DISTANCE_FROM_LIMELIGHT = 240.0;
 	public static final double LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES = 6.25;
-	public static final int DESIRED_TARGET_BUFFER = 3;
+	public static final int LIMELIGHT_ANGLE_ACCEPTABLE_BUFFER_DEGREES_OVER_TWO = 3;
+	public static final double LIMELIGHT_ANGLE_TURN_BUFFER_DEGREES_OVER_TWO = 2.5;
 
 	// LIGHTING
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;

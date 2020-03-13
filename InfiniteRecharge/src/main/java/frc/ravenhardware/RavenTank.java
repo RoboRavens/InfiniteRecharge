@@ -148,9 +148,12 @@ public class RavenTank {
 			translation *= Calibrations.CUT_POWER_MODE_MOVEMENT_RATIO;
 		}
 
-		double gyroAdjust = getStaticGyroAdjustment();
+		// double gyroAdjust = getStaticGyroAdjustment();
+		double gyroAdjust = getLimelightGyroAdjustment(translation);
 		double leftFinal = translation * -1 - gyroAdjust;
 		double rightFinal = translation - gyroAdjust;
+
+		System.out.println("DRIVE: LS: " + leftFinal + " RS: " + rightFinal);
 
 		this.driveLeftSide(leftFinal);
 		this.driveRightSide(rightFinal);
@@ -463,6 +466,25 @@ public class RavenTank {
 		gyroAdjust *= _gyroAdjustmentScaleFactor;
 
 		return gyroAdjust;
+	}
+
+	public double getLimelightGyroAdjustment(double translation) {
+		double baseGyroAdjust = this.getStaticGyroAdjustment();
+		double angleOffHorizontal = Robot.LIMELIGHT_SUBSYSTEM.getBufferedAngleOffHorizontal();
+
+		// Only use the minimum-bounded turning logic when we're sitting still. (For now at least.)
+		if (translation == 0) {
+			if (Math.abs(angleOffHorizontal) > Calibrations.LIMELIGHT_ANGLE_TURN_BUFFER_DEGREES_OVER_TWO) {
+				// Turn feed forward magnitude is the minimum output that is required to turn the robot. It is very hard to overshoot
+				// even a small buffer when turning at minimum speed, so we can use bang-bang control with this value and a buffer.
+				if (Math.abs(baseGyroAdjust) < Calibrations.TURN_FEED_FORWARD_MAGNITUDE) {
+					// Math.copySign retains the sign of baseGyroAdjust even when we change its magnitude.
+					baseGyroAdjust = Math.copySign(Calibrations.TURN_FEED_FORWARD_MAGNITUDE, baseGyroAdjust);
+				}
+			}
+		}
+
+		return baseGyroAdjust;
 	}
 
 	public double getCurrentHeading() {
