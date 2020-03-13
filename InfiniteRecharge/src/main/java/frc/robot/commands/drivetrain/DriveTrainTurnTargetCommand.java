@@ -36,7 +36,7 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
+    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.LIMELIGHT_ANGLE_ACCEPTABLE_BUFFER_DEGREES_OVER_TWO) {
       isFinished = true;
     }
     return isFinished;
