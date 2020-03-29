@@ -5,26 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.drivetrain;
+package frc.robot.commands.turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.Calibrations;
 
-public class DriveTrainTurnTargetCommand extends CommandBase {
+public class TurretTurnToTargetCommand extends CommandBase {
 
-  public DriveTrainTurnTargetCommand() {
-    addRequirements(Robot.LIMELIGHT_SUBSYSTEM);
+  public TurretTurnToTargetCommand() {
+    addRequirements(Robot.TURRET_SUBSYSTEM, Robot.LIMELIGHT_SUBSYSTEM);
   }
 
   // Called just before this Command runs the first time
   public void initialize() {
-    // System.out.println("DriveTrainTurnTargetCommand init");
+    System.out.println("TurretTurnToTargetCommand init");
   }
 
   // Called repeatedly when this Command is scheduled to run
   public void execute() {
-    Robot.LIMELIGHT_SUBSYSTEM.turnToTarget();
+    Robot.LIMELIGHT_SUBSYSTEM.turnToTargetTurret();
   }
 
   // Called once the command ends or is interrupted.
@@ -36,7 +36,7 @@ public class DriveTrainTurnTargetCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     boolean isFinished = false;
-    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TARGET_BUFFER) {
+    if (Robot.LIMELIGHT_SUBSYSTEM.angleOffHorizontal() <= Calibrations.DESIRED_TURRET_TARGET_BUFFER) {
       isFinished = true;
     }
     return isFinished;

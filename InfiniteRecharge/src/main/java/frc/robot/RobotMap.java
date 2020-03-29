@@ -20,6 +20,8 @@ public class RobotMap {
 	public static final int CLIMBER_MOTOR_1 = 51;
 	public static final int CLIMBER_MOTOR_2 = 52;
 
+	public static final int TURRET_MOTOR = 61;
+
 	// PCM
 	public static final int INTAKE_EXTEND_SOLENOID = 0;
 	public static final int INTAKE_RETRACT_SOLENOID = 1;

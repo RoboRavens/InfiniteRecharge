@@ -107,7 +107,7 @@ public class LimelightSubsystem extends SubsystemBase {
 		double angle = angleOffHorizontal();
 		// System.out.print(" LL Angle: " + Math.round(angle));
 		if (this.hasTarget()) {
-			if (angle > -Calibrations.DESIRED_TARGET_BUFFER && angle < Calibrations.DESIRED_TARGET_BUFFER) {
+			if (angle > -Calibrations.DESIRED_DRIVETRAIN_TARGET_BUFFER && angle < Calibrations.DESIRED_DRIVETRAIN_TARGET_BUFFER) {
 				return true;
 			} else {
 				return false;
@@ -117,10 +117,19 @@ public class LimelightSubsystem extends SubsystemBase {
 		}
 	}
 
-	public void turnToTarget() {
+	public void turnToTargetDrivetrain() {
 		Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank
 				.setGyroTargetHeading(Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCurrentHeading()
 						+ this.bufferedAngleOffHorizontal.getMedian());
+	}
+
+	public void turnToTargetTurret() {
+		if (angleOffHorizontal() < 0) {
+			Robot.TURRET_SUBSYSTEM.rotateRight();
+		}
+		if (angleOffHorizontal() > 0) {
+			Robot.TURRET_SUBSYSTEM.rotateLeft();
+		}
 	}
 
 	public void driveToTarget(double distanceDesiredFromTarget) {

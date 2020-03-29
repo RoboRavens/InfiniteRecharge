@@ -119,6 +119,7 @@ public class Calibrations {
 	public static final double RAMSETE_B = 2;
 	public static final double RAMSETE_ZETA = 0.7;
 
+
 	// CLIMBER
 	public static final double CLIMBER_HOLD_POSITION_POWER_MAGNITUDE = 0; // .13
 	public static final double CLIMBER_EXTEND_POWER_MAGNITUDE = 1;
@@ -149,10 +150,12 @@ public class Calibrations {
 
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
+
 	// INTAKE
 	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .5; // 1
 	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
+
 
 	// HOPPER
 	public static final double HOPPER_LEFT_FORWARD = 0.5;
@@ -175,6 +178,7 @@ public class Calibrations {
 	public static final double CONVEYANCE_STOP = 0;
 	public static final double CONVEYANCE_SAFETY_TIMER_TIMEOUT = 5;
 	public static final double CONVEYANCE_FEEDER_SPEED_SLOW = -.2;
+
 
 	// SHOOTER
 	public static final int INIT_LINE_RPM = 4625; // actual is 4600
@@ -228,6 +232,12 @@ public class Calibrations {
 	public static final int RPM_BALL_COUNT_LIST_SIZE = 10;
 	public static final int ACCEPTABLE_RPM_DROP_TO_COUNT_SHOT = 250; // TODO: test this
 
+
+	// TURRET
+	public static final double ROTATION_RIGHT_MAGNITUDE = 0.4;
+	public static final double ROTATION_LEFT_MAGNITUDE = -0.4;
+
+
 	// Current Limiting
 	public static final int LIMIT_DRIVE_AMPS = 10;
 	public static final int CONVEYANCE_FEEDER_LIMIT = 40;
@@ -264,6 +274,8 @@ public class Calibrations {
 	 * either direction: velocity setpoint is in units/100ms
 	 */
 
+
+
 	// LIMELIGHT
 	public static final double FLOOR_TO_LIMELIGHT_LENS_HEIGHT = 19.5;
 	public static final double FLOOR_TO_TARGET_CENTER_HEIGHT = 28.0;
@@ -271,14 +283,18 @@ public class Calibrations {
 	public static final double MINIMUM_DISTANCE_FROM_LIMELIGHT = 46.0;
 	public static final double MAXIMUM_DISTANCE_FROM_LIMELIGHT = 240.0;
 	public static final double LIMELIGHT_LENS_TO_ROBOT_CENTER_OFFSET_INCHES = 6.25;
-	public static final int DESIRED_TARGET_BUFFER = 3;
+	public static final int DESIRED_DRIVETRAIN_TARGET_BUFFER = 3;
+	public static final int DESIRED_TURRET_TARGET_BUFFER = 1;
+
 
 	// LIGHTING
 	public static final double LIGHTING_FLASH_TOTAL_DURATION_MS = 1000;
 	public static final double LIGHTING_FLASHES = 10;
 
+
 	// n CAMERA QUALITY
 	public static final int CAMERA_QUALITY = 50;
+
 
 	// CONTROLLER RUMBLE
 	public static final double GAME_PIECE_COLLECTED_RUMBLE_SECONDS = .25;

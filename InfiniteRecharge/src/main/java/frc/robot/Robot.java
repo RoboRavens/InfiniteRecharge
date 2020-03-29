@@ -37,7 +37,7 @@ import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
 import frc.robot.commands.conveyance.ConveyanceSlowFeedCommand;
-import frc.robot.commands.drivetrain.DriveTrainTurnTargetCommand;
+import frc.robot.commands.drivetrain.DriveTrainTurnToTargetCommand;
 import frc.robot.commands.hopper.HopperAgitateCommand;
 import frc.robot.commands.intake.IntakeExtendAndCollectCommand;
 import frc.robot.commands.powercells.ReadyToShootCommandGroup;
@@ -58,6 +58,7 @@ import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TurretSubsystem;
 import frc.util.LoggerOverlord;
 import frc.util.OverrideSystem;
 
@@ -82,6 +83,7 @@ public class Robot extends TimedRobot {
   public static final IntakeSubsystem INTAKE_SUBSYSTEM = new IntakeSubsystem();
   public static final LimelightSubsystem LIMELIGHT_SUBSYSTEM = new LimelightSubsystem();
   public static final ShooterSubsystem SHOOTER_SUBSYSTEM = new ShooterSubsystem();
+  public static final TurretSubsystem TURRET_SUBSYSTEM = new TurretSubsystem();
 
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_EXTEND = new OverrideSystem();
   public static final OverrideSystem OVERRIDE_SYSTEM_CLIMBER_RETRACT = new OverrideSystem();
@@ -111,7 +113,7 @@ public class Robot extends TimedRobot {
 
   public ConveyanceShootWhileHeldCommand conveyanceShootWhileHeld = new ConveyanceShootWhileHeldCommand();
 
-  public DriveTrainTurnTargetCommand turnTarget = new DriveTrainTurnTargetCommand();
+  public DriveTrainTurnToTargetCommand TurnToTarget = new DriveTrainTurnToTargetCommand();
 
   public CompressorTurnOffWhileShootingCommand compressorOffWhenShooting = new CompressorTurnOffWhileShootingCommand();
 
@@ -137,6 +139,7 @@ public class Robot extends TimedRobot {
     HOPPER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> HOPPER_SUBSYSTEM.defaultCommand(), HOPPER_SUBSYSTEM));
     INTAKE_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> INTAKE_SUBSYSTEM.defaultCommand(), INTAKE_SUBSYSTEM));
     SHOOTER_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> SHOOTER_SUBSYSTEM.defaultCommand(), SHOOTER_SUBSYSTEM));
+    TURRET_SUBSYSTEM.setDefaultCommand(new RunCommand(() -> TURRET_SUBSYSTEM.defaultCommand(), TURRET_SUBSYSTEM));
   }
 
   @Override
@@ -197,7 +200,7 @@ public class Robot extends TimedRobot {
     if (DRIVE_CONTROLLER.getAxis(AxisCode.LEFTTRIGGER) > .25) {
       Robot.LIMELIGHT_SUBSYSTEM.turnLEDOn();
       // System.out.println("TURNING TO TARGET");
-      turnTarget.schedule();
+      TurnToTarget.schedule();
     }
     
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.LEFTBUMPER).whileHeld(shootWhenReady);
