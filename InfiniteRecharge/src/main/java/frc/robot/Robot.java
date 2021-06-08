@@ -24,8 +24,13 @@ import frc.controls.Gamepad;
 import frc.controls.OperationPanel;
 import frc.controls.OperationPanel2;
 import frc.ravenhardware.RavenBlinkin;
+import frc.robot.commands.autonomous.AutoNavBarrelAutonomousCommand;
+import frc.robot.commands.autonomous.AutoNavBounceAutonomousCommand;
+import frc.robot.commands.autonomous.AutoNavSlalomAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAndShootAutonomousCommand;
 import frc.robot.commands.autonomous.DriveAutonomousCommand;
+import frc.robot.commands.autonomous.GalacticSearchDrivePathAWithIntakeAutonomousCommand;
+import frc.robot.commands.autonomous.GalacticSearchDrivePathBWithIntakeAutonomousCommand;
 import frc.robot.commands.autonomous.NamedAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
@@ -253,9 +258,17 @@ public class Robot extends TimedRobot {
   }
 
   private void setupAutonomousCommands() {
-    autonomousChooser.setDefaultOption("Drive and Shoot",
-        new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
-    autonomousChooser.addOption("Six Ball Centered",
+    autonomousChooser.setDefaultOption("IR@Home Default",
+        new NamedAutonomousCommand("IR@Home Default", GalacticSearchDrivePathBWithIntakeAutonomousCommand.GenerateCommand()));
+    
+    
+    
+    //autonomousChooser.setDefaultOption("Drive and Shoot",
+    //    new NamedAutonomousCommand("Drive and Shoot", DriveAndShootAutonomousCommand.GenerateCommand()));
+    
+    
+    
+        autonomousChooser.addOption("Six Ball Centered",
         new NamedAutonomousCommand("Six Ball Centered", SixBallCenteredAutonomousCommand.GenerateCommand()));
     autonomousChooser.addOption("Six Ball Side",
         new NamedAutonomousCommand("Six Ball Side", SixBallSideAutonomousCommand.GenerateCommand()));

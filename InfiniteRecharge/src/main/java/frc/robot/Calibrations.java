@@ -10,8 +10,8 @@ public class Calibrations {
 	// testing
 	// is necessary - might turn it up or down slightly for increased performance.
 	// public static final double slewRate = .2;
-	public static final double SLEW_RATE_MINIMUM = .08;
-	public static final double SLEW_RATE_MAXIMUM = .08;
+	public static final double SLEW_RATE_MINIMUM = 1;//.08;
+	public static final double SLEW_RATE_MAXIMUM = 1;//.08;
 
 	// The safe slew rate changes based upon a few variables:
 	// - What gear we are in
@@ -24,8 +24,8 @@ public class Calibrations {
 
 	public static final double CUT_POWER_MODE_MOVEMENT_RATIO = .3;
 	public static final double CUT_POWER_MODE_TURN_RATIO = .4;
-	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .015;
-	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .0015;
+	public static final double GYRO_ADJUSTMENT_DEFAULT_SCALE_FACTOR = .01;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_GYRO_ADJUSTMENT_SCALE_FACTOR = .01;
 	public static final double GYRO_COOLDOWN_TIMER_TIME = .5;
 	public static final double TRANSLATION_MAX_TURN_SCALING = .5;
 	public static final double GYRO_AUTO_TURN_ACCEPTABLE_ERROR_DEGREES = 3;
@@ -55,8 +55,8 @@ public class Calibrations {
 
 	// Any turn taking too long to complete (e.g. wheel scrub has halted the turn)
 	// will abandon after this number of seconds.
-	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS = 1;
-	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
+	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS = 1.5;
+	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 12;
 
 	// Deadband
 	public static final double DEAD_BAND_MAGNITUDE = .2;
@@ -150,7 +150,7 @@ public class Calibrations {
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	// INTAKE
-	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .5; // 1
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = 1; // 1
 	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
@@ -183,7 +183,7 @@ public class Calibrations {
 	public static final double I_SHOOTER_KI = 0.0;
 	public static final double I_SHOOTER_KD = 0.0; */
 	public static final double I_SHOOTER_KF = 0.0087;
-	public static final double I_SHOOTER_KP = 0.11;
+	public static final double I_SHOOTER_KP = 0.115;
 	public static final double I_SHOOTER_KI = 0.0;
 	public static final double I_SHOOTER_KD = 0.0;
 	public static final int I_UPPER_BOUND_RPM_BUFFER = 20;
@@ -191,7 +191,7 @@ public class Calibrations {
     public static final double INIT_LINE_RPM_READY_TIMER_DURATION = 0.25;
     public static final double INIT_LINE_CONVEYANCE_MAGNITUDE = 0.65;
 
-	public static final int CLOSE_TRENCH_SHOT_RPM = 5130; // actual is 5140
+	public static final int CLOSE_TRENCH_SHOT_RPM = 5500; // actual is 5140
 	public static final double C_SHOOTER_KF = 0.0082;
 	public static final double C_SHOOTER_KP = 0.15;
 	public static final double C_SHOOTER_KI = 0.0;
