@@ -17,16 +17,22 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Robot;
 
 public class PathweaverTrajectoryTest {
-  public static Trajectory GetPathweaverTrajectoryForAuto() {
+  public static Trajectory GetPathweaverTrajectoryForAuto(String name) {
     try {
       var trajectory = TrajectoryUtil
-          .fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + "Line" + ".wpilib.json"));
+          .fromPathweaverJson(Paths.get("/home/lvuser/deploy/output/" + name + ".wpilib.json"));
       return Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.reverseTrajectory(trajectory);
     } catch (IOException e) {
       e.printStackTrace();
     }
 
     return null;
+  }
+
+  public static Command GetPathweaverTrajectory() {
+    var trajectory = GetPathweaverTrajectoryForAuto("Auto1_A_F");
+    var trajectoryCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(trajectory);
+    return trajectoryCommand;
   }
 
   public static Command GetReversePathweaverTrajectoryTest() {
