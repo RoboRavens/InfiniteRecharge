@@ -152,7 +152,7 @@ public class Calibrations {
 
 
 	// INTAKE
-	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = .5; // 1
+	public static final double INTAKE_COLLECT_POWER_MAGNITUDE = 1;
 	public static final double INTAKE_SPIT_POWER_MAGNITUDE = -1;
 	public static final double AXIS_IS_PRESSED_VALUE = .25;
 
