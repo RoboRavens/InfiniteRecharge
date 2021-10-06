@@ -58,6 +58,12 @@ public class ClimberSubsystem extends SubsystemBase {
 	}
 
 	public void periodic() {
+		System.out.println("Climber motor 1 Vel:" + _climberMotor.getSelectedSensorVelocity() + " Climber motor 2 Vel:" + _climberMotor2.getSelectedSensorVelocity());
+		System.out.println("Climber motor 1 Pos:" + _climberMotor.getSelectedSensorPosition() + " Climber motor 2 Pos:" + _climberMotor2.getSelectedSensorPosition());
+		
+		// _shooterMotor.getSelectedSensorVelocity();
+		// System.out.println(_climberMotor. );
+
 		/*
 		 * SmartDashboard.putBoolean("Left Climber Is At Extension Limit",
 		 * this.leftMotorIsAtExtensionLimit());

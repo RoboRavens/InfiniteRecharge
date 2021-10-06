@@ -123,7 +123,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void printShooterSpeeds() {
-    System.out.println("UnitsPer100ms: " + getVelocity() + ". RPM: " + getRPM());
+    // System.out.println("UnitsPer100ms: " + getVelocity() + ". RPM: " + getRPM());
   }
 
   public int getVelocity() {
