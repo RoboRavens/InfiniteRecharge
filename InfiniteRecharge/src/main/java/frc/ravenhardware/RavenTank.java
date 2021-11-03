@@ -213,11 +213,11 @@ public class RavenTank {
 		double currentJerkX = currentAccelerationX - _lastAccelerationX;
 		double currentJerkY = currentAccelerationY - _lastAccelerationY;
 
-		System.out.println("X Jerk: " + currentJerkX + " Y Jerk: " + currentJerkY);
+//		System.out.println("X Jerk: " + currentJerkX + " Y Jerk: " + currentJerkY);
 	}
 
 	public void outputHighestJerk() {
-		System.out.println("Highest X Jerk: " + _highestJerkX + " Highest Y Jerk: " + _highestJerkY);
+		// System.out.println("Highest X Jerk: " + _highestJerkX + " Highest Y Jerk: " + _highestJerkY);
 	}
 
 	public void stopAndWait() {
@@ -352,6 +352,7 @@ public class RavenTank {
 
 		double ffAdjustedInput = squaredInputPercentageOfMoveableRange + ffDifference;
 
+		/*
 		if (tuning) {
 			System.out.print("Turn vals: turn: " + (double) Math.round(input * 100) / 100);
 			System.out.print(" in-DB: " + (double) Math.round(inputMinusDeadband * 100) / 100);
@@ -361,6 +362,7 @@ public class RavenTank {
 			System.out.print(" sq%ofMR: " + (double) Math.round(squaredInputPercentageOfMoveableRange * 100) / 100);
 			System.out.println(" ffAdj: " + (double) Math.round(ffAdjustedInput * 100) / 100);
 		}
+		*/
 
 		if (input == 0) {
 			ffAdjustedInput = 0;
@@ -573,14 +575,14 @@ public class RavenTank {
 		// _odometry.resetPosition(new Pose2d(new Translation2d(3, 0),
 		// Rotation2d.fromDegrees(getHeading())), Rotation2d.fromDegrees(getHeading()));
 		_odometry.resetPosition(new Pose2d(), Rotation2d.fromDegrees(getHeading()));
-		System.out.println("RESETTING ODOMETRY");
+		// System.out.println("RESETTING ODOMETRY");
 	}
 
 	public void setOdometry(Pose2d start) {
 		// for now assume it starts at 0 rad heading
 		this.resetDriveEncoders();
 		_odometry.resetPosition(start, Rotation2d.fromDegrees(getHeading()));
-		System.out.println("SSSSSSSSSSSSSSSSSSSSETTING ODOMETRY");
+//		System.out.println("SSSSSSSSSSSSSSSSSSSSETTING ODOMETRY");
 	}
 
 	public void tankDriveVolts(double left, double right) {

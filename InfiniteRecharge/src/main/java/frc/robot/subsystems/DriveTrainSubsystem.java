@@ -28,6 +28,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
 		SmartDashboard.putNumber("EncoderRightInchesTraveled", ravenTank.getRightNetInchesTraveled());
 		SmartDashboard.putNumber("EncoderLeftInchesTraveled", ravenTank.getLeftNetInchesTraveled());
 
+
+		//SmartDashboard.putNumber("EncoderRightInchesTraveled", ravenTank.getRightNetInchesTraveled());
+		// System.out.println("Left inches: " + ravenTank.getLeftNetInchesTraveled());
+		// System.out.println("Right inches: " + ravenTank.getRightNetInchesTraveled());
+
+
 		double slewRate = Calibrations.SLEW_RATE_MAXIMUM;
 		slewRate = Math.max(Calibrations.SLEW_RATE_MINIMUM, slewRate);
 		_slewRateFinal = Math.min(Calibrations.SLEW_RATE_MAXIMUM, slewRate);

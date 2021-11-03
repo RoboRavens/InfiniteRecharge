@@ -52,7 +52,7 @@ public class BufferedValue {
 
 	public void traverse() {
 		for (double value : values) {
-			System.out.print(value + " ");
+			// System.out.print(value + " ");
 		}
 	}
 

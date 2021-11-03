@@ -31,8 +31,10 @@ import frc.robot.commands.autonomous.SixBallCenteredAutonomousCommand;
 import frc.robot.commands.autonomous.SixBallSideAutonomousCommand;
 import frc.robot.commands.climber.ClimberExtendFullyCommand;
 import frc.robot.commands.climber.ClimberExtendWhileHeldCommand;
+import frc.robot.commands.climber.ClimberExtendWithEncoderCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
+import frc.robot.commands.climber.ClimberRetractWithEncoderCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
@@ -68,7 +70,7 @@ public class Robot extends TimedRobot {
 
   public DriverStation driverStation;
   public PowerDistributionPanel PDP = new PowerDistributionPanel();
-  public RavenBlinkin ravenBlinkin;
+  // private RavenBlinkin ravenBlinkin;
 
   public static final LoggerOverlord LOGGER_OVERLORD = new LoggerOverlord(1f);
   public static final Gamepad DRIVE_CONTROLLER = new Gamepad(0);
@@ -101,9 +103,9 @@ public class Robot extends TimedRobot {
   public ConveyanceReverseCommand conveyanceReverse = new ConveyanceReverseCommand();
   public HopperAgitateCommand hopperAgitate = new HopperAgitateCommand();
   public ClimberRetractWhileHeldCommand climberRetract = new ClimberRetractWhileHeldCommand();
-  public ClimberRetractFullyCommand climberRetractFully = new ClimberRetractFullyCommand();
+  public ClimberRetractWithEncoderCommand climberRetractFully = new ClimberRetractWithEncoderCommand();
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
-  public ClimberExtendFullyCommand climberExtendFully = new ClimberExtendFullyCommand();
+  public ClimberExtendWithEncoderCommand climberExtendFully = new ClimberExtendWithEncoderCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
@@ -185,6 +187,14 @@ public class Robot extends TimedRobot {
     // OPERATION_PANEL.getButtonValue(ButtonCode.SHOOTING_MODE_OVERRIDE));
     // System.out.println(" RPM: " + SHOOTER_SUBSYSTEM.getRPM());
     // System.out.println(" RTS: " + SHOOTER_SUBSYSTEM.readyToShoot());
+
+    if (OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).get()) {
+      System.out.println("CLIMBER OVERRIDE ACTIVATED");
+      CLIMBER_SUBSYSTEM.setOverrideOn();
+    }
+    else {
+      CLIMBER_SUBSYSTEM.setOverrideOff();
+    }
     
     // DRIVE_TRAIN_SUBSYSTEM.ravenTank.logPose();
     Robot.LIMELIGHT_SUBSYSTEM.turnLEDOff();
@@ -207,6 +217,7 @@ public class Robot extends TimedRobot {
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(intakeAndCollect);
     Robot.DRIVE_CONTROLLER.getButton(ButtonCode.RIGHTBUMPER).whileHeld(conveyanceSlowFeed);
 
+    /*
     if (Timer.getMatchTime() == 60) {
       ravenBlinkin.flashGreen();
     } else if (Timer.getMatchTime() == 30) {
@@ -214,10 +225,12 @@ public class Robot extends TimedRobot {
     } else if (Timer.getMatchTime() == 15) {
       ravenBlinkin.flashRed();
     }
+    */
+    
   }
 
   public void setupOperationPanel() {
-    System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
+    // System.out.println("Operation PANEL CONFIGURED!!! Operation PANEL CONFIGURED!!!");
 
     Robot.OPERATION_PANEL.getButton(ButtonCode.READYTOSHOOT).whileHeld(readyToShoot);
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV)
@@ -236,7 +249,7 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(hopperAgitate);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInit);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCLOSECONTROLPANEL).whenPressed(setShotCloseTrench);
-    Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).whenPressed(setShotFarTrench);
+    // Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).whenPressed(setShotFarTrench);
   }
 
   private void setupDriveController() {

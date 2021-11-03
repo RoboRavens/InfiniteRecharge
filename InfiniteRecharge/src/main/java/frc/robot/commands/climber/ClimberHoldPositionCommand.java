@@ -12,13 +12,13 @@ public class ClimberHoldPositionCommand extends CommandBase {
 
 	// Called just before this Command runs the first time
 	public void initialize() {
-		System.out.println("ClimberHoldPositionCommand init");
+		//System.out.println("ClimberHoldPositionCommand init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	public void execute() {
 		// This fights against the constant force springs keeping the climber extended.
-		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit() == false) {
+		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimitLimitSwitchVersion() == false) {
 			Robot.CLIMBER_SUBSYSTEM.holdPosition();
 		} else {
 			Robot.CLIMBER_SUBSYSTEM.stop();

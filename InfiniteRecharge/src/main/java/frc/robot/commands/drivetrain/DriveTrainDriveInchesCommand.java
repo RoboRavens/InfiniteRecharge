@@ -36,8 +36,8 @@ public class DriveTrainDriveInchesCommand extends CommandBase {
 
 	// Called just before this Command runs the first time
 	public void initialize() {
-		System.out.println("DriveTrainDriveInchesCommand init");
-		System.out.println("RT NIT:" + Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled());
+		//System.out.println("DriveTrainDriveInchesCommand init");
+		//System.out.println("RT NIT:" + Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled());
 		_driveTrainNetInchesTraveledAtStart = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getAvgNetInchesTraveled();
 		_timeoutTimer.start();
 	}

@@ -56,7 +56,7 @@ public class Calibrations {
 	// Any turn taking too long to complete (e.g. wheel scrub has halted the turn)
 	// will abandon after this number of seconds.
 	public static final double DRIVE_TRAIN_TURN_RELATIVE_DEGREES_SAFETY_TIMER_SECONDS = 1;
-	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 3;
+	public static final double DRIVE_TRAIN_DRIVE_INCHES_SAFETY_TIMER_SECONDS = 12;
 
 	// Deadband
 	public static final double DEAD_BAND_MAGNITUDE = .2;
@@ -220,14 +220,16 @@ public class Calibrations {
 	public static final double VEL_TO_RPM = 8192 / 600;
 	public static final double RPM_TO_VEL = 1 / VEL_TO_RPM;
 
-	public static final ShooterCalibration INIT_LINE = new ShooterCalibration("Initiation Line", INIT_LINE_RPM,
-			I_SHOOTER_KF, I_SHOOTER_KP, I_SHOOTER_KI, I_SHOOTER_KD, I_UPPER_BOUND_RPM_BUFFER, I_LOWER_BOUND_RPM_BUFFER, INIT_LINE_RPM_READY_TIMER_DURATION, INIT_LINE_CONVEYANCE_MAGNITUDE);
+//	public static final ShooterCalibration INIT_LINE = new ShooterCalibration("Initiation Line", INIT_LINE_RPM,
+//			I_SHOOTER_KF, I_SHOOTER_KP, I_SHOOTER_KI, I_SHOOTER_KD, I_UPPER_BOUND_RPM_BUFFER, I_LOWER_BOUND_RPM_BUFFER, INIT_LINE_RPM_READY_TIMER_DURATION, INIT_LINE_CONVEYANCE_MAGNITUDE);
 	public static final ShooterCalibration CLOSE_TRENCH = new ShooterCalibration("Close Trench", CLOSE_TRENCH_SHOT_RPM,
 			C_SHOOTER_KF, C_SHOOTER_KP, C_SHOOTER_KI, C_SHOOTER_KD, C_UPPER_BOUND_RPM_BUFFER, C_LOWER_BOUND_RPM_BUFFER, TRENCH_RPM_READY_TIMER_DURATION, TRENCH_CONVEYANCE_MAGNITUDE);
 	public static final ShooterCalibration FAR_TRENCH = new ShooterCalibration("Far Trench", FAR_TRENCH_SHOT_RPM,
 			F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER, DJ_BOOTH_RPM_READY_TIMER_DURATION, DJ_BOOTH_CONVEYANCE_MAGNITUDE);
 
-	public static final double AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT = 3;
+	public static final ShooterCalibration INIT_LINE = Calibrations.CLOSE_TRENCH;
+
+	public static final double AUTONOMOUS_SHOOTER_3_BALL_TIMEOUT = 6;
 
 	public static final int RPM_BALL_COUNT_LIST_SIZE = 10;
 	public static final int ACCEPTABLE_RPM_DROP_TO_COUNT_SHOT = 250; // TODO: test this
