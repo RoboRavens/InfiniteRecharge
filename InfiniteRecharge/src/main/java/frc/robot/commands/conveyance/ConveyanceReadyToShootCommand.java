@@ -24,15 +24,16 @@ public class ConveyanceReadyToShootCommand extends CommandBase {
   public void initialize() {
     _safetyTimer.reset();
     _safetyTimer.start();
-    System.out.println("ConveyanceReadyToShootCommand initialized");
+    //System.out.println("ConveyanceReadyToShootCommand initialized");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("NOT TRIGGERED BY BALL YET");
+    //System.out.println("NOT TRIGGERED BY BALL YET");
     // Robot.CONVEYANCE_SUBSYSTEM.pistonBlock();
-    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+//    Robot.CONVEYANCE_SUBSYSTEM.wheelStop();
+    Robot.CONVEYANCE_SUBSYSTEM.feederWheelForward();
     Robot.CONVEYANCE_SUBSYSTEM.setBeltNormalSpeedForward();
   }
 

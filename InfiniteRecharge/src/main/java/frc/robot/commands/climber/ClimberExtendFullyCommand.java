@@ -11,7 +11,7 @@ public class ClimberExtendFullyCommand extends CommandBase {
 
 	// Called just before this Command runs the first time
 	public void initialize() {
-		System.out.println("ClimberExtendFullyCommand init");
+		//System.out.println("ClimberExtendFullyCommand init");
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -29,8 +29,8 @@ public class ClimberExtendFullyCommand extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimit()) {
-			System.out.println("ClimberExtendFullyCommand finished");
+		if (Robot.CLIMBER_SUBSYSTEM.isAtExtensionLimitLimitSwitchVersion()) {
+			//System.out.println("ClimberExtendFullyCommand finished");
 			Robot.CLIMBER_SUBSYSTEM.stop();
 			return true;
 		}

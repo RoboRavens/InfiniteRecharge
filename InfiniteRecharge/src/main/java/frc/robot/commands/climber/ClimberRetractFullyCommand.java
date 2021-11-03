@@ -29,7 +29,7 @@ public class ClimberRetractFullyCommand extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimit()) {
+		if (Robot.CLIMBER_SUBSYSTEM.isAtRetractionLimitLimitSwitchVersion()) {
 			System.out.println("ClimberRetractFullyCommand finished");
 			Robot.CLIMBER_SUBSYSTEM.stop();
 			return true;
