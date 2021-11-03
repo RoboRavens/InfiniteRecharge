@@ -12,12 +12,16 @@ import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.util.ClimberCalibration;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 public class ClimberSubsystem extends SubsystemBase {
 	private TalonSRX _climberMotor;
 	private TalonSRX _climberMotor2;
+
+	private ShooterCalibration _shot = Calibrations.INIT_LINE;
 
 	public ClimberSubsystem() {
 
@@ -73,7 +77,8 @@ public class ClimberSubsystem extends SubsystemBase {
 		 * this.rightMotorIsAtExtensionLimit());
 		 * SmartDashboard.putBoolean("Right Climber Is At Retraction Limit",
 		 * this.rightMotorIsAtRetractionLimit());
-		 */ }
+		 */ 
+		}
 
 	public void stop() {
 		_climberMotor.set(ControlMode.PercentOutput, 0);
@@ -107,6 +112,19 @@ public class ClimberSubsystem extends SubsystemBase {
 	public void holdPosition() {
 		_climberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 		_climberMotor2.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+	}
+
+	public void setTargetHeight(ClimberCalibration target) {
+		_target = target;
+		_climberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_climberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_climberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_climberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
+
+		_climberMotor2.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_climberMotor2.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_climberMotor2.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_climberMotor2.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
 	}
 
 	public void defaultCommand() {
