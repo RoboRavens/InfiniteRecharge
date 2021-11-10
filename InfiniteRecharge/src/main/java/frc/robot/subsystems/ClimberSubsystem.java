@@ -12,6 +12,7 @@ import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.TalonSRXConstants;
 import frc.util.ClimberCalibration;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -42,7 +43,7 @@ public class ClimberSubsystem extends SubsystemBase {
 	private int defaultEncoderAccuracyRange = encoderAccuracyRange;
 
 
-	private ShooterCalibration _shot = Calibrations.INIT_LINE;
+	private ClimberCalibration _target;// = Calibrations.INIT_LINE;
 
 	public ClimberSubsystem() {
 
@@ -256,15 +257,15 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 
 	public void setTargetHeight(ClimberCalibration target) {
 		_target = target;
-		_climberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
-		_climberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
-		_climberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
-		_climberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
 
-		_climberMotor2.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
-		_climberMotor2.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
-		_climberMotor2.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
-		_climberMotor2.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
 	}
 
 	public void defaultCommand() {

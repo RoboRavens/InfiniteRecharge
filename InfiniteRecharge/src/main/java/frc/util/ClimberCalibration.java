@@ -20,7 +20,7 @@ public class ClimberCalibration {
     public double heightReadyTimerDuration;
     public double conveyanceMagnitude;
 
-    public ShooterCalibration(String name, int height, double kF, double kP, double kI, double kD, int upperBoundBuffer, int lowerBoundBuffer, double heightReadyTimerDuration, double conveyanceMagnitude) {
+    public ClimberCalibration(String name, int height, double kF, double kP, double kI, double kD, int upperBoundBuffer, int lowerBoundBuffer, double heightReadyTimerDuration, double conveyanceMagnitude) {
         this.name = name;
         this.targetHeight = height;
         this.kF = kF;
