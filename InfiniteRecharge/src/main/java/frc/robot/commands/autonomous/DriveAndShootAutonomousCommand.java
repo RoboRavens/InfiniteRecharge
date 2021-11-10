@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
+import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
 // import frc.robot.commands.drivetrain.DriveTrainDriveInchesCommand;
 import frc.robot.commands.shooter.ShooterAutonomousShootCommand;
 
@@ -27,7 +28,8 @@ public class DriveAndShootAutonomousCommand {
     var drive2FeetCommand = Robot.DRIVE_TRAIN_SUBSYSTEM.ravenTank.getCommandForTrajectory(drive2FeetTrajectory); 
 
     return new SequentialCommandGroup(new ShooterAutonomousShootCommand(),
-        // new DriveTrainDriveInchesCommand(24, .25, Calibrations.DRIVING_FORWARD));
-        drive2FeetCommand);
+        new DriveTrainDriveInchesCommand(24, .25, Calibrations.DRIVING_FORWARD));
+        // drive2FeetCommand
+        // );
   }
 }
