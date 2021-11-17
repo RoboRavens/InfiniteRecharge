@@ -255,7 +255,7 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		_rightClimberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 	}
 
-	public void setTargetHeight(ClimberCalibration target) {
+	public void setPIDHeight(ClimberCalibration target) {
 		_target = target;
 		_leftClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
 		_leftClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);

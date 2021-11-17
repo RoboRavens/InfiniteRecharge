@@ -152,12 +152,12 @@ public class Calibrations {
 	public static final int MAXIMUM_TILT_ANGLE_WHILE_CLIMBING = 4;
 
 	public static final double H_CLIMBER_KF = 0;
-	public static final double H_CLIMBER_KP = 0;
+	public static final double H_CLIMBER_KP = 0.05;
 	public static final double H_CLIMBER_KI = 0;
 	public static final double H_CLIMBER_KD = 0;
 
-	//public static final ClimberCalibration HI_CLIMB = new ClimberCalibration("High Climb", FAR_TRENCH_SHOT_RPM,
-	//		F_SHOOTER_KF, F_SHOOTER_KP, F_SHOOTER_KI, F_SHOOTER_KD, F_UPPER_BOUND_RPM_BUFFER, F_LOWER_BOUND_RPM_BUFFER, DJ_BOOTH_RPM_READY_TIMER_DURATION, DJ_BOOTH_CONVEYANCE_MAGNITUDE);
+	public static final ClimberCalibration HI_CLIMB = new ClimberCalibration("High Climb", CLIMBER_ENCODER_MAXIMUM_VALUE / 2,
+	H_CLIMBER_KF, H_CLIMBER_KP, H_CLIMBER_KI, H_CLIMBER_KD);
 
 	
 
