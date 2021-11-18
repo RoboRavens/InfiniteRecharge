@@ -4,9 +4,9 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Calibrations;
 
-public class ClimberPIDExtendCommand extends CommandBase {
+public class ClimberPIDRetractCommand extends CommandBase {
     
-    public ClimberPIDExtendCommand() {
+    public ClimberPIDRetractCommand() {
         addRequirements(Robot.CLIMBER_SUBSYSTEM);
     }
 
@@ -15,7 +15,7 @@ public class ClimberPIDExtendCommand extends CommandBase {
     }
 
     public void execute() {
-        Robot.CLIMBER_SUBSYSTEM.setPID(Calibrations.HI_CLIMB);
+        Robot.CLIMBER_SUBSYSTEM.setPID(Calibrations.LO_CLIMB);
         Robot.CLIMBER_SUBSYSTEM.elevate();
     }
 
