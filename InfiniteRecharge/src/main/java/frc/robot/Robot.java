@@ -35,6 +35,8 @@ import frc.robot.commands.climber.ClimberExtendWithEncoderCommand;
 import frc.robot.commands.climber.ClimberRetractFullyCommand;
 import frc.robot.commands.climber.ClimberRetractWhileHeldCommand;
 import frc.robot.commands.climber.ClimberRetractWithEncoderCommand;
+import frc.robot.commands.climber.pidclimb.ClimberPIDExtendCommand;
+import frc.robot.commands.climber.pidclimb.ClimberPIDRetractCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseCommand;
 import frc.robot.commands.conveyance.ConveyanceReverseForDurationCommand;
 import frc.robot.commands.conveyance.ConveyanceShootWhileHeldCommand;
@@ -106,6 +108,8 @@ public class Robot extends TimedRobot {
   public ClimberRetractWithEncoderCommand climberRetractFully = new ClimberRetractWithEncoderCommand();
   public ClimberExtendWhileHeldCommand climberExtend = new ClimberExtendWhileHeldCommand();
   public ClimberExtendWithEncoderCommand climberExtendFully = new ClimberExtendWithEncoderCommand();
+  public ClimberPIDExtendCommand climberPIDExtend = new ClimberPIDExtendCommand();
+  public ClimberPIDRetractCommand climberPIDRetract = new ClimberPIDRetractCommand();
   public IntakeExtendAndCollectCommand intakeAndCollect = new IntakeExtendAndCollectCommand();
   public ConveyanceSlowFeedCommand conveyanceSlowFeed = new ConveyanceSlowFeedCommand();
   public SetShotInitCommand setShotInit = new SetShotInitCommand();
@@ -239,17 +243,20 @@ public class Robot extends TimedRobot {
     Robot.OPERATION_PANEL.getButton(ButtonCode.SHOOTERREV).whenReleased(revDown);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDEREVERSECONVEYANCE).whileHeld(conveyanceReverse);
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBEXTEND).whileHeld(climberExtend);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTOPOSITION).whenPressed(climberExtendFully);
+    //Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTOPOSITION).whenPressed(climberExtendFully);
     // ^ May want to make a command group that retracts to latch after extending
     // fully ^
     Robot.OPERATION_PANEL.getButton(ButtonCode.OVERRIDECLIMBRETRACT).whileHeld(climberRetract);
-    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
+    //Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberRetractFully);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.HOPPERAGITATE).whileHeld(hopperAgitate);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(conveyanceShootWhileHeld);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.CONVEYANCESHOOT).whileHeld(hopperAgitate);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTINITIATIONLINE).whenPressed(setShotInit);
     Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTCLOSECONTROLPANEL).whenPressed(setShotCloseTrench);
     // Robot.OPERATION_PANEL_2.getButton(ButtonCode.SETSHOTFARCONTROLPANEL).whenPressed(setShotFarTrench);
+
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTOPOSITION).whenPressed(climberPIDExtend);
+    Robot.OPERATION_PANEL.getButton(ButtonCode.SETCLIMBERTORETRACTED).whenPressed(climberPIDRetract);
   }
 
   private void setupDriveController() {

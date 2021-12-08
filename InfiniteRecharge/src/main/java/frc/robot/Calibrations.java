@@ -156,8 +156,15 @@ public class Calibrations {
 	public static final double H_CLIMBER_KI = 0;
 	public static final double H_CLIMBER_KD = 0;
 
+	public static final double L_CLIMBER_KF = 0;
+	public static final double L_CLIMBER_KP = 0.05;
+	public static final double L_CLIMBER_KI = 0;
+	public static final double L_CLIMBER_KD = 0;
+
 	public static final ClimberCalibration HI_CLIMB = new ClimberCalibration("High Climb", CLIMBER_ENCODER_MAXIMUM_VALUE / 2,
 	H_CLIMBER_KF, H_CLIMBER_KP, H_CLIMBER_KI, H_CLIMBER_KD);
+	public static final ClimberCalibration LO_CLIMB = new ClimberCalibration("Low Climb", CLIMBER_ENCODER_MINIMUM_VALUE + 3000,
+	L_CLIMBER_KF, L_CLIMBER_KP, L_CLIMBER_KI, L_CLIMBER_KD);
 
 	
 
