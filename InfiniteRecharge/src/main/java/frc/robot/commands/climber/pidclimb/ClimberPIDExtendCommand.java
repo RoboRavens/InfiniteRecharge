@@ -15,7 +15,8 @@ public class ClimberPIDExtendCommand extends CommandBase {
     }
 
     public void execute() {
-        Robot.CLIMBER_SUBSYSTEM.setPIDHeight(Calibrations.HI_CLIMB);
+        Robot.CLIMBER_SUBSYSTEM.setPID(Calibrations.HI_CLIMB);
+        Robot.CLIMBER_SUBSYSTEM.elevate();
     }
 
     @Override

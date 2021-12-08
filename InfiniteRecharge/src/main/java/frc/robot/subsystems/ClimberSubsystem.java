@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
@@ -255,7 +256,7 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		_rightClimberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 	}
 
-	public void setPIDHeight(ClimberCalibration target) {
+	public void setPID(ClimberCalibration target) {
 		_target = target;
 		_leftClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
 		_leftClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
@@ -268,6 +269,16 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		_rightClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
 
 		this.set(_target.targetHeight);
+	}
+
+	public void elevate() {
+		setHeight(this._target.targetHeight);
+	}
+
+	public void setHeight(int encHeight) {
+		SmartDashboard.putNumber("Target Height", encHeight);
+		_leftClimberMotor.set(ControlMode.Position, encHeight);
+		_rightClimberMotor.set(ControlMode.Position, encHeight);
 	}
 
 	public void defaultCommand() {
