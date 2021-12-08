@@ -267,8 +267,6 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		_rightClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
 		_rightClimberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
 		_rightClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
-
-		this.set(_target.targetHeight);
 	}
 
 	public void elevate() {

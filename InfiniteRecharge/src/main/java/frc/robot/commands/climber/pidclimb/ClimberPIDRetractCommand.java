@@ -15,8 +15,7 @@ public class ClimberPIDRetractCommand extends CommandBase {
     }
 
     public void execute() {
-        //Robot.CLIMBER_SUBSYSTEM.setPIDHeight(Calibrations.LO_CLIMB);
-        //Robot.CLIMBER_SUBSYSTEM.setPID(Calibrations.LO_CLIMB);
+        Robot.CLIMBER_SUBSYSTEM.setPID(Calibrations.LO_CLIMB);
         Robot.CLIMBER_SUBSYSTEM.elevate();
     }
 
