@@ -203,6 +203,8 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		 * SmartDashboard.putBoolean("Right Climber Is At Retraction Limit",
 		 * this.rightMotorIsAtRetractionLimit());
 		 */ 
+
+		SmartDashboard.putNumber("Climber Height", _leftClimberMotor.getSelectedSensorPosition());
 		}
 
 	public void stop() {
