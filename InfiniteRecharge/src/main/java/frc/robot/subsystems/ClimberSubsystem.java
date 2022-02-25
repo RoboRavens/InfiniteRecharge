@@ -7,11 +7,15 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.controls.ButtonCode;
 import frc.robot.Calibrations;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import frc.robot.TalonSRXConstants;
+import frc.util.ClimberCalibration;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -39,6 +43,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
 	private int defaultEncoderAccuracyRange = encoderAccuracyRange;
 
+
+	private ClimberCalibration _target;// = Calibrations.INIT_LINE;
 
 	public ClimberSubsystem() {
 
@@ -196,7 +202,10 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 		 * this.rightMotorIsAtExtensionLimit());
 		 * SmartDashboard.putBoolean("Right Climber Is At Retraction Limit",
 		 * this.rightMotorIsAtRetractionLimit());
-		 */ }
+		 */ 
+
+		SmartDashboard.putNumber("Climber Height", _leftClimberMotor.getSelectedSensorPosition());
+		}
 
 	public void stop() {
 		_leftClimberMotor.set(ControlMode.PercentOutput, 0);
@@ -247,6 +256,29 @@ boolean retracted = _rightClimberMotor.getSelectedSensorPosition() < (retractedT
 	public void holdPosition() {
 		_leftClimberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
 		_rightClimberMotor.set(ControlMode.PercentOutput, Calibrations.CLIMBER_HOLD_POSITION_POWER_MAGNITUDE);
+	}
+
+	public void setPID(ClimberCalibration target) {
+		_target = target;
+		_leftClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_leftClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
+
+		_rightClimberMotor.config_kF(TalonSRXConstants.kPIDLoopIdx, _target.kF, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kP(TalonSRXConstants.kPIDLoopIdx, _target.kP, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kI(TalonSRXConstants.kPIDLoopIdx, _target.kI, TalonSRXConstants.kTimeoutMs);
+		_rightClimberMotor.config_kD(TalonSRXConstants.kPIDLoopIdx, _target.kD, TalonSRXConstants.kTimeoutMs);
+	}
+
+	public void elevate() {
+		setHeight(this._target.targetHeight);
+	}
+
+	public void setHeight(int encHeight) {
+		SmartDashboard.putNumber("Target Height", encHeight);
+		_leftClimberMotor.set(ControlMode.Position, encHeight);
+		_rightClimberMotor.set(ControlMode.Position, encHeight);
 	}
 
 	public void defaultCommand() {
